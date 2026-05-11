@@ -1,74 +1,89 @@
 import Image from 'next/image'
+import { site } from '@/data/site'
 
 export default function NosotrosSection() {
+  const n = site.nosotros
+
   return (
-    <section id="nosotros" className="bg-azul py-24 md:py-32 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Text */}
-          <div className="reveal">
-            <span className="inline-flex items-center gap-3 text-dorado text-xs font-bold tracking-widest uppercase mb-6">
-              <span className="block w-7 h-0.5 bg-dorado rounded" />
-              Nosotros
-            </span>
-            <h2 className="font-title font-black text-white text-4xl md:text-5xl leading-tight tracking-tight mb-7">
-              Política con rigor.{' '}
-              <em className="not-italic text-dorado">Gestión con propósito.</em>
-            </h2>
-            <p className="text-white/70 leading-relaxed mb-5">
-              Involucrarnos nació de la convicción de que la política puede ejercerse con
-              inteligencia, evidencia y vocación real de servicio.
-            </p>
-            <p className="text-white/70 leading-relaxed mb-5">
-              Somos un espacio de pensamiento y acción política para el NOA. Creemos en la
-              reforma del Estado — no en su destrucción — y en una generación que quiere hacer
-              las cosas bien, no solo hacerlas diferente.
-            </p>
-            <p className="text-white/70 leading-relaxed">
-              Desde Tucumán, conectamos análisis, gestión pública y desarrollo territorial con
-              una comunidad que exige más.
-            </p>
+    <section id="nosotros" className="relative bg-azul-dark py-20 md:py-28 lg:py-32 overflow-hidden grain">
+      {/* atmospheric gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 80% at 18% 30%, rgba(200,169,106,0.08) 0%, transparent 60%)',
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto px-5 md:px-6">
+        {/* heading */}
+        <div className="max-w-2xl mb-14 md:mb-16 reveal">
+          <span className="eyebrow mb-5">{n.eyebrow}</span>
+          <h2 className="font-title font-black text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight">
+            {n.titleStart}{' '}
+            <em className="not-italic text-dorado">{n.titleAccent}</em>
+          </h2>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-start">
+          {/* manifesto column */}
+          <div className="lg:col-span-7 space-y-5 reveal">
+            {n.paragraphs.map((p, i) => (
+              <p key={i} className="text-white/70 text-base md:text-lg leading-relaxed">
+                {p}
+              </p>
+            ))}
+
+            {/* valores list */}
+            <ul className="mt-8 md:mt-10 grid sm:grid-cols-3 gap-4 pt-8 border-t border-white/8">
+              {n.valores.map((v) => (
+                <li key={v.titulo} className="flex flex-col gap-1.5">
+                  <span className="text-dorado text-xs font-bold tracking-widest uppercase">
+                    {v.titulo}
+                  </span>
+                  <span className="text-white/50 text-[0.82rem] leading-snug">
+                    {v.detalle}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Card */}
-          <div className="reveal">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-              <div className="flex items-center gap-4 mb-6">
+          {/* founder card */}
+          <aside className="lg:col-span-5 reveal">
+            <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 md:p-7 backdrop-blur-sm">
+              <div className="flex items-center gap-4 mb-5">
                 <Image
                   src="/assets/logo-exequiel.png"
-                  alt="Exequiel Soria Arruñada"
-                  width={64}
-                  height={64}
-                  className="w-16 h-16 rounded-full object-cover ring-2 ring-dorado/40"
+                  alt={n.founderName}
+                  width={56}
+                  height={56}
+                  className="w-14 h-14 rounded-full object-cover ring-2 ring-dorado/40"
                 />
                 <div>
-                  <p className="font-title font-800 text-white text-lg leading-snug">
-                    Exequiel Soria Arruñada
+                  <p className="font-title font-800 text-white text-base md:text-lg leading-snug">
+                    {n.founderName}
                   </p>
-                  <p className="text-dorado text-xs font-medium leading-snug mt-1">
-                    Fundador
+                  <p className="text-dorado text-xs font-medium leading-snug mt-0.5">
+                    {n.founderRole}
                   </p>
                 </div>
               </div>
               <p className="text-white/60 text-sm leading-relaxed mb-5">
-                Magíster en Políticas Públicas. Estudiante del Máster en Gobernanza y Derechos
-                Humanos, Universidad Autónoma de Madrid. Tucumano. Convencido de que el NOA
-                puede construir instituciones que funcionen.
+                {n.founderBio}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {['Políticas Públicas', 'Gestión Estatal', 'Desarrollo Territorial', 'NOA'].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-medium text-dorado/80 bg-dorado/10 rounded-full px-3 py-1"
-                    >
-                      {tag}
-                    </span>
-                  )
-                )}
+              <div className="flex flex-wrap gap-1.5">
+                {n.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[0.7rem] font-medium text-dorado/85 bg-dorado/10 rounded-full px-2.5 py-1"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

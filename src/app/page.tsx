@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import ArticulosSection from '@/components/ArticulosSection'
+import ContenidosSection from '@/components/ContenidosSection'
 import NosotrosSection from '@/components/NosotrosSection'
 import SumateSection from '@/components/SumateSection'
 import Footer from '@/components/Footer'
@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <ArticulosSection />
+        <ContenidosSection />
         <NosotrosSection />
         <SumateSection />
       </main>

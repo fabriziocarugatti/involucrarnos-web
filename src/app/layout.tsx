@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Nunito, Inter, Lora } from 'next/font/google'
 import './globals.css'
+import { site } from '@/data/site'
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -25,11 +26,11 @@ const lora = Lora({
 })
 
 export const metadata: Metadata = {
-  title: 'Involucrarnos — Política que se entiende, comunidad que se construye',
-  description: 'Comunicación política clara, honesta y útil para la ciudadanía del NOA.',
+  title: site.meta.title,
+  description: site.meta.description,
   openGraph: {
-    title: 'Involucrarnos',
-    description: 'Política que se entiende, comunidad que se construye.',
+    title: site.meta.ogTitle,
+    description: site.meta.ogDescription,
     images: ['/assets/logo-involucrarnos.png'],
     locale: 'es_AR',
     type: 'website',
