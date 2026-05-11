@@ -1,53 +1,68 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { articulos, type Article } from '@/data/articulos'
 import { site, type TipoContenido } from '@/data/site'
+import { fadeUp, stagger } from '@/lib/motion'
 
 function tipoLabel(tipo: TipoContenido) {
   return site.tipos[tipo].label
 }
 
-function CardPublicado({ a }: { a: Article }) {
+function CardPublicado({ a, i }: { a: Article; i: number }) {
   return (
-    <Link
-      href={`/articulos/${a.slug}`}
-      className="group card-magnetic flex flex-col bg-crema rounded-2xl overflow-hidden
-                 border border-black/5 hover:border-dorado/45
-                 hover:shadow-[0_14px_42px_rgba(42,47,118,0.13)]
-                 reveal"
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -6 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
     >
-      <div className="p-7 md:p-8 flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-5">
-          <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado-deep bg-dorado/15 rounded-full px-3 py-1">
-            {tipoLabel(a.tipo)}
-          </span>
-          <span className="text-xs text-texto/40">{a.date}</span>
+      <Link
+        href={`/articulos/${a.slug}`}
+        className="group flex flex-col bg-crema rounded-2xl overflow-hidden
+                   border border-black/5 hover:border-dorado/45
+                   hover:shadow-[0_18px_50px_rgba(42,47,118,0.16)]
+                   transition-shadow duration-300 h-full"
+      >
+        <div className="p-7 md:p-8 flex-1 flex flex-col">
+          <div className="flex items-center justify-between mb-5">
+            <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado-deep bg-dorado/15 rounded-full px-3 py-1">
+              {tipoLabel(a.tipo)}
+            </span>
+            <span className="text-xs text-texto/40">{a.date}</span>
+          </div>
+          <h3 className="font-title font-800 text-azul-dark text-xl md:text-[1.35rem] leading-snug mb-3
+                         group-hover:text-azul transition-colors">
+            {a.title}
+          </h3>
+          <p className="font-article text-texto/65 text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
+            {a.bajada}
+          </p>
+          <div className="flex items-center justify-between mt-6 pt-4 border-t border-black/8">
+            <span className="text-xs text-texto/50">{a.category}</span>
+            <span className="text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors flex items-center gap-1.5">
+              Leer
+              <ArrowRight
+                size={13}
+                strokeWidth={2.2}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </span>
+          </div>
         </div>
-        <h3 className="font-title font-800 text-azul-dark text-xl md:text-[1.35rem] leading-snug mb-3
-                       group-hover:text-azul transition-colors">
-          {a.title}
-        </h3>
-        <p className="font-article text-texto/65 text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
-          {a.bajada}
-        </p>
-        <div className="flex items-center justify-between mt-6 pt-4 border-t border-black/8">
-          <span className="text-xs text-texto/50">{a.category}</span>
-          <span className="text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors flex items-center gap-1">
-            Leer
-            <svg width="13" height="13" viewBox="0 0 15 15" fill="none" aria-hidden>
-              <path d="M2.5 7.5h10M9 3.5l4 4-4 4" stroke="currentColor" strokeWidth="1.8"
-                    strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   )
 }
 
 function CardProximo({ a }: { a: Article }) {
   return (
-    <div className="flex flex-col gap-3 bg-white border border-dashed border-black/12
-                    rounded-xl p-5 md:p-6 reveal">
+    <motion.div
+      variants={fadeUp}
+      className="flex flex-col gap-3 bg-white border border-dashed border-black/12
+                 rounded-xl p-5 md:p-6"
+    >
       <div className="flex items-center justify-between">
         <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado-deep/70">
           {tipoLabel(a.tipo)}
@@ -60,7 +75,7 @@ function CardProximo({ a }: { a: Article }) {
       <p className="text-texto/40 text-xs leading-relaxed line-clamp-2">
         {a.bajada}
       </p>
-    </div>
+    </motion.div>
   )
 }
 
@@ -71,39 +86,61 @@ export default function ContenidosSection() {
 
   return (
     <section id="contenidos" className="bg-white py-20 md:py-28 lg:py-32 relative">
-      {/* subtle top divider line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-dorado/40" />
 
       <div className="max-w-6xl mx-auto px-5 md:px-6">
-        <div className="mb-12 md:mb-14 reveal max-w-2xl">
-          <span className="eyebrow mb-5">{c.eyebrow}</span>
-          <h2 className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight mb-4">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={stagger(0.05, 0.1)}
+          className="mb-12 md:mb-14 max-w-2xl"
+        >
+          <motion.span variants={fadeUp} className="eyebrow mb-5">{c.eyebrow}</motion.span>
+          <motion.h2
+            variants={fadeUp}
+            className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight mb-4"
+          >
             {c.title}
-          </h2>
-          <p className="text-texto/55 text-base md:text-lg leading-relaxed">{c.subtitle}</p>
-        </div>
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="text-texto/55 text-base md:text-lg leading-relaxed"
+          >
+            {c.subtitle}
+          </motion.p>
+        </motion.div>
 
-        {/* published */}
         {publicados.length > 0 && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-14 md:mb-16 stagger">
-            {publicados.map((a) => <CardPublicado key={a.slug} a={a} />)}
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={stagger(0.05, 0.12)}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-14 md:mb-16"
+          >
+            {publicados.map((a, i) => <CardPublicado key={a.slug} a={a} i={i} />)}
+          </motion.div>
         )}
 
-        {/* upcoming */}
         {proximos.length > 0 && (
-          <div>
-            <div className="flex items-center gap-4 mb-6">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={stagger(0.05, 0.08)}
+          >
+            <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
               <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/35">
                 {c.upcomingLabel}
               </span>
               <span className="flex-1 h-px bg-black/8" />
               <span className="text-xs text-texto/30">{proximos.length}</span>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+            </motion.div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {proximos.map((a) => <CardProximo key={a.slug} a={a} />)}
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

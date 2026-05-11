@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
 import { site } from '@/data/site'
+import { ease } from '@/lib/motion'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -25,9 +28,14 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
+      <motion.nav
+        initial={{ y: -40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: ease.outExpo }}
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-azul-dark/95 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.18)]' : 'bg-azul-dark'
+          scrolled
+            ? 'bg-azul-deep/85 backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.25)] border-b border-white/5'
+            : 'bg-azul-deep/40 backdrop-blur-sm'
         }`}
       >
         <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-20">
@@ -53,50 +61,96 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            <Link
-              href={cta.href}
-              className="ml-2 bg-dorado text-azul-dark font-bold text-sm px-5 py-2 rounded-lg
-                         hover:bg-dorado-soft transition-colors"
+            <motion.div
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: 'spring', stiffness: 360, damping: 22 }}
             >
-              {cta.label}
-            </Link>
+              <Link
+                href={cta.href}
+                className="ml-2 bg-dorado text-azul-dark font-bold text-sm px-5 py-2.5 rounded-lg
+                           hover:bg-dorado-soft shadow-[0_4px_16px_rgba(200,169,106,0.3)] transition-colors block"
+              >
+                {cta.label}
+              </Link>
+            </motion.div>
           </div>
 
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/10 transition-colors"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 transition-colors text-white"
             onClick={() => setOpen(!open)}
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
           >
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${open ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${open ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+            <AnimatePresence mode="wait" initial={false}>
+              {open ? (
+                <motion.span
+                  key="x"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={24} strokeWidth={2} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu size={24} strokeWidth={2} />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
-      <div
-        className={`fixed inset-0 z-40 bg-azul-dark flex flex-col justify-center items-center gap-7
-                    transition-all duration-400 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-      >
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            onClick={close}
-            className="text-white text-3xl font-title font-800 hover:text-dorado transition-colors"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-azul-deep/97 backdrop-blur-xl flex flex-col justify-center items-center gap-7"
           >
-            {label}
-          </Link>
-        ))}
-        <Link
-          href={cta.href}
-          onClick={close}
-          className="mt-4 bg-dorado text-azul-dark font-bold text-lg px-10 py-4 rounded-xl hover:bg-dorado-soft transition-colors"
-        >
-          {cta.label}
-        </Link>
-      </div>
+            {links.map(({ href, label }, i) => (
+              <motion.div
+                key={href}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.08, duration: 0.5, ease: ease.outExpo }}
+              >
+                <Link
+                  href={href}
+                  onClick={close}
+                  className="text-white text-3xl font-title font-800 hover:text-dorado transition-colors"
+                >
+                  {label}
+                </Link>
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5, ease: ease.outExpo }}
+              className="mt-4"
+            >
+              <Link
+                href={cta.href}
+                onClick={close}
+                className="bg-dorado text-azul-dark font-bold text-lg px-10 py-4 rounded-xl hover:bg-dorado-soft transition-colors block"
+              >
+                {cta.label}
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

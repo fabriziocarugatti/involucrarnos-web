@@ -1,7 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Check, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
 import { site } from '@/data/site'
+import { fadeUp, stagger } from '@/lib/motion'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -37,7 +40,6 @@ export default function SumateSection() {
 
   return (
     <section id="sumate" className="bg-crema py-20 md:py-28 lg:py-32 relative overflow-hidden">
-      {/* warm gradient atmosphere */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -48,41 +50,64 @@ export default function SumateSection() {
 
       <div className="relative max-w-5xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* copy column */}
-          <div className="lg:col-span-6 reveal">
-            <span className="eyebrow mb-5">{s.eyebrow}</span>
-            <h2 className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-[2.6rem] leading-[1.08] tracking-tight mb-4">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={stagger(0.05, 0.1)}
+            className="lg:col-span-6"
+          >
+            <motion.span variants={fadeUp} className="eyebrow mb-5">{s.eyebrow}</motion.span>
+            <motion.h2
+              variants={fadeUp}
+              className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-[2.6rem] leading-[1.08] tracking-tight mb-4"
+            >
               {s.title}
-            </h2>
-            <p className="text-texto/60 text-base md:text-lg leading-relaxed mb-6">
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-texto/60 text-base md:text-lg leading-relaxed mb-6"
+            >
               {s.subtitle}
-            </p>
-            <ul className="space-y-2.5">
+            </motion.p>
+            <motion.ul variants={fadeUp} className="space-y-2.5">
               {s.beneficios.map((b) => (
                 <li key={b} className="flex items-start gap-3 text-texto/75 text-[0.95rem]">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="mt-0.5 flex-shrink-0" aria-hidden>
-                    <circle cx="9" cy="9" r="9" fill="#C8A96A" fillOpacity="0.18"/>
-                    <path d="M5.5 9.2l2.4 2.3 4.6-4.7" stroke="#a88845" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-dorado/20 mt-0.5 flex-shrink-0">
+                    <Check size={12} strokeWidth={2.8} className="text-dorado-deep" />
+                  </span>
                   {b}
                 </li>
               ))}
-            </ul>
-          </div>
+            </motion.ul>
+          </motion.div>
 
-          {/* form column */}
-          <div className="lg:col-span-6 reveal">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className="lg:col-span-6"
+          >
             {status === 'success' ? (
-              <div className="bg-white border border-azul/10 rounded-2xl p-8 md:p-10 text-center
-                              shadow-[0_8px_32px_rgba(42,47,118,0.08)]">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-azul/10 mb-4">
-                  <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden>
-                    <path d="M7 13.5l4 4 8-9" stroke="#2a2f76" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+                className="bg-white border border-azul/10 rounded-2xl p-8 md:p-10 text-center
+                              shadow-[0_8px_32px_rgba(42,47,118,0.08)]"
+              >
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.15 }}
+                  className="inline-flex items-center justify-center mb-4 text-azul"
+                >
+                  <CheckCircle2 size={56} strokeWidth={1.8} />
+                </motion.div>
                 <p className="font-title font-800 text-azul-dark text-xl mb-2">{s.successTitle}</p>
                 <p className="text-texto/55 text-sm">{s.successBody}</p>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit}
                     className="bg-white border border-black/6 rounded-2xl p-6 md:p-7
@@ -113,21 +138,28 @@ export default function SumateSection() {
                   />
                 </label>
 
-                <button
+                <motion.button
                   type="submit"
                   disabled={status === 'loading'}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 360, damping: 20 }}
                   className="bg-azul text-white font-bold px-6 py-3.5 rounded-xl mt-2
                              hover:bg-azul-dark transition-colors disabled:opacity-60
                              text-sm flex items-center justify-center gap-2"
                 >
-                  {status === 'loading' ? s.submitLoading : s.submitLabel}
-                  {status !== 'loading' && (
-                    <svg width="14" height="14" viewBox="0 0 15 15" fill="none" aria-hidden>
-                      <path d="M2.5 7.5h10M9 3.5l4 4-4 4" stroke="currentColor" strokeWidth="1.8"
-                            strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  {status === 'loading' ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      {s.submitLoading}
+                    </>
+                  ) : (
+                    <>
+                      {s.submitLabel}
+                      <ArrowRight size={14} strokeWidth={2.2} />
+                    </>
                   )}
-                </button>
+                </motion.button>
 
                 {status === 'error' && (
                   <p className="text-red-500 text-sm" role="alert">{errorMsg}</p>
@@ -135,7 +167,7 @@ export default function SumateSection() {
                 <p className="text-texto/35 text-xs mt-1 text-center">{s.fineprint}</p>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

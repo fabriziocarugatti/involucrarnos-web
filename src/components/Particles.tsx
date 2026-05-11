@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface Props {
   count?: number
@@ -8,18 +8,25 @@ interface Props {
 }
 
 export default function Particles({ count = 18, className = '' }: Props) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
   const items = useMemo(
     () =>
-      Array.from({ length: count }, (_, i) => {
-        const left = Math.random() * 100
-        const delay = Math.random() * 18
-        const duration = 14 + Math.random() * 10
-        const size = 2 + Math.random() * 3
-        const opacity = 0.3 + Math.random() * 0.5
-        return { id: i, left, delay, duration, size, opacity }
-      }),
-    [count]
+      mounted
+        ? Array.from({ length: count }, (_, i) => {
+            const left = Math.random() * 100
+            const delay = Math.random() * 18
+            const duration = 14 + Math.random() * 10
+            const size = 2 + Math.random() * 3
+            const opacity = 0.3 + Math.random() * 0.5
+            return { id: i, left, delay, duration, size, opacity }
+          })
+        : [],
+    [count, mounted]
   )
+
+  if (!mounted) return null
 
   return (
     <div className={`particles ${className}`} aria-hidden="true">
