@@ -10,10 +10,10 @@ function CardPublicado({ a }: { a: Article }) {
   return (
     <Link
       href={`/articulos/${a.slug}`}
-      className="group flex flex-col bg-crema rounded-2xl overflow-hidden
-                 border border-black/5 hover:border-dorado/40
-                 hover:shadow-[0_10px_38px_rgba(42,47,118,0.10)]
-                 transition-all duration-300 reveal"
+      className="group card-magnetic flex flex-col bg-crema rounded-2xl overflow-hidden
+                 border border-black/5 hover:border-dorado/45
+                 hover:shadow-[0_14px_42px_rgba(42,47,118,0.13)]
+                 reveal"
     >
       <div className="p-7 md:p-8 flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-5">

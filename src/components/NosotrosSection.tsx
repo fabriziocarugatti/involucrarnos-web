@@ -1,27 +1,54 @@
 import Image from 'next/image'
 import { site } from '@/data/site'
+import Particles from './Particles'
 
 export default function NosotrosSection() {
   const n = site.nosotros
 
   return (
     <section id="nosotros" className="relative bg-azul-dark py-20 md:py-28 lg:py-32 overflow-hidden grain">
-      {/* atmospheric gradient */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 80% at 18% 30%, rgba(200,169,106,0.08) 0%, transparent 60%)',
-        }}
-      />
+      {/* slow-drifting blob */}
+      <div className="blob-field">
+        <div
+          className="blob"
+          style={{
+            width: '600px',
+            height: '600px',
+            background: 'rgba(200,169,106,0.18)',
+            top: '-15%',
+            left: '-10%',
+            animationDuration: '34s',
+            animationName: 'drift3',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+          }}
+        />
+        <div
+          className="blob"
+          style={{
+            width: '450px',
+            height: '450px',
+            background: 'rgba(42,47,118,0.5)',
+            bottom: '-20%',
+            right: '5%',
+            animationDuration: '30s',
+            animationName: 'drift2',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+          }}
+        />
+      </div>
+      <Particles count={12} />
 
-      <div className="relative max-w-6xl mx-auto px-5 md:px-6">
+      <div className="relative z-[3] max-w-6xl mx-auto px-5 md:px-6">
         {/* heading */}
         <div className="max-w-2xl mb-14 md:mb-16 reveal">
           <span className="eyebrow mb-5">{n.eyebrow}</span>
           <h2 className="font-title font-black text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight">
             {n.titleStart}{' '}
-            <em className="not-italic text-dorado">{n.titleAccent}</em>
+            <em className="not-italic text-dorado">
+              {n.titleAccent}
+            </em>
           </h2>
         </div>
 

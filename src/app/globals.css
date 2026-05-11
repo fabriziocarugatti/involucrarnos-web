@@ -3,13 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --azul:      #2a2f76;
-  --azul-dark: #1e2260;
-  --dorado:    #C8A96A;
+  --azul:        #2a2f76;
+  --azul-dark:   #1e2260;
+  --azul-deep:   #161a4c;
+  --dorado:      #C8A96A;
   --dorado-soft: #d4ba87;
-  --crema:     #f7f4ef;
-  --crema-warm:#efeae0;
-  --texto:     #1a1a2e;
+  --dorado-deep: #a88845;
+  --crema:       #f7f4ef;
+  --crema-warm:  #efeae0;
+  --texto:       #1a1a2e;
 }
 
 html {
@@ -18,7 +20,7 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-/* paper grain — adds warmth, very subtle */
+/* ───────── paper grain texture ───────── */
 .grain {
   position: relative;
 }
@@ -27,24 +29,132 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.045;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   mix-blend-mode: overlay;
 }
 
-/* reveal animation */
+/* ───────── animated mesh gradient blobs ───────── */
+.blob-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+.blob-1 {
+  width: 520px;
+  height: 520px;
+  background: rgba(200, 169, 106, 0.42);
+  top: -12%;
+  right: -8%;
+  animation: drift1 22s ease-in-out infinite;
+}
+.blob-2 {
+  width: 420px;
+  height: 420px;
+  background: rgba(42, 47, 118, 0.55);
+  bottom: -18%;
+  left: 24%;
+  animation: drift2 28s ease-in-out infinite;
+}
+.blob-3 {
+  width: 340px;
+  height: 340px;
+  background: rgba(200, 169, 106, 0.22);
+  top: 35%;
+  left: -8%;
+  animation: drift3 32s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-50px, 40px) scale(1.08); }
+  66%      { transform: translate(30px, -30px) scale(0.95); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(60px, -50px) scale(1.12); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%      { transform: translate(40px, 30px) scale(1.05); }
+  80%      { transform: translate(-30px, -40px) scale(0.92); }
+}
+
+/* ───────── floating particles (subtle stars) ───────── */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(200, 169, 106, 0.55);
+  border-radius: 50%;
+  animation: floatUp 18s linear infinite;
+  opacity: 0;
+}
+.particle::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: inherit;
+  border-radius: inherit;
+  filter: blur(2px);
+  opacity: 0.6;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(20px); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* ───────── animated underline (hand-drawn feel) ───────── */
+.accent-underline {
+  position: relative;
+  display: inline-block;
+}
+.accent-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.08em;
+  height: 0.18em;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 169, 106, 0.85) 8%,
+    rgba(200, 169, 106, 0.85) 92%,
+    transparent 100%);
+  border-radius: 99px;
+  transform-origin: left center;
+  animation: drawIn 1.6s 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes drawIn {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* ───────── reveal animation ───────── */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
-              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 .stagger > *:nth-child(1) { transition-delay: 0ms; }
@@ -53,7 +163,16 @@ html {
 .stagger > *:nth-child(4) { transition-delay: 240ms; }
 .stagger > *:nth-child(5) { transition-delay: 320ms; }
 
-/* eyebrow — reusable label */
+/* ───────── reduced motion ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal       { opacity: 1; transform: none; transition: none; }
+  .blob, .particle, .accent-underline::after {
+    animation: none !important;
+  }
+  .accent-underline::after { transform: scaleX(1); opacity: 1; }
+}
+
+/* ───────── eyebrow label ───────── */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -73,7 +192,7 @@ html {
   border-radius: 2px;
 }
 
-/* article prose */
+/* ───────── article prose ───────── */
 .prose-article p { margin-bottom: 1.5em; }
 .prose-article h2 {
   font-family: var(--font-nunito);
@@ -96,5 +215,14 @@ html {
   line-height: 1.55;
 }
 
-/* selection */
+/* ───────── selection ───────── */
 ::selection { background: var(--dorado); color: var(--azul-dark); }
+
+/* ───────── magnetic card hover ───────── */
+.card-magnetic {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease, border-color 0.3s ease;
+}
+.card-magnetic:hover {
+  transform: translateY(-4px);
+}

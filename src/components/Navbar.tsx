@@ -30,14 +30,14 @@ export default function Navbar() {
           scrolled ? 'bg-azul-dark/95 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.18)]' : 'bg-azul-dark'
         }`}
       >
-        <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-16">
-          <Link href="/" onClick={close} aria-label={`${site.name} — inicio`} className="flex items-center">
+        <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-20">
+          <Link href="/" onClick={close} aria-label={`${site.name} — inicio`} className="flex items-center group">
             <Image
               src="/assets/logo-involucrarnos.png"
               alt={site.name}
-              width={140}
-              height={35}
-              className="h-7 md:h-8 w-auto object-contain"
+              width={220}
+              height={55}
+              className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               priority
             />
           </Link>
