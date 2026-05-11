@@ -51,26 +51,26 @@ html {
 .blob-1 {
   width: 520px;
   height: 520px;
-  background: rgba(200, 169, 106, 0.42);
+  background: rgba(42, 47, 118, 0.55);
   top: -12%;
   right: -8%;
-  animation: drift1 22s ease-in-out infinite;
+  animation: drift1 24s ease-in-out infinite;
 }
 .blob-2 {
   width: 420px;
   height: 420px;
-  background: rgba(42, 47, 118, 0.55);
+  background: rgba(30, 34, 96, 0.7);
   bottom: -18%;
   left: 24%;
-  animation: drift2 28s ease-in-out infinite;
+  animation: drift2 30s ease-in-out infinite;
 }
 .blob-3 {
   width: 340px;
   height: 340px;
-  background: rgba(200, 169, 106, 0.22);
+  background: rgba(22, 26, 76, 0.55);
   top: 35%;
   left: -8%;
-  animation: drift3 32s ease-in-out infinite;
+  animation: drift3 34s ease-in-out infinite;
 }
 @keyframes drift1 {
   0%, 100% { transform: translate(0, 0) scale(1); }

@@ -7,14 +7,14 @@ export default function NosotrosSection() {
 
   return (
     <section id="nosotros" className="relative bg-azul-dark py-20 md:py-28 lg:py-32 overflow-hidden grain">
-      {/* slow-drifting blob */}
+      {/* slow-drifting azul blobs */}
       <div className="blob-field">
         <div
           className="blob"
           style={{
             width: '600px',
             height: '600px',
-            background: 'rgba(200,169,106,0.18)',
+            background: 'rgba(42,47,118,0.6)',
             top: '-15%',
             left: '-10%',
             animationDuration: '34s',
@@ -28,7 +28,7 @@ export default function NosotrosSection() {
           style={{
             width: '450px',
             height: '450px',
-            background: 'rgba(42,47,118,0.5)',
+            background: 'rgba(22,26,76,0.65)',
             bottom: '-20%',
             right: '5%',
             animationDuration: '30s',
