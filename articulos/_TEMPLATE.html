@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ✏️ INSTRUCCIONES PARA NUEVO ARTÍCULO
+  ─────────────────────────────────────
+  1. Duplicar este archivo
+  2. Renombrar: articulos/[slug-del-titulo].html
+     Ej: articulos/bonos-verdes-tucuman.html
+  3. Buscar todas las marcas ✏️ y reemplazarlas
+  4. Agregar la card correspondiente en index.html
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ CAMBIAR: título del artículo -->
+  <title>[TÍTULO DEL ARTÍCULO] — Involucrarnos</title>
+
+  <!-- ✏️ CAMBIAR: bajada (1–2 oraciones) -->
+  <meta name="description" content="[BAJADA DEL ARTÍCULO]">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul:       #2a2f76;
+      --azul-dark:  #1e2260;
+      --dorado:     #C8A96A;
+      --crema:      #f7f4ef;
+      --texto:      #1a1a2e;
+      --gris:       #6b7280;
+      --borde:      #e5e7eb;
+
+      --font-title:   'Nunito', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-article: 'Lora', serif;
+
+      --radius: 10px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { font-family: var(--font-body); color: var(--texto); background: #fff; line-height: 1.6; }
+    img   { max-width: 100%; display: block; }
+    a     { text-decoration: none; color: inherit; }
+    ul    { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--azul-dark);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 62px;
+    }
+
+    .nav-logo img { height: 34px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 7px;
+      transition: color .2s, background .2s;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .nav-cta {
+      background: var(--dorado) !important;
+      color: var(--azul-dark) !important;
+      font-weight: 700 !important;
+      padding: 7px 20px !important;
+    }
+
+    /* ── ARTICLE HEADER ── */
+    .article-header {
+      background: var(--azul);
+      color: #fff;
+      padding: 64px 0 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 80% at 80% 50%, rgba(200,169,106,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .article-header::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--dorado) 0%, transparent 60%);
+    }
+
+    .article-header-inner {
+      position: relative;
+      max-width: 720px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 24px;
+      transition: color .2s;
+    }
+
+    .back-link:hover { color: rgba(255,255,255,.9); }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .article-tag {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--azul-dark);
+      background: var(--dorado);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .article-date {
+      font-size: .82rem;
+      color: rgba(255,255,255,.55);
+    }
+
+    .article-header h1 {
+      font-family: var(--font-title);
+      font-size: clamp(1.9rem, 4.5vw, 3rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+
+    .article-bajada {
+      font-family: var(--font-article);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: rgba(255,255,255,.78);
+      line-height: 1.65;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-wrap {
+      padding: 64px 0 80px;
+    }
+
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .article-body {
+      font-family: var(--font-article);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #2c2c3a;
+    }
+
+    .article-body p { margin-bottom: 1.4em; }
+
+    .article-body h2 {
+      font-family: var(--font-title);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--texto);
+      margin: 2em 0 .7em;
+      letter-spacing: -0.01em;
+    }
+
+    .article-body h3 {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--texto);
+      margin: 1.6em 0 .6em;
+    }
+
+    .article-body blockquote {
+      border-left: 3px solid var(--dorado);
+      margin: 2em 0;
+      padding: 4px 0 4px 24px;
+    }
+
+    .article-body blockquote p {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--azul);
+      margin-bottom: 0;
+    }
+
+    .article-body strong { font-weight: 600; color: var(--texto); }
+
+    /* ── AUTHOR CARD ── */
+    .author-card {
+      position: sticky;
+      top: 82px;
+      background: var(--crema);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--borde);
+    }
+
+    .author-logo {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 16px;
+    }
+
+    .author-name {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: .95rem;
+      color: var(--texto);
+      margin-bottom: 4px;
+    }
+
+    .author-role {
+      font-size: .8rem;
+      color: var(--gris);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .author-sep {
+      height: 1px;
+      background: var(--borde);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-cta-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-bottom: 10px;
+    }
+
+    .sidebar-cta {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      text-align: center;
+      background: var(--azul);
+      color: #fff;
+      font-weight: 700;
+      font-size: .85rem;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      transition: opacity .2s;
+    }
+
+    .sidebar-cta:hover { opacity: .88; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--azul-dark);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-logos img {
+      height: 28px;
+      width: auto;
+      opacity: .8;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-sep { width: 1px; height: 22px; background: rgba(255,255,255,.15); }
+
+    .footer-copy {
+      font-size: .76rem;
+      color: rgba(255,255,255,.3);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .author-card { position: static; }
+    }
+
+    @media (max-width: 600px) {
+      .hide-sm { display: none; }
+      .article-header { padding: 48px 0 56px; }
+      .article-wrap   { padding: 44px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="container nav-inner">
+    <a href="../index.html" class="nav-logo" aria-label="Involucrarnos — inicio">
+      <img src="https://i.imgur.com/Sdx940e.png" alt="Involucrarnos">
+    </a>
+    <ul class="nav-links">
+      <li class="hide-sm"><a href="../index.html#articulos">Artículos</a></li>
+      <li class="hide-sm"><a href="../index.html#nosotros">Nosotros</a></li>
+      <li><a href="../index.html#sumate" class="nav-cta">Sumate</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── ARTICLE HEADER ── -->
+<header class="article-header">
+  <div class="container">
+    <div class="article-header-inner">
+
+      <a href="../index.html#articulos" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M10 7H4M6.5 4L3 7l3.5 3" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver a artículos
+      </a>
+
+      <div class="article-meta">
+        <!-- ✏️ CAMBIAR: categoría -->
+        <span class="article-tag">[CATEGORÍA]</span>
+        <!-- ✏️ CAMBIAR: mes y año -->
+        <span class="article-date">[MES AÑO]</span>
+      </div>
+
+      <!-- ✏️ CAMBIAR: título -->
+      <h1>[TÍTULO DEL ARTÍCULO]</h1>
+
+      <!-- ✏️ CAMBIAR: bajada -->
+      <p class="article-bajada">[BAJADA — 1 o 2 oraciones que resumen la idea central]</p>
+
+    </div>
+  </div>
+</header>
+
+<!-- ── ARTICLE BODY ── -->
+<main class="article-wrap">
+  <div class="container">
+    <div class="article-layout">
+
+      <article class="article-body">
+
+        <!-- ✏️ CAMBIAR: cuerpo del artículo
+             Párrafos:   <p>texto</p>
+             Subtítulos: <h2>título de sección</h2>
+             Citas:      <blockquote><p>frase clave</p></blockquote>
+             Negritas:   <strong>texto importante</strong>
+        -->
+
+        <p>Primer párrafo del artículo.</p>
+
+        <h2>Título de la primera sección</h2>
+
+        <p>Desarrollo de la sección.</p>
+
+        <blockquote>
+          <p>Frase clave del artículo.</p>
+        </blockquote>
+
+        <h2>Título de la segunda sección</h2>
+
+        <p>Desarrollo de la sección.</p>
+
+        <h2>Título de la tercera sección</h2>
+
+        <p>Párrafo de cierre.</p>
+
+      </article>
+
+      <!-- ── SIDEBAR ── -->
+      <aside>
+        <div class="author-card">
+          <img class="author-logo" src="https://i.imgur.com/xQwBJNg.png" alt="Exequiel Soria Arruñada">
+
+          <!-- ✏️ CAMBIAR: nombre y cargo del autor -->
+          <p class="author-name">[NOMBRE AUTOR]</p>
+          <p class="author-role">[CARGO / ROL]</p>
+
+          <div class="author-sep"></div>
+
+          <p class="sidebar-cta-label">Seguí leyendo</p>
+          <a href="../index.html#sumate" class="sidebar-cta">Sumate al newsletter</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logos">
+      <img src="https://i.imgur.com/Sdx940e.png" alt="Involucrarnos">
+      <div class="footer-sep"></div>
+      <img src="https://i.imgur.com/xQwBJNg.png" alt="Exequiel Soria Arruñada">
+    </div>
+    <p class="footer-copy">© 2026 Involucrarnos. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+</body>
+</html>
