@@ -32,10 +32,10 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: ease.outExpo }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white border-b ${
           scrolled
-            ? 'bg-azul-deep/85 backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.25)] border-b border-white/5'
-            : 'bg-azul-deep/40 backdrop-blur-sm'
+            ? 'shadow-[0_4px_24px_rgba(30,34,96,0.08)] border-black/8'
+            : 'border-black/5'
         }`}
       >
         <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-20">
@@ -55,8 +55,8 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className="text-white/70 hover:text-white text-sm font-medium px-4 py-2 rounded-lg
-                           transition-colors hover:bg-white/10"
+                className="text-texto/70 hover:text-azul-dark text-sm font-medium px-4 py-2 rounded-lg
+                           transition-colors hover:bg-azul/5"
               >
                 {label}
               </Link>
@@ -77,7 +77,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 transition-colors text-white"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-azul/5 transition-colors text-azul-dark"
             onClick={() => setOpen(!open)}
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
