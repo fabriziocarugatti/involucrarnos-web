@@ -6,6 +6,7 @@ import CursosSection from '@/components/CursosSection'
 import EstudiosSection from '@/components/EstudiosSection'
 import NosotrosSection from '@/components/NosotrosSection'
 import SumateSection from '@/components/SumateSection'
+import ProyectosPreview from '@/components/ProyectosPreview'
 import Footer from '@/components/Footer'
 import ChatAssistant from '@/components/ChatAssistant'
 import RevealObserver from '@/components/RevealObserver'
@@ -19,6 +20,7 @@ export default function Home() {
         <Hero />
         <EstudiosSection />
         <ContenidosSection />
+        <ProyectosPreview />
         <CursosSection />
         <SumateSection />
         <NosotrosSection />

@@ -1,14 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 
 function getSupabase() {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!)
 }
 
+function isAuthed() {
+  const jar = cookies()
+  return jar.get('inv_admin')?.value === 'ok'
+}
+
 const ALLOWED_TABLES = ['inscripciones', 'suscriptores'] as const
-type AllowedTable = typeof ALLOWED_TABLES[number]
+type AllowedTable = (typeof ALLOWED_TABLES)[number]
 
 export async function GET() {
+  if (!isAuthed()) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+
   const supabase = getSupabase()
   const [{ data: inscripciones }, { data: suscriptores }] = await Promise.all([
     supabase.from('inscripciones').select('*').order('created_at', { ascending: false }),
@@ -18,7 +26,9 @@ export async function GET() {
 }
 
 export async function DELETE(req: NextRequest) {
-  const body = await req.json() as { table?: string; id?: string }
+  if (!isAuthed()) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+
+  const body = (await req.json()) as { table?: string; id?: string }
   const { table, id } = body
 
   if (!table || !ALLOWED_TABLES.includes(table as AllowedTable) || !id) {

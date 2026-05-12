@@ -8,9 +8,9 @@ export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
+  'google/gemma-3-27b-it:free',
   'google/gemma-4-31b-it:free',
-  'google/gemma-4-26b-a4b-it:free',
-  'nvidia/nemotron-3-super-120b-a12b:free',
+  'meta-llama/llama-3.3-8b-instruct:free',
 ]
 
 const SearchResult = z.object({
@@ -26,6 +26,9 @@ const SearchResult = z.object({
     .max(5),
 })
 
+type CatalogItem = { slug: string; kind: 'articulo' | 'estudio' | 'proyecto' | 'curso'; title: string; bajada: string; category: string }
+type Result = z.infer<typeof SearchResult>['results'][number]
+
 const buckets = new Map<string, { count: number; resetAt: number }>()
 const LIMIT = 30
 const WINDOW_MS = 60 * 60 * 1000
@@ -40,6 +43,26 @@ function rateLimit(ip: string) {
   if (b.count >= LIMIT) return false
   b.count++
   return true
+}
+
+function keywordFallback(query: string, catalog: CatalogItem[]): Result[] {
+  const words = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2)
+  if (!words.length) return []
+  return catalog
+    .map((c) => {
+      const text = `${c.title} ${c.bajada} ${c.category}`.toLowerCase()
+      const hits = words.filter((w) => text.includes(w)).length
+      return { ...c, hits }
+    })
+    .filter((c) => c.hits > 0)
+    .sort((a, b) => b.hits - a.hits)
+    .slice(0, 5)
+    .map((c) => ({
+      slug: c.slug,
+      kind: c.kind,
+      relevance: Math.min(c.hits / words.length, 1),
+      why: `Coincide con tu búsqueda en ${c.category}`,
+    }))
 }
 
 export async function POST(req: NextRequest) {
@@ -63,34 +86,29 @@ export async function POST(req: NextRequest) {
   }
 
   const query = (body.query || '').trim().slice(0, 200)
-  if (query.length < 3) {
-    return NextResponse.json({ results: [] })
-  }
+  if (query.length < 3) return NextResponse.json({ results: [] })
 
-  const catalog = [
+  const catalog: CatalogItem[] = [
     ...articulos
       .filter((a) => a.published)
-      .map((a) => ({ slug: a.slug, kind: a.tipo, title: a.title, bajada: a.bajada, category: a.category })),
+      .map((a) => ({ slug: a.slug, kind: a.tipo as 'articulo' | 'curso', title: a.title, bajada: a.bajada, category: a.category })),
     ...estudios.map((s) => ({ slug: s.slug, kind: 'estudio' as const, title: s.title, bajada: s.bajada, category: s.category })),
     ...proyectos.map((p) => ({ slug: p.slug, kind: 'proyecto' as const, title: p.title, bajada: p.bajada, category: p.category })),
   ]
 
   const catalogText = catalog
-    .map((c) => `- [${c.kind}] slug:${c.slug} · ${c.title} (${c.category}) — ${c.bajada.slice(0, 160)}`)
+    .map((c) => `- [${c.kind}] slug:${c.slug} · ${c.title} (${c.category}) — ${c.bajada.slice(0, 120)}`)
     .join('\n')
 
-  const systemMessage =
-    'Motor de búsqueda semántico. Respondés en español rioplatense. Output: SOLO JSON puro, sin markdown, sin explicaciones.'
+  const userMessage = `Pregunta del usuario: "${query}"
 
-  const userMessage = `Pregunta: "${query}"
-
-Catálogo:
+Catálogo disponible:
 ${catalogText}
 
-Devolvé los hasta 5 resultados más relevantes ordenados por relevance descendente. Si nada matchea, devolvé array vacío.
+Devolvé hasta 5 resultados más relevantes ordenados por relevance descendente. Si nada coincide, devolvé array vacío.
 
-Respondé SOLO con este JSON (sin texto extra):
-{"results":[{"slug":"...","kind":"articulo|estudio|proyecto|curso","relevance":0.9,"why":"razón breve en español"}]}`
+Respondé SOLO con JSON válido, sin texto extra, sin markdown:
+{"results":[{"slug":"...","kind":"articulo|estudio|proyecto|curso","relevance":0.9,"why":"razón breve en español, máx 100 chars"}]}`
 
   for (const model of MODELS) {
     try {
@@ -105,11 +123,11 @@ Respondé SOLO con este JSON (sin texto extra):
         body: JSON.stringify({
           model,
           messages: [
-            { role: 'system', content: systemMessage },
+            { role: 'system', content: 'Sos un motor de búsqueda semántico. Respondés ÚNICAMENTE con JSON puro, sin markdown, sin texto extra.' },
             { role: 'user', content: userMessage },
           ],
-          temperature: 0.2,
-          max_tokens: 600,
+          temperature: 0.1,
+          max_tokens: 400,
         }),
       })
 
@@ -131,5 +149,7 @@ Respondé SOLO con este JSON (sin texto extra):
     }
   }
 
-  return NextResponse.json({ error: 'Búsqueda falló' }, { status: 500 })
+  // Fallback: keyword matching
+  const fallback = keywordFallback(query, catalog)
+  return NextResponse.json({ results: fallback })
 }
