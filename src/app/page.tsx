@@ -8,6 +8,7 @@ import NosotrosSection from '@/components/NosotrosSection'
 import SumateSection from '@/components/SumateSection'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
+import ChatAssistant from '@/components/ChatAssistant'
 import RevealObserver from '@/components/RevealObserver'
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <ChatAssistant />
       <RevealObserver />
     </>
   )

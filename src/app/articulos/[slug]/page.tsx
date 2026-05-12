@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
+import ChatAssistant from '@/components/ChatAssistant'
 import { articulos, getArticulo } from '@/data/articulos'
 import { site } from '@/data/site'
 
@@ -122,6 +123,7 @@ export default function ArticuloPage({ params }: Props) {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <ChatAssistant />
     </>
   )
 }
