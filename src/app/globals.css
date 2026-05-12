@@ -170,6 +170,18 @@ html {
     animation: none !important;
   }
   .accent-underline::after { transform: scaleX(1); opacity: 1; }
+
+  /* CSS utility animations (Tailwind animate-*) */
+  [class*="animate-"] {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* framer-motion: collapse all transitions */
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
 /* ───────── eyebrow label ───────── */
