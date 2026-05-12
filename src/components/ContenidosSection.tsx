@@ -1,24 +1,21 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, GraduationCap } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, ArrowUpRight, GraduationCap, ChevronDown } from 'lucide-react'
 import { articulos, type Article } from '@/data/articulos'
 import { site, type TipoContenido } from '@/data/site'
 import { fadeUp, stagger } from '@/lib/motion'
 
-function tipoLabel(tipo: TipoContenido) {
-  return site.tipos[tipo].label
-}
+const INITIAL_COUNT = 3
 
-function CardPublicado({ a, i }: { a: Article; i: number }) {
+function tipoLabel(tipo: TipoContenido) { return site.tipos[tipo].label }
+
+function CardPublicado({ a }: { a: Article }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ y: -6 }}
-      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-    >
+    <motion.div variants={fadeUp} whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 280, damping: 22 }}>
       <Link
         href={`/articulos/${a.slug}`}
         className="group flex flex-col bg-crema rounded-2xl overflow-hidden
@@ -33,32 +30,20 @@ function CardPublicado({ a, i }: { a: Article; i: number }) {
             </span>
             <span className="text-xs text-texto/40">{a.date}</span>
           </div>
-          <h3 className="font-title font-800 text-azul-dark text-xl md:text-[1.35rem] leading-snug mb-3
-                         group-hover:text-azul transition-colors">
+          <h3 className="font-title font-800 text-azul-dark text-xl md:text-[1.35rem] leading-snug mb-3 group-hover:text-azul transition-colors">
             {a.title}
           </h3>
-          <p className="font-article text-texto/65 text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
-            {a.bajada}
-          </p>
+          <p className="font-article text-texto/65 text-[0.95rem] leading-relaxed flex-1 line-clamp-3">{a.bajada}</p>
           <div className="flex items-center gap-3 mt-6 pt-4 border-t border-black/8">
-            <Image
-              src={a.authorPhoto || '/assets/exequiel.jpg'}
-              alt={a.author}
-              width={36}
-              height={36}
-              className="w-9 h-9 rounded-full object-cover ring-1 ring-dorado/30 flex-shrink-0"
-            />
+            <Image src={a.authorPhoto || '/assets/exequiel.jpg'} alt={a.author} width={36} height={36}
+              className="w-9 h-9 rounded-full object-cover ring-1 ring-dorado/30 flex-shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-[0.8rem] font-medium text-azul-dark/85 truncate leading-tight">{a.author}</p>
               <p className="text-[0.65rem] text-texto/40 truncate">{a.category}</p>
             </div>
             <span className="text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors flex items-center gap-1 flex-shrink-0">
               Leer
-              <ArrowRight
-                size={13}
-                strokeWidth={2.2}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
+              <ArrowRight size={13} strokeWidth={2.2} className="transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </div>
         </div>
@@ -68,136 +53,111 @@ function CardPublicado({ a, i }: { a: Article; i: number }) {
 }
 
 function CardProximo({ a }: { a: Article }) {
-  const isCursoOpen = a.tipo === 'curso' && a.enrollUrl
-
-  if (isCursoOpen) {
+  if (a.tipo === 'curso' && a.enrollUrl) {
     return (
-      <motion.a
-        variants={fadeUp}
-        href={a.enrollUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ y: -4 }}
-        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-        className="group relative flex flex-col gap-3 bg-azul-deep
-                   rounded-xl p-5 md:p-6 overflow-hidden
-                   border border-dorado/30 hover:border-dorado/60
-                   hover:shadow-[0_14px_40px_rgba(200,169,106,0.25)]
+      <motion.a variants={fadeUp} href={a.enrollUrl} target="_blank" rel="noopener noreferrer"
+        whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+        className="group relative flex flex-col gap-3 bg-azul-deep rounded-xl p-5 md:p-6 overflow-hidden
+                   border border-dorado/30 hover:border-dorado/60 hover:shadow-[0_14px_40px_rgba(200,169,106,0.25)]
                    transition-shadow duration-300"
       >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,106,0.15) 0%, transparent 70%)',
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,106,0.15) 0%, transparent 70%)' }} />
         <div className="relative flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado bg-dorado/15 rounded-full px-2.5 py-1">
-            <GraduationCap size={12} strokeWidth={2.4} />
-            {tipoLabel(a.tipo)}
+            <GraduationCap size={12} strokeWidth={2.4} />{tipoLabel(a.tipo)}
           </span>
-          <span className="text-[0.65rem] text-dorado/70 tracking-wide font-medium">
-            {a.date}
-          </span>
+          <span className="text-[0.65rem] text-dorado/70 tracking-wide font-medium">{a.date}</span>
         </div>
-        <p className="relative font-title font-800 text-white text-[1rem] leading-snug">
-          {a.title}
-        </p>
-        <p className="relative text-white/55 text-xs leading-relaxed line-clamp-2">
-          {a.bajada}
-        </p>
+        <p className="relative font-title font-800 text-white text-[1rem] leading-snug">{a.title}</p>
+        <p className="relative text-white/55 text-xs leading-relaxed line-clamp-2">{a.bajada}</p>
         <div className="relative flex items-center gap-1.5 text-dorado text-xs font-bold mt-1">
           Inscribirme en LinkedIn
-          <ArrowUpRight
-            size={13}
-            strokeWidth={2.4}
-            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
+          <ArrowUpRight size={13} strokeWidth={2.4} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
       </motion.a>
     )
   }
-
   return (
-    <motion.div
-      variants={fadeUp}
-      className="flex flex-col gap-3 bg-white border border-dashed border-black/12
-                 rounded-xl p-5 md:p-6"
-    >
+    <motion.div variants={fadeUp} className="flex flex-col gap-3 bg-white border border-dashed border-black/12 rounded-xl p-5 md:p-6">
       <div className="flex items-center justify-between">
-        <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado-deep/70">
-          {tipoLabel(a.tipo)}
-        </span>
+        <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado-deep/70">{tipoLabel(a.tipo)}</span>
         <span className="text-[0.65rem] text-texto/35 tracking-wide">{a.date}</span>
       </div>
-      <p className="font-title font-800 text-azul-dark/65 text-[0.95rem] leading-snug">
-        {a.title}
-      </p>
-      <p className="text-texto/40 text-xs leading-relaxed line-clamp-2">
-        {a.bajada}
-      </p>
+      <p className="font-title font-800 text-azul-dark/65 text-[0.95rem] leading-snug">{a.title}</p>
+      <p className="text-texto/40 text-xs leading-relaxed line-clamp-2">{a.bajada}</p>
     </motion.div>
   )
 }
 
 export default function ContenidosSection() {
   const c = site.contenidos
-  // Cursos y estudios viven en sus propias secciones; acá solo artículos
   const soloArticulos = articulos.filter((a) => a.tipo === 'articulo')
   const publicados = soloArticulos.filter((a) => a.published)
   const proximos = soloArticulos.filter((a) => !a.published)
+
+  const [expanded, setExpanded] = useState(false)
+  const visiblePublicados = expanded ? publicados : publicados.slice(0, INITIAL_COUNT)
+  const hasMore = publicados.length > INITIAL_COUNT
 
   return (
     <section id="contenidos" className="bg-white py-20 md:py-28 lg:py-32 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-dorado/40" />
 
       <div className="max-w-6xl mx-auto px-5 md:px-6">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={stagger(0.05, 0.1)}
-          className="mb-12 md:mb-14 max-w-2xl"
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+          variants={stagger(0.05, 0.1)} className="mb-12 md:mb-14 max-w-2xl"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">{c.eyebrow}</motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight mb-4"
-          >
+          <motion.h2 variants={fadeUp}
+            className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight mb-4">
             {c.title}
           </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            className="text-texto/55 text-base md:text-lg leading-relaxed"
-          >
-            {c.subtitle}
-          </motion.p>
+          <motion.p variants={fadeUp} className="text-texto/55 text-base md:text-lg leading-relaxed">{c.subtitle}</motion.p>
         </motion.div>
 
         {publicados.length > 0 && (
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={stagger(0.05, 0.12)}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-14 md:mb-16"
-          >
-            {publicados.map((a, i) => <CardPublicado key={a.slug} a={a} i={i} />)}
-          </motion.div>
+          <>
+            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+              variants={stagger(0.05, 0.12)}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-6"
+            >
+              {visiblePublicados.map((a) => <CardPublicado key={a.slug} a={a} />)}
+            </motion.div>
+
+            <AnimatePresence>
+              {expanded && publicados.slice(INITIAL_COUNT).map((a) => (
+                <motion.div key={a.slug} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-6">
+                  <CardPublicado a={a} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            {hasMore && (
+              <div className="flex justify-center mb-14 md:mb-16">
+                <motion.button
+                  onClick={() => setExpanded((v) => !v)}
+                  whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 360, damping: 20 }}
+                  className="inline-flex items-center gap-2 border border-azul/20 hover:border-dorado/50
+                             bg-white hover:bg-dorado/5 text-azul-dark font-bold text-sm
+                             px-7 py-3 rounded-xl transition-colors shadow-sm"
+                >
+                  {expanded ? 'Ver menos' : `Ver todos los artículos (${publicados.length})`}
+                  <ChevronDown size={16} strokeWidth={2.2}
+                    className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+                </motion.button>
+              </div>
+            )}
+          </>
         )}
 
         {proximos.length > 0 && (
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={stagger(0.05, 0.08)}
-          >
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+            variants={stagger(0.05, 0.08)}>
             <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
-              <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/35">
-                {c.upcomingLabel}
-              </span>
+              <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/35">{c.upcomingLabel}</span>
               <span className="flex-1 h-px bg-black/8" />
               <span className="text-xs text-texto/30">{proximos.length}</span>
             </motion.div>
