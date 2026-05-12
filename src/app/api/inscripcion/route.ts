@@ -4,14 +4,14 @@ import { createClient } from '@supabase/supabase-js'
 const BREVO_API = 'https://api.brevo.com/v3/smtp/email'
 
 export async function POST(req: NextRequest) {
-  let body: { nombre?: string; email?: string; curso?: string; cursoSlug?: string }
+  let body: { nombre?: string; email?: string; curso?: string; cursoSlug?: string; fechaNacimiento?: string; celular?: string; ciudad?: string; provincia?: string }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Datos inválidos.' }, { status: 400 })
   }
 
-  const { nombre, email, curso, cursoSlug } = body
+  const { nombre, email, curso, cursoSlug, fechaNacimiento, celular, ciudad, provincia } = body
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Email inválido.' }, { status: 400 })
   }
@@ -25,6 +25,10 @@ export async function POST(req: NextRequest) {
     email: email.trim().toLowerCase(),
     curso,
     curso_slug: cursoSlug || null,
+    fecha_nacimiento: fechaNacimiento || null,
+    celular: celular?.trim() || null,
+    ciudad: ciudad?.trim() || null,
+    provincia: provincia || null,
   })
 
   if (dbError) {
