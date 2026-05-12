@@ -19,10 +19,10 @@ export default function Home() {
       <main>
         <Hero />
         <EstudiosSection />
-        <ProyectosSection />
         <ContenidosSection />
         <CursosSection />
         <NosotrosSection />
+        <ProyectosSection />
         <SumateSection />
       </main>
       <Footer />
