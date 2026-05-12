@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, GraduationCap } from 'lucide-react'
 import { articulos, type Article } from '@/data/articulos'
@@ -39,9 +40,19 @@ function CardPublicado({ a, i }: { a: Article; i: number }) {
           <p className="font-article text-texto/65 text-[0.95rem] leading-relaxed flex-1 line-clamp-3">
             {a.bajada}
           </p>
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-black/8">
-            <span className="text-xs text-texto/50">{a.category}</span>
-            <span className="text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors flex items-center gap-1.5">
+          <div className="flex items-center gap-3 mt-6 pt-4 border-t border-black/8">
+            <Image
+              src={a.authorPhoto || '/assets/exequiel.jpg'}
+              alt={a.author}
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-full object-cover ring-1 ring-dorado/30 flex-shrink-0"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-[0.8rem] font-medium text-azul-dark/85 truncate leading-tight">{a.author}</p>
+              <p className="text-[0.65rem] text-texto/40 truncate">{a.category}</p>
+            </div>
+            <span className="text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors flex items-center gap-1 flex-shrink-0">
               Leer
               <ArrowRight
                 size={13}
