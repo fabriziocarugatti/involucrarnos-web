@@ -50,7 +50,7 @@ async function migrate() {
       enrollUrl: a.enrollUrl,
       source: a.source,
       content: a.content.map((b, i) => ({
-        _type: 'block',
+        _type: 'contentBlock',
         _key: `b${i}`,
         type: b.type,
         text: b.text,

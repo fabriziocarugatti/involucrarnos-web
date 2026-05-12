@@ -6,17 +6,20 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ChatAssistant from '@/components/ChatAssistant'
 import ArticleSummary from '@/components/ArticleSummary'
-import { articulos, getArticulo } from '@/data/articulos'
+import { getAllArticulos, getArticuloBySlug } from '@/sanity/queries'
 import { site } from '@/data/site'
 
 interface Props { params: { slug: string } }
 
 export async function generateStaticParams() {
-  return articulos.filter((a) => a.published).map((a) => ({ slug: a.slug }))
+  const all = await getAllArticulos()
+  return all.filter((a) => a.published).map((a) => ({ slug: a.slug }))
 }
 
+export const revalidate = 60
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const art = getArticulo(params.slug)
+  const art = await getArticuloBySlug(params.slug)
   if (!art) return {}
   return {
     title: `${art.title} — ${site.name}`,
@@ -24,14 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: art.title,
       description: art.bajada,
+      images: art.coverImage ? [art.coverImage] : ['/assets/logo-involucrarnos.png'],
       locale: 'es_AR',
       type: 'article',
     },
   }
 }
 
-export default function ArticuloPage({ params }: Props) {
-  const art = getArticulo(params.slug)
+export default async function ArticuloPage({ params }: Props) {
+  const art = await getArticuloBySlug(params.slug)
   if (!art || !art.published) notFound()
   const cta = site.articleCta
   const tipoLabel = site.tipos[art.tipo].label
