@@ -20,8 +20,8 @@ export default function Home() {
         <EstudiosSection />
         <ContenidosSection />
         <CursosSection />
-        <NosotrosSection />
         <SumateSection />
+        <NosotrosSection />
       </main>
       <Footer />
       <ChatAssistant />
