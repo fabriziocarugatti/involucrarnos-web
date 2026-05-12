@@ -132,8 +132,10 @@ function CardProximo({ a }: { a: Article }) {
 
 export default function ContenidosSection() {
   const c = site.contenidos
-  const publicados = articulos.filter((a) => a.published)
-  const proximos = articulos.filter((a) => !a.published)
+  // Cursos y estudios viven en sus propias secciones; acá solo artículos
+  const soloArticulos = articulos.filter((a) => a.tipo === 'articulo')
+  const publicados = soloArticulos.filter((a) => a.published)
+  const proximos = soloArticulos.filter((a) => !a.published)
 
   return (
     <section id="contenidos" className="bg-white py-20 md:py-28 lg:py-32 relative">

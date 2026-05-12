@@ -150,18 +150,18 @@ export const articulos: Article[] = [
     ],
   },
   {
-    slug: 'introduccion-politicas-publicas',
+    slug: 'creacion-perfil-linkedin',
     tipo: 'curso',
-    title: 'Introducción a las políticas públicas',
+    title: 'Creación y optimización de tu perfil de LinkedIn',
     bajada:
-      'Curso gratuito de 6 clases breves. Conceptos, herramientas y casos para entender cómo se diseña, ejecuta y evalúa una política pública. Inscripciones abiertas vía LinkedIn.',
-    category: 'Curso gratuito',
+      'Taller gratuito para construir un perfil profesional que comunique con claridad tu propósito, formación y proyectos. Pensado para quienes trabajan o quieren trabajar en lo público.',
+    category: 'Taller gratuito',
     date: 'Inscripciones abiertas',
     author: AUTHOR,
     authorRole: AUTHOR_ROLE,
     featured: false,
     published: false,
-    enrollUrl: 'https://www.linkedin.com/in/exequiel-soria-arru%C3%B1ada-46b78a195/',
+    enrollUrl: 'https://forms.gle/wAMyACoLPLcnSYFVA',
     content: [],
   },
 ]

@@ -13,8 +13,10 @@ export const site = {
 
   nav: {
     links: [
-      { href: '/#contenidos', label: 'Contenidos' },
-      { href: '/#nosotros',   label: 'Nosotros' },
+      { href: '/#contenidos', label: 'Artículos' },
+      { href: '/#cursos',     label: 'Cursos'    },
+      { href: '/#estudios',   label: 'Estudios'  },
+      { href: '/#nosotros',   label: 'Nosotros'  },
     ],
     cta: { href: '/#sumate', label: 'Sumate' },
   },
@@ -31,11 +33,29 @@ export const site = {
   },
 
   contenidos: {
-    eyebrow: 'Contenidos abiertos',
-    title: 'Aprender, leer, formarse',
+    eyebrow: 'Artículos',
+    title: 'Análisis y reflexión',
     subtitle:
-      'Todo lo que publicamos es de acceso libre. Sin paywalls, sin letra chica.',
+      'Lecturas breves sobre política, gestión pública y desarrollo del NOA. Todo de acceso libre.',
     upcomingLabel: 'En preparación',
+  },
+
+  cursos: {
+    eyebrow: 'Cursos · Talleres',
+    title: 'Formación práctica, gratuita',
+    subtitle:
+      'Talleres breves para fortalecer herramientas concretas que sirven en la vida pública y profesional. Acceso abierto.',
+    proxLabel: 'Próximos cursos',
+    emptyMsg: 'Más talleres en preparación.',
+  },
+
+  estudios: {
+    eyebrow: 'Estudios',
+    title: 'Investigación aplicada',
+    subtitle:
+      'Análisis con datos, casos comparados y diagnósticos territoriales del NOA. Próximamente.',
+    upcomingMsg:
+      'Estamos preparando los primeros estudios. Sumate a la comunidad para recibirlos cuando salgan.',
   },
 
   tipos: {
