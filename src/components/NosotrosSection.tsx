@@ -117,36 +117,48 @@ export default function NosotrosSection() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-5"
           >
-            <div className="bg-white/[0.05] border border-white/12 rounded-2xl p-6 md:p-7 backdrop-blur-md">
-              <div className="flex items-center gap-4 mb-5">
+            <div className="relative bg-white/[0.05] border border-white/12 rounded-2xl overflow-hidden backdrop-blur-md">
+              {/* big photo */}
+              <div className="relative">
                 <Image
                   src="/assets/exequiel.jpg"
                   alt={n.founderName}
-                  width={56}
-                  height={56}
-                  className="w-14 h-14 rounded-full object-cover ring-2 ring-dorado/40"
+                  width={520}
+                  height={520}
+                  className="w-full h-64 md:h-72 object-cover"
+                  priority
                 />
-                <div>
-                  <p className="font-title font-800 text-white text-base md:text-lg leading-snug">
-                    {n.founderName}
-                  </p>
-                  <p className="text-dorado text-xs font-medium leading-snug mt-0.5">
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(15,17,55,0.95) 0%, rgba(15,17,55,0.4) 45%, transparent 75%)',
+                  }}
+                />
+                <div className="absolute bottom-4 left-5 right-5">
+                  <span className="inline-block text-[0.62rem] font-bold tracking-[0.22em] uppercase text-dorado mb-1.5">
                     {n.founderRole}
+                  </span>
+                  <p className="font-title font-black text-white text-xl md:text-2xl leading-tight">
+                    {n.founderName}
                   </p>
                 </div>
               </div>
-              <p className="text-white/60 text-sm leading-relaxed mb-5">
-                {n.founderBio}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {n.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[0.7rem] font-medium text-dorado/85 bg-dorado/10 rounded-full px-2.5 py-1"
-                  >
-                    {tag}
-                  </span>
-                ))}
+
+              <div className="p-6 md:p-7">
+                <p className="text-white/65 text-sm leading-relaxed mb-5">
+                  {n.founderBio}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {n.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[0.7rem] font-medium text-dorado/85 bg-dorado/10 rounded-full px-2.5 py-1"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.aside>

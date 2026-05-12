@@ -19,11 +19,17 @@ const config: Config = {
       },
       animation: {
         'fade-up': 'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards',
+        'ping-slow': 'pingSlow 2.4s cubic-bezier(0,0,0.2,1) infinite',
       },
       keyframes: {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(24px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        pingSlow: {
+          '0%':   { boxShadow: '0 0 0 0 rgba(200,169,106,0.55)' },
+          '70%':  { boxShadow: '0 0 0 18px rgba(200,169,106,0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(200,169,106,0)' },
         },
       },
     },

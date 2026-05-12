@@ -94,35 +94,61 @@ export default function ChatAssistant() {
 
   return (
     <>
-      {/* Floating launcher button */}
-      <motion.button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Cerrar asistente' : 'Abrir asistente IA'}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, type: 'spring', stiffness: 250, damping: 18 }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        className="fixed bottom-5 right-5 md:bottom-6 md:right-24 z-40
-                   flex items-center gap-2 pl-4 pr-5 py-3 rounded-full
-                   bg-azul-deep text-white border border-dorado/40
-                   shadow-[0_8px_28px_rgba(30,34,96,0.4)]
-                   hover:bg-azul-dark transition-colors font-medium text-sm"
-      >
-        <span className="relative flex items-center justify-center">
-          {open ? (
-            <X size={18} strokeWidth={2.2} />
-          ) : (
-            <>
-              <Sparkles size={18} strokeWidth={2} className="text-dorado" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-dorado rounded-full animate-pulse" />
-            </>
+      {/* Floating launcher — siempre visible, prominente, tipo chatbot premium */}
+      <div className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-40 flex flex-col items-end gap-2">
+        {/* Tooltip "Nuevo · IA gratis" — solo cuando cerrado */}
+        {!open && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 1.6, duration: 0.5, ease: ease.outExpo }}
+            className="hidden sm:flex items-center gap-1.5 bg-white text-azul-dark text-xs font-medium px-3 py-1.5 rounded-full shadow-[0_6px_20px_rgba(15,17,55,0.18)] border border-black/8"
+          >
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            Probá la IA · gratis
+          </motion.div>
+        )}
+
+        <motion.button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? 'Cerrar asistente' : 'Abrir asistente IA'}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.6, type: 'spring', stiffness: 250, damping: 18 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={`relative flex items-center gap-2.5 rounded-full font-bold text-sm
+                      shadow-[0_12px_36px_rgba(30,34,96,0.45)] transition-colors
+                      ${open
+                        ? 'bg-white text-azul-dark border border-black/10 pl-4 pr-5 py-3.5'
+                        : 'bg-gradient-to-br from-azul-deep via-azul-dark to-azul text-white border border-dorado/50 pl-4 pr-5 py-3.5 hover:from-azul-dark hover:to-azul-deep'
+                      }`}
+        >
+          {/* halo dorado pulsante cuando cerrado */}
+          {!open && (
+            <span
+              aria-hidden
+              className="absolute inset-0 rounded-full opacity-60 animate-ping-slow pointer-events-none"
+              style={{ boxShadow: '0 0 0 0 rgba(200, 169, 106, 0.45)' }}
+            />
           )}
-        </span>
-        <span className="hidden sm:inline">
-          {open ? 'Cerrar' : 'Preguntale al especialista'}
-        </span>
-      </motion.button>
+
+          <span className="relative flex items-center justify-center w-7 h-7 rounded-full bg-dorado/20 ring-1 ring-dorado/50">
+            {open ? (
+              <X size={15} strokeWidth={2.4} className="text-azul-dark" />
+            ) : (
+              <Sparkles size={15} strokeWidth={2.2} className="text-dorado" />
+            )}
+            {!open && (
+              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-dorado rounded-full ring-2 ring-azul-deep animate-pulse" />
+            )}
+          </span>
+
+          <span className="relative">
+            {open ? 'Cerrar' : 'Preguntá a la IA'}
+          </span>
+        </motion.button>
+      </div>
 
       {/* Chat panel */}
       <AnimatePresence>

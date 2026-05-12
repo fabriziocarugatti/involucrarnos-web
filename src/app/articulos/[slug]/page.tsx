@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import WhatsAppFloat from '@/components/WhatsAppFloat'
 import ChatAssistant from '@/components/ChatAssistant'
 import ArticleSummary from '@/components/ArticleSummary'
 import { articulos, getArticulo } from '@/data/articulos'
@@ -125,7 +124,6 @@ export default function ArticuloPage({ params }: Props) {
         </div>
       </main>
       <Footer />
-      <WhatsAppFloat />
       <ChatAssistant />
     </>
   )
