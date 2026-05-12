@@ -20,7 +20,7 @@
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.14.0",
     "next": "14.2.3",
-    "next-sanity": "^12.4.5",
+    "next-sanity": "^9.12.3",
     "react": "^18",
     "react-dom": "^18",
     "sanity": "^3.99.0",
