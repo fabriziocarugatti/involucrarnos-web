@@ -15,7 +15,7 @@ export default function CursosSection() {
   const otros = cursos.filter((c) => c !== featured)
 
   return (
-    <section id="cursos" className="relative bg-azul-deep py-12 md:py-16 overflow-hidden grain">
+    <section id="cursos" className="relative bg-azul-deep py-16 md:py-24 overflow-hidden grain">
       {/* atmospheric gradient */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -33,7 +33,7 @@ export default function CursosSection() {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           variants={stagger(0.05, 0.1)}
-          className="max-w-2xl mb-12 md:mb-14"
+          className="max-w-2xl mb-14 md:mb-20"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">{c.eyebrow}</motion.span>
           <motion.h2

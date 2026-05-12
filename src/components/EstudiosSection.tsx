@@ -141,7 +141,7 @@ export default function EstudiosSection() {
   const visible = estudios.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
-    <section id="estudios" className="bg-crema py-12 md:py-16 relative overflow-hidden">
+    <section id="estudios" className="bg-crema py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,169,106,0.10) 0%, transparent 60%)' }}
       />
@@ -149,7 +149,7 @@ export default function EstudiosSection() {
       <div className="relative max-w-6xl mx-auto px-5 md:px-6">
         <motion.div
           initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-          variants={stagger(0.05, 0.1)} className="max-w-2xl mb-12 md:mb-14"
+          variants={stagger(0.05, 0.1)} className="max-w-2xl mb-14 md:mb-20"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">{e.eyebrow}</motion.span>
           <motion.h2 variants={fadeUp}

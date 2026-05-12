@@ -81,7 +81,7 @@ export default function NosotrosSection() {
   const n = site.nosotros
 
   return (
-    <section id="nosotros" className="relative bg-azul-deep py-12 md:py-16 overflow-hidden grain">
+    <section id="nosotros" className="relative bg-azul-deep py-16 md:py-24 overflow-hidden grain">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 80% 60% at 20% 30%, rgba(42,47,118,0.55) 0%, transparent 60%)' }} />
       <div className="blob-field">

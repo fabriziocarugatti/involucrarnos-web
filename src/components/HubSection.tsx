@@ -34,7 +34,7 @@ export default function HubSection() {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           variants={stagger(0.05, 0.1)}
-          className="max-w-2xl mb-12 md:mb-14"
+          className="max-w-2xl mb-14 md:mb-20"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">
             {h.eyebrow}
