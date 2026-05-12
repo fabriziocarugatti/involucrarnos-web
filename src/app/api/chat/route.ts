@@ -4,7 +4,7 @@ import { buildSystemPrompt } from '@/lib/ai-context'
 export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
-const MODEL = 'deepseek/deepseek-chat-v3-0324:free'
+const MODEL = 'deepseek/deepseek-chat:free'
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
 const LIMIT = 15
