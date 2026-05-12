@@ -71,8 +71,9 @@ export default function SmartSearch() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: q }),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data?.error || 'Falló')
+      let data: { error?: string; results?: Result[] } = {}
+      try { data = await res.json() } catch { /* non-JSON */ }
+      if (!res.ok) throw new Error(data.error || 'Búsqueda no disponible ahora.')
       setResults(data.results ?? [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Algo salió mal')
