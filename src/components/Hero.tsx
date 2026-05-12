@@ -55,14 +55,14 @@ export default function Hero() {
         animate="show"
       >
         <div className="max-w-3xl">
-          <motion.span variants={fadeUp} className="eyebrow mb-6 md:mb-7">
+          <motion.span variants={fadeUp} className="eyebrow mb-6 md:mb-7 text-dorado/90">
             {h.eyebrow}
           </motion.span>
 
           <h1
             id="hero-heading"
             className="font-title font-black text-white leading-[1.05] tracking-tight mb-6 md:mb-7 block"
-            style={{ fontSize: 'clamp(2.2rem, 5.2vw, 4.1rem)' }}
+            style={{ fontSize: 'clamp(2.6rem, 6vw, 4.8rem)' }}
           >
             <span className="block">
               <RevealText text={h.titleStart} delay={0.2} />
@@ -110,10 +110,10 @@ export default function Hero() {
             >
               <Link
                 href={h.ctaSecondary.href}
-                className="inline-flex items-center gap-2 bg-transparent text-white/85 font-medium
-                           px-6 md:px-7 py-3 md:py-3.5 rounded-xl border border-white/25
-                           hover:border-white/55 hover:text-white hover:bg-white/5
-                           transition-all duration-300 text-sm md:text-base"
+                className="inline-flex items-center gap-2 bg-white/8 text-white font-semibold
+                           px-6 md:px-7 py-3 md:py-3.5 rounded-xl border border-white/20
+                           hover:bg-white/12 hover:border-dorado/50 hover:text-dorado-soft
+                           transition-all duration-300 text-sm md:text-base backdrop-blur-sm"
               >
                 {h.ctaSecondary.label}
               </Link>
@@ -122,11 +122,11 @@ export default function Hero() {
 
           <motion.ul
             variants={fadeUp}
-            className="flex flex-wrap gap-2 text-xs text-white/50"
+            className="flex flex-wrap gap-2 text-xs text-white/65"
           >
             {h.pills.map((p, i) => (
               <li key={p} className="flex items-center gap-2">
-                {i > 0 && <span className="text-white/20">·</span>}
+                {i > 0 && <span className="text-white/30">·</span>}
                 <span>{p}</span>
               </li>
             ))}
