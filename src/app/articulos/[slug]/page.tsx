@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 import ChatAssistant from '@/components/ChatAssistant'
+import ArticleSummary from '@/components/ArticleSummary'
 import { articulos, getArticulo } from '@/data/articulos'
 import { site } from '@/data/site'
 
@@ -93,7 +94,9 @@ export default function ArticuloPage({ params }: Props) {
           </div>
         </header>
 
-        <article className="max-w-3xl mx-auto px-5 md:px-6 py-14 md:py-20 prose-article font-article text-texto text-[1.05rem] leading-[1.75]">
+        <ArticleSummary slug={art.slug} />
+
+        <article className="max-w-3xl mx-auto px-5 md:px-6 pt-2 pb-14 md:pb-20 prose-article font-article text-texto text-[1.05rem] leading-[1.75]">
           {art.content.map((block, i) => {
             if (block.type === 'heading') return <h2 key={i}>{block.text}</h2>
             if (block.type === 'blockquote') return <blockquote key={i}><p>{block.text}</p></blockquote>

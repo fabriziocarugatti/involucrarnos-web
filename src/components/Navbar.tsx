@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { site } from '@/data/site'
 import { ease } from '@/lib/motion'
+import SmartSearch from './SmartSearch'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -59,6 +60,7 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
+            <span className="mx-2"><SmartSearch /></span>
             <motion.div
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.96 }}
@@ -72,6 +74,10 @@ export default function Navbar() {
                 {cta.label}
               </Link>
             </motion.div>
+          </div>
+
+          <div className="md:hidden flex items-center gap-1">
+            <SmartSearch />
           </div>
 
           <button
