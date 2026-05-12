@@ -1,11 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowUpRight, GraduationCap, Sparkles } from 'lucide-react'
+import { GraduationCap, Sparkles } from 'lucide-react'
 import { articulos } from '@/data/articulos'
 import { site } from '@/data/site'
 import { fadeUp, stagger } from '@/lib/motion'
 import Particles from './Particles'
+import InscripcionForm from './InscripcionForm'
 
 export default function CursosSection() {
   const c = site.cursos
@@ -58,17 +59,13 @@ export default function CursosSection() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="mb-10 md:mb-12"
           >
-            <a
-              href={featured.enrollUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative grid md:grid-cols-12 gap-6 md:gap-8 items-center
-                         bg-white/[0.05] hover:bg-white/[0.07]
-                         border border-dorado/30 hover:border-dorado/60
+            <div
+              className="group relative grid md:grid-cols-12 gap-6 md:gap-8 items-start
+                         bg-white/[0.05]
+                         border border-dorado/30
                          rounded-2xl p-6 md:p-8 lg:p-10
                          shadow-[0_8px_32px_rgba(0,0,0,0.25)]
-                         hover:shadow-[0_18px_50px_rgba(200,169,106,0.25)]
-                         backdrop-blur-sm transition-all duration-400 overflow-hidden"
+                         backdrop-blur-sm overflow-hidden"
             >
               {/* subtle glow */}
               <div
@@ -96,17 +93,7 @@ export default function CursosSection() {
                   {featured.bajada}
                 </p>
 
-                <motion.span
-                  whileHover={{ x: 3 }}
-                  transition={{ type: 'spring', stiffness: 360, damping: 20 }}
-                  className="inline-flex items-center gap-2 bg-dorado text-azul-dark
-                             font-bold text-sm px-6 py-3 rounded-xl
-                             group-hover:bg-dorado-soft transition-colors
-                             shadow-[0_8px_24px_rgba(200,169,106,0.4)]"
-                >
-                  Inscribirme gratis
-                  <ArrowUpRight size={15} strokeWidth={2.4} />
-                </motion.span>
+                <InscripcionForm cursoNombre={featured.title} cursoSlug={featured.slug} />
               </div>
 
               {/* visual side — sparkle motif */}
@@ -131,7 +118,7 @@ export default function CursosSection() {
                   className="absolute text-dorado opacity-80"
                 />
               </div>
-            </a>
+            </div>
           </motion.div>
         )}
 

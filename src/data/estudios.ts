@@ -36,7 +36,21 @@ export interface MapNOAData {
   values: { provincia: 'tucuman' | 'salta' | 'jujuy' | 'catamarca' | 'santiago' | 'larioja'; value: number; label?: string }[]
 }
 
-export type ChartData = BarChartData | LineChartData | DonutChartData | MapNOAData
+export type ProvinciaArgentina =
+  | 'buenos_aires' | 'caba' | 'catamarca' | 'chaco' | 'chubut'
+  | 'cordoba' | 'corrientes' | 'entre_rios' | 'formosa' | 'jujuy'
+  | 'la_pampa' | 'la_rioja' | 'mendoza' | 'misiones' | 'neuquen'
+  | 'rio_negro' | 'salta' | 'san_juan' | 'san_luis' | 'santa_cruz'
+  | 'santa_fe' | 'santiago' | 'tierra_del_fuego' | 'tucuman'
+
+export interface MapArgentinaData {
+  type: 'map_argentina'
+  unit?: string
+  description?: string
+  values: { provincia: ProvinciaArgentina; value: number; label?: string }[]
+}
+
+export type ChartData = BarChartData | LineChartData | DonutChartData | MapNOAData | MapArgentinaData
 
 export type StudyStatus = 'publicado' | 'en_curso' | 'preliminar'
 
@@ -57,6 +71,84 @@ export interface Study {
 }
 
 export const estudios: Study[] = [
+  {
+    slug: 'empleo-publico-federal-2023',
+    title: 'Empleo público por provincia: el mapa federal del Estado',
+    bajada: 'Cuántos empleados públicos tiene cada provincia de Argentina por cada 1.000 habitantes. Un indicador clave del peso del Estado en cada economía territorial.',
+    category: 'CUENTAS PÚBLICAS · FEDERAL',
+    date: 'Mayo 2026',
+    period: '2022–2023',
+    status: 'publicado',
+    methodology: 'Datos del Mapa de Empleo Público Provincial (Jefatura de Gabinete de Ministros, 2023) y del INDEC (Censo 2022 para población base). Se calculó la tasa de empleados públicos provinciales y municipales por cada 1.000 habitantes. No incluye empleados nacionales radicados en cada provincia.',
+    findings: [
+      'Tierra del Fuego lidera con ~115 empleados públicos por cada 1.000 hab., más del doble que la media nacional.',
+      'Santa Cruz (~108) y La Rioja (~105) completan el podio de provincias con mayor peso estatal relativo.',
+      'Buenos Aires provincia (~42) y CABA (~58) tienen los índices más bajos, aunque en términos absolutos concentran la mayor cantidad de agentes.',
+      'El NOA muestra alta heterogeneidad: Catamarca (~95) triplica a Tucumán (~52) pese a estar en la misma región.',
+      'Las provincias patagónicas presentan índices altos en parte por la baja densidad poblacional, lo que infla la ratio sin reflejar ineficiencia per se.',
+      'La brecha entre la provincia más alta (TDF ~115) y la más baja (Buenos Aires ~42) es de 2,7 veces.',
+    ],
+    stats: [
+      { value: '~115', label: 'Emp. públicos/1k hab (TDF)', trend: 'neutral', hint: 'Provincia con mayor ratio' },
+      { value: '~42',  label: 'Emp. públicos/1k hab (Bs. As.)', trend: 'neutral', hint: 'Provincia con menor ratio' },
+      { value: '~68',  label: 'Promedio nacional', trend: 'neutral', hint: 'Media ponderada 24 jurisdicciones' },
+      { value: '2,7x', label: 'Brecha máx./mín.', trend: 'neutral' },
+    ],
+    charts: [
+      {
+        type: 'map_argentina',
+        unit: 'Empleados públicos por cada 1.000 habitantes (2023)',
+        values: [
+          { provincia: 'tierra_del_fuego', value: 115 },
+          { provincia: 'santa_cruz',       value: 108 },
+          { provincia: 'la_rioja',         value: 105 },
+          { provincia: 'formosa',          value: 98  },
+          { provincia: 'catamarca',        value: 95  },
+          { provincia: 'la_pampa',         value: 90  },
+          { provincia: 'santiago',         value: 88  },
+          { provincia: 'san_luis',         value: 82  },
+          { provincia: 'neuquen',          value: 80  },
+          { provincia: 'jujuy',            value: 78  },
+          { provincia: 'chubut',           value: 76  },
+          { provincia: 'rio_negro',        value: 72  },
+          { provincia: 'san_juan',         value: 72  },
+          { provincia: 'caba',             value: 70  },
+          { provincia: 'corrientes',       value: 70  },
+          { provincia: 'chaco',            value: 65  },
+          { provincia: 'salta',            value: 62  },
+          { provincia: 'mendoza',          value: 58  },
+          { provincia: 'entre_rios',       value: 56  },
+          { provincia: 'tucuman',          value: 52  },
+          { provincia: 'misiones',         value: 50  },
+          { provincia: 'santa_fe',         value: 48  },
+          { provincia: 'cordoba',          value: 45  },
+          { provincia: 'buenos_aires',     value: 42  },
+        ],
+      } as const,
+      {
+        type: 'bar',
+        unit: 'Emp. públicos/1k hab',
+        bars: [
+          { label: 'Tierra del Fuego', value: 115, highlight: true },
+          { label: 'Santa Cruz',       value: 108 },
+          { label: 'La Rioja',         value: 105 },
+          { label: 'Formosa',          value: 98  },
+          { label: 'Catamarca',        value: 95  },
+          { label: 'La Pampa',         value: 90  },
+          { label: 'Sgo. del Estero',  value: 88  },
+          { label: 'San Luis',         value: 82  },
+          { label: 'Neuquén',          value: 80  },
+          { label: 'Jujuy',            value: 78  },
+        ],
+      },
+    ],
+    authors: ['Exequiel Soria Arruñada'],
+    sources: [
+      { name: 'Mapa de Empleo Público Provincial — Jefatura de Gabinete de Ministros (2023)', url: 'https://www.argentina.gob.ar/jefatura/gestion-y-empleo-publico/empleo-publico' },
+      { name: 'INDEC — Censo Nacional de Población 2022', url: 'https://www.indec.gob.ar/indec/web/Nivel4-Tema-2-41-165' },
+      { name: 'IARAF — Informe sobre empleo público provincial 2023' },
+    ],
+  },
   {
     slug: 'transparencia-provincial-noa-2024',
     title: 'Transparencia provincial en el NOA: el norte tiene una deuda',
