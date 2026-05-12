@@ -139,12 +139,12 @@ export default function ContenidosSection() {
   const visiblePublicados = publicados.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
-    <section id="contenidos" className="bg-white py-12 md:py-16 relative">
+    <section id="contenidos" className="bg-white py-16 md:py-24 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-dorado/40" />
 
       <div className="max-w-6xl mx-auto px-5 md:px-6">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-          variants={stagger(0.05, 0.1)} className="mb-12 md:mb-14 max-w-2xl"
+          variants={stagger(0.05, 0.1)} className="mb-14 md:mb-20 max-w-2xl"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">{c.eyebrow}</motion.span>
           <motion.h2 variants={fadeUp}

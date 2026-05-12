@@ -76,7 +76,7 @@ const FEATURED = proyectos.slice(0, 3)
 
 export default function ProyectosPreview() {
   return (
-    <section className="relative bg-azul-deep py-12 md:py-16 overflow-hidden grain">
+    <section className="relative bg-azul-deep py-16 md:py-24 overflow-hidden grain">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 80% 60% at 80% 20%, rgba(42,47,118,0.6) 0%, transparent 60%)' }}
