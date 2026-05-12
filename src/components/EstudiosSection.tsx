@@ -11,19 +11,16 @@ import { fadeUp, stagger } from '@/lib/motion'
 const PAGE_SIZE = 6
 
 function StatusBadge({ status }: { status: Study['status'] }) {
-  const styles: Record<Study['status'], string> = {
-    publicado:  'bg-emerald-50 text-emerald-700 border-emerald-200',
-    en_curso:   'bg-amber-50 text-amber-700 border-amber-200',
-    preliminar: 'bg-azul/8 text-azul-dark border-azul/15',
+  const config: Record<Study['status'], { bg: string; text: string; dot: string; label: string }> = {
+    publicado:  { bg: 'bg-emerald-400/15', text: 'text-emerald-300', dot: 'bg-emerald-400',           label: 'Publicado'  },
+    en_curso:   { bg: 'bg-dorado/20',      text: 'text-dorado',      dot: 'bg-dorado animate-pulse',   label: 'En curso'   },
+    preliminar: { bg: 'bg-white/10',       text: 'text-white/75',    dot: 'bg-white/60',               label: 'Preliminar' },
   }
-  const labels: Record<Study['status'], string> = {
-    publicado:  'Publicado',
-    en_curso:   'En curso',
-    preliminar: 'Preliminar',
-  }
+  const c = config[status]
   return (
-    <span className={`inline-flex items-center text-[0.62rem] font-bold tracking-widest uppercase border rounded-full px-2 py-0.5 ${styles[status]}`}>
-      {labels[status]}
+    <span className={`inline-flex items-center gap-1.5 text-[0.6rem] font-bold tracking-[0.18em] uppercase ${c.bg} ${c.text} rounded-full px-2.5 py-1`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
+      {c.label}
     </span>
   )
 }
@@ -31,6 +28,7 @@ function StatusBadge({ status }: { status: Study['status'] }) {
 function StudyCard({ study }: { study: Study }) {
   const headline = study.stats[0]
   const supportingStats = study.stats.slice(1, 3)
+  const isSensitive = /derechos humanos|género|genero|femicidio|violencia/i.test(study.category)
 
   return (
     <motion.article variants={fadeUp} whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 22 }} className="h-full">
@@ -42,27 +40,29 @@ function StudyCard({ study }: { study: Study }) {
                    hover:shadow-[0_18px_50px_rgba(42,47,118,0.14)]
                    transition-shadow duration-300"
       >
-        <div className="relative bg-gradient-to-br from-azul-deep via-azul-dark to-azul p-6 md:p-7 overflow-hidden">
+        <div className={`relative p-6 md:p-7 overflow-hidden min-h-[180px] flex flex-col justify-between ${
+          isSensitive
+            ? 'bg-gradient-to-br from-[#1a1d3a] via-[#23254a] to-azul-dark'
+            : 'bg-gradient-to-br from-azul-deep via-azul-dark to-azul'
+        }`}>
           <div className="absolute inset-0 pointer-events-none opacity-60"
             style={{ background: 'radial-gradient(ellipse 80% 100% at 100% 0%, rgba(200,169,106,0.22) 0%, transparent 60%)' }}
           />
-          <div className="relative">
-            <div className="flex items-center justify-between mb-3">
-              <StatusBadge status={study.status} />
-              <FileText size={16} className="text-dorado/60" strokeWidth={1.8} />
-            </div>
-            {headline && (
-              <>
-                <p className="font-title font-black text-white leading-[0.95] tracking-tight tabular-nums"
-                   style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)' }}>
-                  {headline.value}
-                </p>
-                <p className="text-white/75 text-[0.78rem] font-medium leading-snug mt-2 line-clamp-2">
-                  {headline.label}
-                </p>
-              </>
-            )}
+          <div className="relative flex items-center justify-between">
+            <StatusBadge status={study.status} />
+            <FileText size={16} className="text-dorado/60" strokeWidth={1.8} />
           </div>
+          {headline && (
+            <div className="relative mt-3">
+              <p className="font-title font-black text-white leading-[0.9] tracking-tight tabular-nums"
+                 style={{ fontSize: 'clamp(2.8rem, 5vw, 3.8rem)' }}>
+                {headline.value}
+              </p>
+              <p className="text-white/85 text-[0.8rem] font-medium leading-snug mt-1.5 line-clamp-1">
+                {headline.label}
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="p-6 md:p-7 flex-1 flex flex-col">
@@ -73,20 +73,20 @@ function StudyCard({ study }: { study: Study }) {
           <h3 className="font-title font-800 text-azul-dark text-lg md:text-xl leading-snug mb-3 group-hover:text-azul transition-colors">
             {study.title}
           </h3>
-          <p className="text-texto/65 text-sm leading-relaxed line-clamp-3 mb-5 flex-1">{study.bajada}</p>
+          <p className="text-texto/70 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">{study.bajada}</p>
 
           {supportingStats.length > 0 && (
-            <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-black/8 mb-5">
+            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-black/8 mb-5">
               {supportingStats.map((s, i) => (
                 <div key={i}>
-                  <p className="font-title font-800 text-azul-dark text-base leading-none tabular-nums">{s.value}</p>
-                  <p className="text-[0.65rem] text-texto/50 mt-1 leading-tight line-clamp-2">{s.label}</p>
+                  <p className="font-title font-800 text-azul-dark text-sm leading-none tabular-nums">{s.value}</p>
+                  <p className="text-[0.62rem] text-texto/55 mt-1 leading-tight line-clamp-2">{s.label}</p>
                 </div>
               ))}
             </div>
           )}
 
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-azul group-hover:text-dorado-deep transition-colors mt-auto">
+          <span className="inline-flex items-center gap-1.5 text-[0.78rem] font-bold tracking-wide text-azul group-hover:text-dorado-deep transition-colors mt-auto">
             Ver estudio completo
             <ArrowRight size={13} strokeWidth={2.2} className="transition-transform duration-300 group-hover:translate-x-1" />
           </span>
