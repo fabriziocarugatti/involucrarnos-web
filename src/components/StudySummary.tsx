@@ -54,7 +54,7 @@ export default function StudySummary({ slug }: Props) {
             <span className="text-[0.65rem] font-bold tracking-[0.22em] uppercase text-dorado">
               Hallazgos clave en 3 puntos
             </span>
-            <span className="ml-auto text-[0.6rem] text-white/35">IA · El Especialista</span>
+            <span className="ml-auto text-[0.6rem] text-white/35">IA</span>
           </div>
 
           {loading && (
