@@ -61,7 +61,8 @@ async function migrate() {
       await client.createOrReplace(doc)
       console.log(`✓ ${a.slug}`)
     } catch (e) {
-      console.error(`✗ ${a.slug}:`, e.message)
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error(`✗ ${a.slug}:`, msg)
     }
   }
 
