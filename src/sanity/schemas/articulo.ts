@@ -113,7 +113,7 @@ export const articulo = defineType({
       of: [
         {
           type: 'object',
-          name: 'block',
+          name: 'contentBlock',
           fields: [
             {
               name: 'type',

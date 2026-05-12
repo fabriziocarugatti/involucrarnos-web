@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { Users, GraduationCap, Mail, Calendar, Trash2, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Users, GraduationCap, Mail, Calendar, Trash2, Loader2, LogOut } from 'lucide-react'
 
 type Row = Record<string, string>
 
@@ -44,6 +45,7 @@ function DeleteButton({ table, id, onDeleted }: { table: string; id: string; onD
 }
 
 export default function AdminPage() {
+  const router = useRouter()
   const [inscripciones, setInscripciones] = useState<Row[]>([])
   const [suscriptores, setSuscriptores] = useState<Row[]>([])
   const [loading, setLoading] = useState(true)
@@ -66,6 +68,15 @@ export default function AdminPage() {
         <div className="mb-10">
           <p className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-dorado mb-1">Panel interno</p>
           <h1 className="font-title font-black text-3xl md:text-4xl text-white">Involucrarnos · Admin</h1>
+          <button
+            onClick={async () => {
+              await fetch('/api/admin/login', { method: 'DELETE' })
+              router.push('/admin/login')
+            }}
+            className="mt-3 inline-flex items-center gap-1.5 text-xs text-white/35 hover:text-white/70 transition-colors"
+          >
+            <LogOut size={12} /> Cerrar sesión
+          </button>
         </div>
 
         {/* Stats */}
