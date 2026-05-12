@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
-import { generateObject } from 'ai'
+import { generateText } from 'ai'
 import { z } from 'zod'
 import { articulos } from '@/data/articulos'
 import { estudios } from '@/data/estudios'
@@ -23,7 +23,7 @@ const MODELS = [
   'nvidia/nemotron-3-super-120b-a12b:free',
 ]
 
-const SummarySchema = z.object({
+const BulletsSchema = z.object({
   bullets: z.array(z.string().min(20).max(220)).length(3),
 })
 
@@ -46,20 +46,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'IA no configurada' }, { status: 503 })
   }
 
-  let prompt: string
+  let contentPrompt: string
 
   if (type === 'estudio') {
     const estudio = estudios.find((s) => s.slug === slug)
     if (!estudio) return NextResponse.json({ error: 'estudio no encontrado' }, { status: 404 })
 
-    const statsText = estudio.stats
-      .map((s) => `${s.value}: ${s.label}`)
-      .join('\n')
+    const statsText = estudio.stats.map((s) => `${s.value}: ${s.label}`).join('\n')
     const findingsText = estudio.findings.join('\n')
 
-    prompt = `Resumí este estudio de políticas públicas en 3 bullets que capturen los hallazgos más importantes. Cada bullet debe incluir un dato o cifra concreto cuando sea posible. Sin academicismo.
-
-Título: ${estudio.title}
+    contentPrompt = `Título: ${estudio.title}
 Bajada: ${estudio.bajada}
 
 Datos clave:
@@ -69,7 +65,6 @@ Hallazgos:
 ${findingsText}
 
 Metodología: ${estudio.methodology}`
-
   } else {
     const art = articulos.find((a) => a.slug === slug && a.published)
     if (!art || !art.content.length) {
@@ -81,26 +76,44 @@ Metodología: ${estudio.methodology}`
       .map((b) => b.text)
       .join('\n\n')
 
-    prompt = `Resumí este artículo en 3 bullets que capturen las ideas clave. Cada bullet debe ser una afirmación específica (no genérica), idealmente con un dato o concepto concreto.
-
-Título: ${art.title}
+    contentPrompt = `Título: ${art.title}
 Bajada: ${art.bajada}
 
 ${fullText}`
   }
 
-  const system = 'Resumís contenido sobre política, gestión pública y democracia. Tu output son SIEMPRE 3 bullets breves y concretos en español rioplatense, cada uno entre 20 y 220 caracteres. Sin academicismo, sin tecnicismos innecesarios.'
+  const taskInstruction =
+    type === 'estudio'
+      ? 'Resumí este estudio de políticas públicas en exactamente 3 bullets que capturen los hallazgos más importantes. Incluí un dato o cifra concreto en cada bullet cuando sea posible.'
+      : 'Resumí este artículo en exactamente 3 bullets con las ideas clave. Cada bullet debe ser una afirmación específica, idealmente con un dato o concepto concreto.'
+
+  const prompt = `${taskInstruction} Sin academicismo. Cada bullet entre 20 y 220 caracteres.
+
+${contentPrompt}
+
+Respondé ÚNICAMENTE con JSON válido, sin texto extra, en este formato exacto:
+{"bullets": ["bullet 1 aquí", "bullet 2 aquí", "bullet 3 aquí"]}`
+
+  const system =
+    'Sos un experto en políticas públicas y democracia. Respondés siempre en español rioplatense. Tu output es ÚNICAMENTE JSON válido, sin explicaciones ni texto adicional.'
 
   for (const model of MODELS) {
     try {
-      const result = await generateObject({
+      const result = await generateText({
         model: openrouter.chatModel(model),
-        schema: SummarySchema,
         system,
         prompt,
         temperature: 0.3,
+        maxOutputTokens: 400,
       })
-      const bullets = result.object.bullets
+
+      const match = result.text.match(/\{[\s\S]*\}/)
+      if (!match) continue
+
+      const parsed = BulletsSchema.safeParse(JSON.parse(match[0]))
+      if (!parsed.success) continue
+
+      const bullets = parsed.data.bullets
       cache.set(cacheKey, { bullets, createdAt: Date.now() })
       return NextResponse.json({ bullets, cached: false })
     } catch {
