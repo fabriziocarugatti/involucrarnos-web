@@ -73,8 +73,8 @@ export default function SumateSection() {
             <motion.ul variants={fadeUp} className="space-y-2.5">
               {s.beneficios.map((b) => (
                 <li key={b} className="flex items-start gap-3 text-texto/75 text-[0.95rem]">
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-dorado/20 mt-0.5 flex-shrink-0">
-                    <Check size={12} strokeWidth={2.8} className="text-dorado-deep" />
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-dorado mt-0.5 flex-shrink-0">
+                    <Check size={12} strokeWidth={3} className="text-azul-dark" />
                   </span>
                   {b}
                 </li>
@@ -110,8 +110,8 @@ export default function SumateSection() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit}
-                    className="bg-white border border-black/6 rounded-2xl p-6 md:p-7
-                               shadow-[0_8px_32px_rgba(42,47,118,0.06)] flex flex-col gap-3">
+                    className="bg-white border border-azul/10 rounded-2xl p-6 md:p-7
+                               shadow-[0_12px_40px_rgba(42,47,118,0.10)] flex flex-col gap-3">
                 <label className="block">
                   <span className="text-[0.7rem] font-bold tracking-wider uppercase text-texto/50 mb-1.5 block">Nombre</span>
                   <input
@@ -119,9 +119,9 @@ export default function SumateSection() {
                     placeholder={s.namePlaceholder}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-black/12 bg-crema/40
+                    className="w-full px-4 py-3 rounded-xl border border-azul/15 bg-white
                                text-texto placeholder-texto/30 focus:outline-none focus:border-azul/50
-                               focus:ring-2 focus:ring-azul/10 focus:bg-white transition-all text-sm"
+                               focus:ring-2 focus:ring-azul/10 transition-all text-sm"
                   />
                 </label>
                 <label className="block">
@@ -132,9 +132,9 @@ export default function SumateSection() {
                     placeholder={s.emailPlaceholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-black/12 bg-crema/40
+                    className="w-full px-4 py-3 rounded-xl border border-azul/15 bg-white
                                text-texto placeholder-texto/30 focus:outline-none focus:border-azul/50
-                               focus:ring-2 focus:ring-azul/10 focus:bg-white transition-all text-sm"
+                               focus:ring-2 focus:ring-azul/10 transition-all text-sm"
                   />
                 </label>
 
