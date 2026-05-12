@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FileText, ArrowRight, ChevronDown } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { FileText, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { site } from '@/data/site'
 import { estudios, type Study } from '@/data/estudios'
 import { fadeUp, stagger } from '@/lib/motion'
 
-const INITIAL_COUNT = 3
+const PAGE_SIZE = 6
 
 function StatusBadge({ status }: { status: Study['status'] }) {
   const styles: Record<Study['status'], string> = {
@@ -96,11 +96,49 @@ function StudyCard({ study }: { study: Study }) {
   )
 }
 
+function Pagination({ page, totalPages, onChange }: { page: number; totalPages: number; onChange: (p: number) => void }) {
+  if (totalPages <= 1) return null
+  return (
+    <div className="flex items-center justify-center gap-2 mt-10">
+      <button
+        onClick={() => onChange(page - 1)}
+        disabled={page === 1}
+        className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-azul/20
+                   text-azul-dark hover:border-dorado/50 hover:bg-dorado/5 disabled:opacity-30
+                   disabled:pointer-events-none transition-colors"
+      >
+        <ChevronLeft size={16} strokeWidth={2.2} />
+      </button>
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+        <button
+          key={p}
+          onClick={() => onChange(p)}
+          className={`inline-flex items-center justify-center w-9 h-9 rounded-xl border text-sm font-bold transition-colors
+            ${p === page
+              ? 'bg-azul border-azul text-white'
+              : 'border-azul/20 text-azul-dark hover:border-dorado/50 hover:bg-dorado/5'}`}
+        >
+          {p}
+        </button>
+      ))}
+      <button
+        onClick={() => onChange(page + 1)}
+        disabled={page === totalPages}
+        className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-azul/20
+                   text-azul-dark hover:border-dorado/50 hover:bg-dorado/5 disabled:opacity-30
+                   disabled:pointer-events-none transition-colors"
+      >
+        <ChevronRight size={16} strokeWidth={2.2} />
+      </button>
+    </div>
+  )
+}
+
 export default function EstudiosSection() {
   const e = site.estudios
-  const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? estudios : estudios.slice(0, INITIAL_COUNT)
-  const hasMore = estudios.length > INITIAL_COUNT
+  const [page, setPage] = useState(1)
+  const totalPages = Math.ceil(estudios.length / PAGE_SIZE)
+  const visible = estudios.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
     <section id="estudios" className="bg-crema py-20 md:py-28 lg:py-32 relative overflow-hidden">
@@ -124,38 +162,15 @@ export default function EstudiosSection() {
         </motion.div>
 
         <motion.div
+          key={page}
           initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }}
           variants={stagger(0.04, 0.08)}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
         >
           {visible.map((s) => <StudyCard key={s.slug} study={s} />)}
-
-          <AnimatePresence>
-            {expanded && estudios.slice(INITIAL_COUNT).map((s) => (
-              <motion.div key={s.slug} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                <StudyCard study={s} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
         </motion.div>
 
-        {hasMore && (
-          <div className="flex justify-center mt-10">
-            <motion.button
-              onClick={() => setExpanded((v) => !v)}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 360, damping: 20 }}
-              className="inline-flex items-center gap-2 border border-azul/20 hover:border-dorado/50
-                         bg-white hover:bg-dorado/5 text-azul-dark font-bold text-sm
-                         px-7 py-3 rounded-xl transition-colors shadow-sm"
-            >
-              {expanded ? 'Ver menos' : `Ver todos los estudios (${estudios.length})`}
-              <ChevronDown size={16} strokeWidth={2.2}
-                className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
-            </motion.button>
-          </div>
-        )}
+        <Pagination page={page} totalPages={totalPages} onChange={(p) => { setPage(p); document.getElementById('estudios')?.scrollIntoView({ behavior: 'smooth' }) }} />
       </div>
     </section>
   )

@@ -48,7 +48,7 @@ export default function SumateSection() {
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-5 md:px-6">
+      <div className="relative max-w-6xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <motion.div
             initial="hidden"
