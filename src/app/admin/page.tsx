@@ -106,47 +106,63 @@ export default function AdminPage() {
 
         {!loading && (
           <>
-            {/* Inscripciones */}
+            {/* Inscripciones agrupadas por curso */}
             <section className="mb-12">
-              <h2 className="font-title font-black text-xl text-white mb-4 flex items-center gap-2">
+              <h2 className="font-title font-black text-xl text-white mb-6 flex items-center gap-2">
                 <GraduationCap size={18} className="text-dorado" />
                 Inscriptos a cursos
               </h2>
               {inscripciones.length === 0 ? (
                 <p className="text-white/35 text-sm italic">Sin inscripciones todavía.</p>
               ) : (
-                <div className="overflow-x-auto rounded-2xl border border-white/10">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-white/10 bg-white/5">
-                        <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Nombre</th>
-                        <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Email</th>
-                        <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Curso</th>
-                        <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Fecha</th>
-                        <th className="px-4 py-3 w-10" />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inscripciones.map((row) => (
-                        <tr key={row.id} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
-                          <td className="px-4 py-3 text-white/80">{row.nombre || <span className="text-white/25">—</span>}</td>
-                          <td className="px-4 py-3">
-                            <a href={`mailto:${row.email}`} className="text-dorado hover:underline">{row.email}</a>
-                          </td>
-                          <td className="px-4 py-3 text-white/70">{row.curso}</td>
-                          <td className="px-4 py-3 text-white/35 text-xs whitespace-nowrap">
-                            <span className="flex items-center gap-1.5">
-                              <Calendar size={11} />
-                              {formatDate(row.created_at)}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3">
-                            <DeleteButton table="inscripciones" id={row.id} onDeleted={fetchData} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="space-y-8">
+                  {Object.entries(
+                    inscripciones.reduce<Record<string, Row[]>>((acc, row) => {
+                      const key = row.curso || 'Sin curso'
+                      acc[key] = [...(acc[key] ?? []), row]
+                      return acc
+                    }, {})
+                  ).map(([curso, rows]) => (
+                    <div key={curso}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="font-title font-black text-base text-white">{curso}</h3>
+                        <span className="text-[0.62rem] font-bold tracking-widest uppercase text-dorado bg-dorado/10 rounded-full px-2.5 py-0.5">
+                          {rows.length} {rows.length === 1 ? 'persona' : 'personas'}
+                        </span>
+                      </div>
+                      <div className="overflow-x-auto rounded-2xl border border-white/10">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-white/10 bg-white/5">
+                              <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Nombre</th>
+                              <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Email</th>
+                              <th className="text-left px-4 py-3 text-white/50 font-semibold text-xs uppercase tracking-wider">Fecha</th>
+                              <th className="px-4 py-3 w-10" />
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rows.map((row) => (
+                              <tr key={row.id} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+                                <td className="px-4 py-3 text-white/80">{row.nombre || <span className="text-white/25">—</span>}</td>
+                                <td className="px-4 py-3">
+                                  <a href={`mailto:${row.email}`} className="text-dorado hover:underline">{row.email}</a>
+                                </td>
+                                <td className="px-4 py-3 text-white/35 text-xs whitespace-nowrap">
+                                  <span className="flex items-center gap-1.5">
+                                    <Calendar size={11} />
+                                    {formatDate(row.created_at)}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <DeleteButton table="inscripciones" id={row.id} onDeleted={fetchData} />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </section>
