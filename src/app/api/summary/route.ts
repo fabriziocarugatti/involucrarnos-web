@@ -1,22 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
-import { generateText } from 'ai'
 import { z } from 'zod'
 import { articulos } from '@/data/articulos'
 import { estudios } from '@/data/estudios'
 
 export const runtime = 'edge'
 
-const openrouter = createOpenAICompatible({
-  baseURL: 'https://openrouter.ai/api/v1',
-  name: 'openrouter',
-  apiKey: process.env.OPENROUTER_API_KEY,
-  headers: {
-    'HTTP-Referer': 'https://involucrarnos.com.ar',
-    'X-Title': 'Involucrarnos',
-  },
-})
-
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
   'google/gemma-4-31b-it:free',
   'google/gemma-4-26b-a4b-it:free',
@@ -24,7 +13,7 @@ const MODELS = [
 ]
 
 const BulletsSchema = z.object({
-  bullets: z.array(z.string().min(20).max(220)).length(3),
+  bullets: z.array(z.string().min(10).max(280)).length(3),
 })
 
 const cache = new Map<string, { bullets: string[]; createdAt: number }>()
@@ -46,68 +35,72 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'IA no configurada' }, { status: 503 })
   }
 
-  let contentPrompt: string
+  let contentBlock: string
 
   if (type === 'estudio') {
     const estudio = estudios.find((s) => s.slug === slug)
     if (!estudio) return NextResponse.json({ error: 'estudio no encontrado' }, { status: 404 })
 
-    const statsText = estudio.stats.map((s) => `${s.value}: ${s.label}`).join('\n')
-    const findingsText = estudio.findings.join('\n')
-
-    contentPrompt = `Título: ${estudio.title}
+    contentBlock = `Título: ${estudio.title}
 Bajada: ${estudio.bajada}
-
-Datos clave:
-${statsText}
-
-Hallazgos:
-${findingsText}
-
-Metodología: ${estudio.methodology}`
+Datos: ${estudio.stats.map((s) => `${s.value} ${s.label}`).join(' | ')}
+Hallazgos: ${estudio.findings.join(' | ')}`
   } else {
     const art = articulos.find((a) => a.slug === slug && a.published)
     if (!art || !art.content.length) {
       return NextResponse.json({ error: 'artículo no encontrado' }, { status: 404 })
     }
-
-    const fullText = art.content
+    const text = art.content
       .filter((b) => b.type === 'paragraph' || b.type === 'heading')
       .map((b) => b.text)
-      .join('\n\n')
-
-    contentPrompt = `Título: ${art.title}
-Bajada: ${art.bajada}
-
-${fullText}`
+      .join(' ')
+      .slice(0, 3000)
+    contentBlock = `Título: ${art.title}\nBajada: ${art.bajada}\n${text}`
   }
 
-  const taskInstruction =
+  const task =
     type === 'estudio'
-      ? 'Resumí este estudio de políticas públicas en exactamente 3 bullets que capturen los hallazgos más importantes. Incluí un dato o cifra concreto en cada bullet cuando sea posible.'
-      : 'Resumí este artículo en exactamente 3 bullets con las ideas clave. Cada bullet debe ser una afirmación específica, idealmente con un dato o concepto concreto.'
+      ? 'Resumí este estudio de políticas públicas en 3 bullets con los hallazgos más importantes. Incluí datos concretos.'
+      : 'Resumí este artículo en 3 bullets con las ideas clave. Sé específico.'
 
-  const prompt = `${taskInstruction} Sin academicismo. Cada bullet entre 20 y 220 caracteres.
+  const userMessage = `${task}
 
-${contentPrompt}
+${contentBlock}
 
-Respondé ÚNICAMENTE con JSON válido, sin texto extra, en este formato exacto:
-{"bullets": ["bullet 1 aquí", "bullet 2 aquí", "bullet 3 aquí"]}`
+Respondé SOLO con este JSON (sin texto extra, sin markdown):
+{"bullets":["frase 1","frase 2","frase 3"]}`
 
-  const system =
-    'Sos un experto en políticas públicas y democracia. Respondés siempre en español rioplatense. Tu output es ÚNICAMENTE JSON válido, sin explicaciones ni texto adicional.'
+  const systemMessage =
+    'Experto en políticas públicas. Respondés en español rioplatense. Output: JSON puro, sin explicaciones.'
 
   for (const model of MODELS) {
     try {
-      const result = await generateText({
-        model: openrouter.chatModel(model),
-        system,
-        prompt,
-        temperature: 0.3,
-        maxOutputTokens: 400,
+      const res = await fetch(OPENROUTER_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://involucrarnos.com.ar',
+          'X-Title': 'Involucrarnos',
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: systemMessage },
+            { role: 'user', content: userMessage },
+          ],
+          temperature: 0.3,
+          max_tokens: 350,
+        }),
       })
 
-      const match = result.text.match(/\{[\s\S]*\}/)
+      if (!res.ok) continue
+
+      const data = await res.json()
+      const text: string = data?.choices?.[0]?.message?.content ?? ''
+      if (!text) continue
+
+      const match = text.match(/\{[\s\S]*?\}/)
       if (!match) continue
 
       const parsed = BulletsSchema.safeParse(JSON.parse(match[0]))
