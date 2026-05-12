@@ -8,6 +8,7 @@ import ChatAssistant from '@/components/ChatAssistant'
 import Chart from '@/components/charts/Chart'
 import StatCard from '@/components/charts/StatCard'
 import HeadlineStat from '@/components/charts/HeadlineStat'
+import StudySummary from '@/components/StudySummary'
 import { estudios, getStudy } from '@/data/estudios'
 import { site } from '@/data/site'
 
@@ -110,6 +111,8 @@ export default function EstudioPage({ params }: Props) {
             </div>
           </div>
         </header>
+
+        <StudySummary slug={s.slug} />
 
         {/* Body */}
         <article className="bg-crema/40 py-14 md:py-20">
