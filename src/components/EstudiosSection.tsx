@@ -8,6 +8,7 @@ import { estudios, type Study } from '@/data/estudios'
 import { fadeUp, stagger } from '@/lib/motion'
 import Chart from './charts/Chart'
 import StatCard from './charts/StatCard'
+import HeadlineStat from './charts/HeadlineStat'
 
 function StatusBadge({ status }: { status: Study['status'] }) {
   const styles: Record<Study['status'], string> = {
@@ -80,12 +81,17 @@ function StudyCard({ study, index }: { study: Study; index: number }) {
           className="border-t border-black/8"
         >
           <div className="p-6 md:p-7 space-y-7">
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {study.stats.map((s, i) => (
-                <StatCard key={i} stat={s} index={i} />
-              ))}
-            </div>
+            {/* Headline stat (the first one) */}
+            {study.stats[0] && <HeadlineStat stat={study.stats[0]} />}
+
+            {/* Supporting stats grid */}
+            {study.stats.length > 1 && (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                {study.stats.slice(1).map((s, i) => (
+                  <StatCard key={i} stat={s} index={i} />
+                ))}
+              </div>
+            )}
 
             {/* Findings */}
             <div>
