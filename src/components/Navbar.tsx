@@ -32,7 +32,7 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: ease.outExpo }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white border-b ${
+        className={`sticky top-0 inset-x-0 z-50 transition-all duration-300 bg-white border-b ${
           scrolled
             ? 'shadow-[0_4px_24px_rgba(30,34,96,0.08)] border-black/8'
             : 'border-black/5'

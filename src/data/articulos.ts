@@ -18,6 +18,7 @@ export interface Article {
   published: boolean
   content: ArticleBlock[]
   source?: { name: string; url: string }
+  enrollUrl?: string
 }
 
 const AUTHOR = 'Exequiel Soria Arruñada'
@@ -147,6 +148,21 @@ export const articulos: Article[] = [
       { type: 'paragraph', text: 'Hubiese sido valioso consolidar un comité de crisis amplio, con participación del oficialismo y de sectores relevantes de la oposición. Un esquema así habría permitido al Gobierno provincial exhibir fortaleza institucional y capacidad de asistencia, y a la oposición no solo aportar ideas sino también conocer de primera mano la magnitud del problema. En contextos críticos, la coordinación política no debilita a nadie: fortalece a la democracia.' },
       { type: 'paragraph', text: 'Reconstruir los lazos entre ciudadanía y sistema democrático exige volver a lo esencial: escuchar, diagnosticar, planificar, medir y corregir. En otras palabras, exige gobernar mejor. Porque cuando la política se apoya en datos, en evidencia y en una ética de resultados, deja de administrar excusas y empieza a construir confianza.' },
     ],
+  },
+  {
+    slug: 'introduccion-politicas-publicas',
+    tipo: 'curso',
+    title: 'Introducción a las políticas públicas',
+    bajada:
+      'Curso gratuito de 6 clases breves. Conceptos, herramientas y casos para entender cómo se diseña, ejecuta y evalúa una política pública. Inscripciones abiertas vía LinkedIn.',
+    category: 'Curso gratuito',
+    date: 'Inscripciones abiertas',
+    author: AUTHOR,
+    authorRole: AUTHOR_ROLE,
+    featured: false,
+    published: false,
+    enrollUrl: 'https://www.linkedin.com/in/exequiel-soria-arru%C3%B1ada-46b78a195/',
+    content: [],
   },
 ]
 

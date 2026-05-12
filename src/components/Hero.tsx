@@ -14,7 +14,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative bg-azul-deep min-h-[92vh] flex items-center overflow-hidden pt-20 grain"
+      className="relative bg-azul-deep min-h-[88vh] flex items-center overflow-hidden grain"
       aria-labelledby="hero-heading"
     >
       {/* deep base gradient */}

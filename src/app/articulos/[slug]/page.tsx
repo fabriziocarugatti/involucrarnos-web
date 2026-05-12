@@ -38,7 +38,7 @@ export default function ArticuloPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="pt-20">
+      <main>
         <header className="bg-azul-dark relative grain py-16 md:py-24 lg:py-28 overflow-hidden">
           <div
             className="absolute inset-0 pointer-events-none"

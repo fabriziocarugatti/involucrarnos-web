@@ -1,3 +1,4 @@
+import AnnouncementBanner from '@/components/AnnouncementBanner'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import ContenidosSection from '@/components/ContenidosSection'
@@ -10,6 +11,7 @@ import RevealObserver from '@/components/RevealObserver'
 export default function Home() {
   return (
     <>
+      <AnnouncementBanner />
       <Navbar />
       <main>
         <Hero />

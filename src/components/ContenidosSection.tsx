@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, GraduationCap } from 'lucide-react'
 import { articulos, type Article } from '@/data/articulos'
 import { site, type TipoContenido } from '@/data/site'
 import { fadeUp, stagger } from '@/lib/motion'
@@ -57,6 +57,57 @@ function CardPublicado({ a, i }: { a: Article; i: number }) {
 }
 
 function CardProximo({ a }: { a: Article }) {
+  const isCursoOpen = a.tipo === 'curso' && a.enrollUrl
+
+  if (isCursoOpen) {
+    return (
+      <motion.a
+        variants={fadeUp}
+        href={a.enrollUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        whileHover={{ y: -4 }}
+        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+        className="group relative flex flex-col gap-3 bg-azul-deep
+                   rounded-xl p-5 md:p-6 overflow-hidden
+                   border border-dorado/30 hover:border-dorado/60
+                   hover:shadow-[0_14px_40px_rgba(200,169,106,0.25)]
+                   transition-shadow duration-300"
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,106,0.15) 0%, transparent 70%)',
+          }}
+        />
+        <div className="relative flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado bg-dorado/15 rounded-full px-2.5 py-1">
+            <GraduationCap size={12} strokeWidth={2.4} />
+            {tipoLabel(a.tipo)}
+          </span>
+          <span className="text-[0.65rem] text-dorado/70 tracking-wide font-medium">
+            {a.date}
+          </span>
+        </div>
+        <p className="relative font-title font-800 text-white text-[1rem] leading-snug">
+          {a.title}
+        </p>
+        <p className="relative text-white/55 text-xs leading-relaxed line-clamp-2">
+          {a.bajada}
+        </p>
+        <div className="relative flex items-center gap-1.5 text-dorado text-xs font-bold mt-1">
+          Inscribirme en LinkedIn
+          <ArrowUpRight
+            size={13}
+            strokeWidth={2.4}
+            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </div>
+      </motion.a>
+    )
+  }
+
   return (
     <motion.div
       variants={fadeUp}
