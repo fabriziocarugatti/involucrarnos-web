@@ -15,7 +15,7 @@ export default function CursosSection() {
   const otros = cursos.filter((c) => c !== featured)
 
   return (
-    <section id="cursos" className="relative bg-azul-deep py-20 md:py-28 lg:py-32 overflow-hidden grain">
+    <section id="cursos" className="relative bg-azul-deep py-12 md:py-16 overflow-hidden grain">
       {/* atmospheric gradient */}
       <div
         className="absolute inset-0 pointer-events-none"

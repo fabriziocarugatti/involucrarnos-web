@@ -139,12 +139,11 @@ export default function ChatAssistant() {
             initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
-            transition={{ duration: 0.32, ease: ease.outExpo }}
-            className="fixed bottom-20 right-3 md:bottom-24 md:right-6 z-50
-                       w-[calc(100vw-1.5rem)] sm:w-[420px] max-w-[440px]
-                       h-[600px] max-h-[80vh]
-                       bg-white rounded-2xl shadow-[0_24px_60px_rgba(15,17,55,0.32)]
-                       border border-black/10 flex flex-col overflow-hidden"
+            transition={{ duration: 0.28, ease: ease.outExpo }}
+            className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-50
+                       md:w-[400px] md:h-[560px] md:max-h-[80vh]
+                       bg-white md:rounded-2xl shadow-[0_24px_60px_rgba(15,17,55,0.32)]
+                       md:border border-black/10 flex flex-col overflow-hidden"
             role="dialog"
             aria-label="Involucrado — asistente IA"
           >

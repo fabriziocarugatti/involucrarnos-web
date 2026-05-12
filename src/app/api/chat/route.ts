@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
   const payload = {
     messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
     stream: true,
-    max_tokens: 700,
+    max_tokens: 320,
     temperature: 0.7,
   }
 
