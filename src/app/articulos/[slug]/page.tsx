@@ -78,11 +78,11 @@ export default function ArticuloPage({ params }: Props) {
 
             <div className="flex items-center gap-4 pt-6 border-t border-white/10">
               <Image
-                src="/assets/logo-exequiel.png"
+                src={art.authorPhoto || '/assets/exequiel.jpg'}
                 alt={art.author}
-                width={44}
-                height={44}
-                className="w-11 h-11 rounded-full object-cover ring-1 ring-dorado/30"
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded-full object-cover ring-1 ring-dorado/40"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-white font-medium text-sm">{art.author}</p>

@@ -19,7 +19,14 @@ export interface Article {
   content: ArticleBlock[]
   source?: { name: string; url: string }
   enrollUrl?: string
+  /** Foto opcional del autor para mostrar en cabecera del artículo */
+  authorPhoto?: string
+  /** Imagen de portada del artículo (1200x630 recomendado) */
+  coverImage?: string
 }
+
+/** Foto por defecto del autor (sobreescribible por articulo) */
+export const DEFAULT_AUTHOR_PHOTO = '/assets/exequiel.jpg'
 
 const AUTHOR = 'Exequiel Soria Arruñada'
 const AUTHOR_ROLE =

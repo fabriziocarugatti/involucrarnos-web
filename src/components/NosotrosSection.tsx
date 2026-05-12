@@ -120,7 +120,7 @@ export default function NosotrosSection() {
             <div className="bg-white/[0.05] border border-white/12 rounded-2xl p-6 md:p-7 backdrop-blur-md">
               <div className="flex items-center gap-4 mb-5">
                 <Image
-                  src="/assets/logo-exequiel.png"
+                  src="/assets/exequiel.jpg"
                   alt={n.founderName}
                   width={56}
                   height={56}
