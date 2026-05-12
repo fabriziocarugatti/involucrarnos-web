@@ -1,25 +1,14 @@
 import { NextRequest } from 'next/server'
-import { streamText } from 'ai'
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { buildSystemPrompt } from '@/lib/ai-context'
 
 export const runtime = 'edge'
 
-// OpenRouter proxies many models — usamos DeepSeek V3 0324 (gratis, chino, alta calidad)
-const openrouter = createOpenAICompatible({
-  baseURL: 'https://openrouter.ai/api/v1',
-  name: 'openrouter',
-  apiKey: process.env.OPENROUTER_API_KEY,
-  headers: {
-    'HTTP-Referer': 'https://involucrarnos.com.ar',
-    'X-Title': 'Involucrarnos',
-  },
-})
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
+const MODEL = 'deepseek/deepseek-chat-v3-0324:free'
 
-// Simple in-memory rate limit (per IP). Edge runtime — se resetea por instancia.
 const buckets = new Map<string, { count: number; resetAt: number }>()
-const LIMIT = 15           // mensajes por ventana
-const WINDOW_MS = 60 * 60 * 1000  // 1 hora
+const LIMIT = 15
+const WINDOW_MS = 60 * 60 * 1000
 
 function rateLimit(ip: string): { ok: boolean; remaining: number } {
   const now = Date.now()
@@ -49,9 +38,7 @@ export async function POST(req: NextRequest) {
   const limit = rateLimit(ip)
   if (!limit.ok) {
     return new Response(
-      JSON.stringify({
-        error: 'Llegaste al límite de consultas por hora. Volvé en un rato.',
-      }),
+      JSON.stringify({ error: 'Llegaste al límite de consultas por hora. Volvé en un rato.' }),
       { status: 429, headers: { 'Content-Type': 'application/json' } }
     )
   }
@@ -68,7 +55,6 @@ export async function POST(req: NextRequest) {
     return new Response('No messages', { status: 400 })
   }
 
-  // Limitar contexto: últimos 8 mensajes + truncar contenido individual
   const trimmed = messages
     .slice(-8)
     .map((m) => ({
@@ -77,16 +63,79 @@ export async function POST(req: NextRequest) {
     }))
     .filter((m) => m.content)
 
-  const result = streamText({
-    model: openrouter.chatModel('deepseek/deepseek-chat-v3-0324:free'),
-    system: buildSystemPrompt(),
-    messages: trimmed,
-    temperature: 0.7,
-    maxOutputTokens: 700,
+  const upstream = await fetch(OPENROUTER_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://involucrarnos.com.ar',
+      'X-Title': 'Involucrarnos',
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
+      stream: true,
+      max_tokens: 700,
+      temperature: 0.7,
+    }),
   })
 
-  return result.toTextStreamResponse({
+  if (!upstream.ok) {
+    const err = await upstream.text()
+    return new Response(
+      JSON.stringify({ error: `Error del proveedor IA: ${upstream.status}. ${err.slice(0, 200)}` }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  if (!upstream.body) {
+    return new Response(JSON.stringify({ error: 'Sin respuesta del proveedor IA.' }), {
+      status: 502,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  // Parse OpenRouter SSE and stream plain text deltas to the client
+  const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>()
+  const writer = writable.getWriter()
+  const encoder = new TextEncoder()
+  const decoder = new TextDecoder()
+
+  ;(async () => {
+    const reader = upstream.body!.getReader()
+    let buffer = ''
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() ?? ''
+        for (const line of lines) {
+          const trimmedLine = line.trim()
+          if (!trimmedLine.startsWith('data:')) continue
+          const data = trimmedLine.slice(5).trim()
+          if (data === '[DONE]') continue
+          try {
+            const chunk = JSON.parse(data)
+            const delta = chunk?.choices?.[0]?.delta?.content
+            if (typeof delta === 'string' && delta) {
+              await writer.write(encoder.encode(delta))
+            }
+          } catch {
+            // skip malformed SSE chunk
+          }
+        }
+      }
+    } finally {
+      await writer.close()
+    }
+  })()
+
+  return new Response(readable, {
     headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked',
       'X-RateLimit-Remaining': String(limit.remaining),
     },
   })
