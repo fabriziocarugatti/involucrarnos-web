@@ -146,7 +146,14 @@ export default function CursosSection() {
             </div>
           </div>
         ) : (
-          <p className="text-white/35 text-sm italic">{c.emptyMsg}</p>
+          <div className="border-t border-white/8 pt-8">
+            <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-white/40 mb-3">
+              Próximamente
+            </p>
+            <p className="text-white/55 text-sm md:text-base max-w-md leading-relaxed">
+              {c.emptyMsg}
+            </p>
+          </div>
         )}
       </div>
     </section>
