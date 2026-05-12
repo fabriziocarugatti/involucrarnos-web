@@ -22,7 +22,7 @@ const KIND_LABELS: Record<Kind, string> = {
 
 const KIND_HREF: Record<Kind, (slug: string) => string> = {
   articulo: (s) => `/articulos/${s}`,
-  estudio:  (s) => `/#estudios`,
+  estudio:  (s) => `/estudios/${s}`,
   proyecto: (s) => `/#proyectos`,
   curso:    (s) => `/#cursos`,
 }
