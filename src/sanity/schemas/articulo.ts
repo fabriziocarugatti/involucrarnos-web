@@ -55,23 +55,33 @@ export const articulo = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'autorRef',
+      title: 'Autor/a (seleccionar perfil)',
+      type: 'reference',
+      to: [{ type: 'autor' }],
+      description: 'Seleccioná un autor del listado. La foto y el rol se toman automáticamente.',
+    }),
+    defineField({
       name: 'author',
-      title: 'Autor/a',
+      title: 'Autor/a (texto, solo si no usás perfil)',
       type: 'string',
       initialValue: 'Exequiel Soria Arruñada',
+      hidden: ({ document }) => !!document?.autorRef,
     }),
     defineField({
       name: 'authorRole',
-      title: 'Rol del autor',
+      title: 'Rol del autor (texto, solo si no usás perfil)',
       type: 'string',
       initialValue:
         'Magíster en Políticas Públicas. Estudiante del Máster en Gobernanza y Derechos Humanos, UAM.',
+      hidden: ({ document }) => !!document?.autorRef,
     }),
     defineField({
       name: 'authorPhoto',
-      title: 'Foto del autor (opcional)',
+      title: 'Foto del autor (solo si no usás perfil)',
       type: 'image',
       options: { hotspot: true },
+      hidden: ({ document }) => !!document?.autorRef,
     }),
     defineField({
       name: 'coverImage',
