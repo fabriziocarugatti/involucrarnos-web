@@ -85,7 +85,7 @@ ${fullText}`
 
   try {
     const result = await generateObject({
-      model: openrouter.chatModel('deepseek/deepseek-chat:free'),
+      model: openrouter.chatModel('meta-llama/llama-3.3-70b-instruct:free'),
       schema: SummarySchema,
       system:
         'Resumís contenido sobre política, gestión pública y democracia. Tu output son SIEMPRE 3 bullets breves y concretos en español rioplatense, cada uno entre 20 y 220 caracteres. Sin academicismo, sin tecnicismos innecesarios.',
