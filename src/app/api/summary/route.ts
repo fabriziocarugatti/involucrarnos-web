@@ -17,6 +17,13 @@ const openrouter = createOpenAICompatible({
   },
 })
 
+const MODELS = [
+  'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'mistralai/mistral-7b-instruct:free',
+  'qwen/qwen3-235b-a22b:free',
+]
+
 const SummarySchema = z.object({
   bullets: z.array(z.string().min(20).max(220)).length(3),
 })
@@ -83,22 +90,24 @@ Bajada: ${art.bajada}
 ${fullText}`
   }
 
-  try {
-    const result = await generateObject({
-      model: openrouter.chatModel('meta-llama/llama-3.3-70b-instruct:free'),
-      schema: SummarySchema,
-      system:
-        'Resumís contenido sobre política, gestión pública y democracia. Tu output son SIEMPRE 3 bullets breves y concretos en español rioplatense, cada uno entre 20 y 220 caracteres. Sin academicismo, sin tecnicismos innecesarios.',
-      prompt,
-      temperature: 0.3,
-    })
+  const system = 'Resumís contenido sobre política, gestión pública y democracia. Tu output son SIEMPRE 3 bullets breves y concretos en español rioplatense, cada uno entre 20 y 220 caracteres. Sin academicismo, sin tecnicismos innecesarios.'
 
-    const bullets = result.object.bullets
-    cache.set(cacheKey, { bullets, createdAt: Date.now() })
-
-    return NextResponse.json({ bullets, cached: false })
-  } catch (e) {
-    console.error('[api/summary] error', e)
-    return NextResponse.json({ error: 'No se pudo generar el resumen ahora.' }, { status: 500 })
+  for (const model of MODELS) {
+    try {
+      const result = await generateObject({
+        model: openrouter.chatModel(model),
+        schema: SummarySchema,
+        system,
+        prompt,
+        temperature: 0.3,
+      })
+      const bullets = result.object.bullets
+      cache.set(cacheKey, { bullets, createdAt: Date.now() })
+      return NextResponse.json({ bullets, cached: false })
+    } catch {
+      // try next model
+    }
   }
+
+  return NextResponse.json({ error: 'No se pudo generar el resumen ahora.' }, { status: 500 })
 }

@@ -4,7 +4,12 @@ import { buildSystemPrompt } from '@/lib/ai-context'
 export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
-const MODEL = 'meta-llama/llama-3.3-70b-instruct:free'
+const MODELS = [
+  'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'mistralai/mistral-7b-instruct:free',
+  'qwen/qwen3-235b-a22b:free',
+]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
 const LIMIT = 15
@@ -63,36 +68,35 @@ export async function POST(req: NextRequest) {
     }))
     .filter((m) => m.content)
 
-  const upstream = await fetch(OPENROUTER_URL, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://involucrarnos.com.ar',
-      'X-Title': 'Involucrarnos',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
-      stream: true,
-      max_tokens: 700,
-      temperature: 0.7,
-    }),
-  })
-
-  if (!upstream.ok) {
-    const err = await upstream.text()
-    return new Response(
-      JSON.stringify({ error: `Error del proveedor IA: ${upstream.status}. ${err.slice(0, 200)}` }),
-      { status: 502, headers: { 'Content-Type': 'application/json' } }
-    )
+  const payload = {
+    messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
+    stream: true,
+    max_tokens: 700,
+    temperature: 0.7,
   }
 
-  if (!upstream.body) {
-    return new Response(JSON.stringify({ error: 'Sin respuesta del proveedor IA.' }), {
-      status: 502,
-      headers: { 'Content-Type': 'application/json' },
+  let upstream: Response | null = null
+  let lastErr = ''
+  for (const model of MODELS) {
+    const res = await fetch(OPENROUTER_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://involucrarnos.com.ar',
+        'X-Title': 'Involucrarnos',
+      },
+      body: JSON.stringify({ ...payload, model }),
     })
+    if (res.ok) { upstream = res; break }
+    lastErr = await res.text()
+  }
+
+  if (!upstream?.body) {
+    return new Response(
+      JSON.stringify({ error: `IA temporalmente no disponible. ${lastErr.slice(0, 150)}` }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } }
+    )
   }
 
   // Parse OpenRouter SSE and stream plain text deltas to the client
