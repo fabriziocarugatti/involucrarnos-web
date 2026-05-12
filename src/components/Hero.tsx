@@ -14,7 +14,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative bg-azul-deep min-h-[100svh] flex items-center overflow-hidden grain"
+      className="relative bg-azul-deep min-h-[100svh] flex items-start overflow-hidden grain"
       aria-labelledby="hero-heading"
     >
       {/* deep base gradient */}
@@ -49,7 +49,7 @@ export default function Hero() {
       />
 
       <motion.div
-        className="relative z-[3] max-w-6xl mx-auto px-5 md:px-6 py-14 md:py-20 w-full"
+        className="relative z-[3] max-w-6xl mx-auto px-5 md:px-6 pt-[13svh] pb-16 w-full"
         variants={stagger(0.15, 0.12)}
         initial="hidden"
         animate="show"
