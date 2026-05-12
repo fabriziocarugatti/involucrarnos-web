@@ -39,7 +39,7 @@ export default function SumateSection() {
   }
 
   return (
-    <section id="sumate" className="bg-crema py-20 md:py-28 lg:py-32 relative overflow-hidden">
+    <section id="sumate" className="bg-crema py-12 md:py-16 relative overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

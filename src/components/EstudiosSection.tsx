@@ -141,7 +141,7 @@ export default function EstudiosSection() {
   const visible = estudios.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
-    <section id="estudios" className="bg-crema py-20 md:py-28 lg:py-32 relative overflow-hidden">
+    <section id="estudios" className="bg-crema py-12 md:py-16 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,169,106,0.10) 0%, transparent 60%)' }}
       />

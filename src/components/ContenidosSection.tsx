@@ -139,7 +139,7 @@ export default function ContenidosSection() {
   const visiblePublicados = publicados.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
-    <section id="contenidos" className="bg-white py-20 md:py-28 lg:py-32 relative">
+    <section id="contenidos" className="bg-white py-12 md:py-16 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-dorado/40" />
 
       <div className="max-w-6xl mx-auto px-5 md:px-6">
