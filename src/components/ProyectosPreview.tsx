@@ -45,7 +45,8 @@ function MiniCard({ p }: { p: Proyecto }) {
         />
       )}
       <div className="relative flex items-start justify-between mb-4">
-        <span className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${isActive ? 'bg-dorado/20 ring-1 ring-dorado/40' : 'bg-white/10'}`}>
+        <span className={`relative inline-flex items-center justify-center w-11 h-11 rounded-xl ${isActive ? 'bg-dorado/20' : 'bg-white/10'}`}>
+          {isActive && <span className="absolute inset-0 rounded-xl ring-2 ring-dorado/50 animate-ping-slow" />}
           <Icon size={18} strokeWidth={1.8} className={isActive ? 'text-dorado' : 'text-white/80'} />
         </span>
         <div className="flex items-center gap-1.5">
@@ -55,8 +56,17 @@ function MiniCard({ p }: { p: Proyecto }) {
       </div>
       <div className="relative flex-1 flex flex-col">
         <span className="text-[0.6rem] font-bold tracking-widest uppercase text-dorado/80 mb-1.5">{p.category}</span>
-        <h3 className="font-title font-800 text-white text-lg leading-snug mb-2">{p.title}</h3>
-        <p className="text-white/60 text-sm leading-relaxed flex-1">{p.bajada}</p>
+        <h3 className={`font-title font-800 text-lg leading-snug mb-2 ${
+          p.status === 'construccion' || p.status === 'planificacion' ? 'text-white/85' : 'text-white'
+        }`}>{p.title}</h3>
+        <p className={`text-sm leading-relaxed flex-1 ${
+          p.status === 'construccion' || p.status === 'planificacion' ? 'text-white/45' : 'text-white/60'
+        }`}>{p.bajada}</p>
+        {p.status === 'activo' && (
+          <span className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-dorado">
+            Explorar <ArrowRight size={12} strokeWidth={2.4} />
+          </span>
+        )}
       </div>
     </motion.article>
   )
