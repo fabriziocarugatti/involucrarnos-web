@@ -26,7 +26,7 @@ export const site = {
     titleStart: 'El hub donde se',
     titleAccent: 'piensa, mide y construye lo público.',
     subtitle:
-      'Investigaciones con datos, herramientas abiertas, cursos gratuitos y artículos rigurosos sobre el norte argentino y la gestión estatal. Sin paywalls, sin academicismo, sin partidismo barato.',
+      'Investigaciones con datos, herramientas abiertas, cursos gratuitos y artículos rigurosos sobre el norte argentino y la gestión estatal.',
     ctaPrimary:   { href: '/#estudios', label: 'Ver estudios' },
     ctaSecondary: { href: '/#sumate',   label: 'Sumarme gratis' },
     pills: ['Estudios con datos', 'Cursos gratuitos', 'IA · Involucrado', 'Artículos libres'],
