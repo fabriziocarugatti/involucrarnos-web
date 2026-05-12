@@ -9,6 +9,12 @@ export default function Footer() {
   return (
     <footer className="bg-crema border-t border-black/8 py-12 md:py-14">
       <div className="max-w-6xl mx-auto px-5 md:px-6">
+        <div className="border-b border-black/8 pb-10 mb-10">
+          <p className="font-title font-black text-azul-dark text-2xl md:text-4xl leading-[1.1] tracking-tight max-w-3xl">
+            Esto es público.{' '}<span className="text-dorado">Usalo, citalo, mejoralo.</span>
+          </p>
+        </div>
+
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-sm">
             <Link href="/" aria-label={`${site.name} — inicio`}>
