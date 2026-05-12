@@ -8,13 +8,13 @@ import { ease } from '@/lib/motion'
 type Msg = { role: 'user' | 'assistant'; content: string }
 
 const SUGGESTIONS = [
-  '¿Qué es capacidad estatal?',
-  '¿Cómo evaluar una política pública?',
-  '¿Qué diferencia a la guerra cognitiva?',
+  '¿Qué dice el estudio de femicidios en Argentina?',
+  '¿Cómo está la transparencia en el NOA?',
+  '¿Qué pasó con Aprender 2024 en matemática?',
 ]
 
 const WELCOME =
-  '¡Hola! Soy el asistente de Involucrarnos. Pregúntame sobre política, gestión pública, democracia o cualquier tema sobre lo público. Estoy entrenado con el marco y los artículos de Exequiel.'
+  '¡Hola! Soy Involucrado, el asistente de Involucrarnos. Preguntame sobre los estudios, artículos, política pública o gestión del NOA.'
 
 export default function ChatAssistant() {
   const [open, setOpen] = useState(false)
@@ -94,59 +94,41 @@ export default function ChatAssistant() {
 
   return (
     <>
-      {/* Floating launcher — siempre visible, prominente, tipo chatbot premium */}
-      <div className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-40 flex flex-col items-end gap-2">
-        {/* Tooltip "Nuevo · IA gratis" — solo cuando cerrado */}
-        {!open && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 1.6, duration: 0.5, ease: ease.outExpo }}
-            className="hidden sm:flex items-center gap-1.5 bg-white text-azul-dark text-xs font-medium px-3 py-1.5 rounded-full shadow-[0_6px_20px_rgba(15,17,55,0.18)] border border-black/8"
-          >
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            Probá la IA · gratis
-          </motion.div>
-        )}
-
+      {/* Floating launcher — botón grande, solo ícono */}
+      <div className="fixed bottom-6 right-6 z-40">
         <motion.button
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Cerrar asistente' : 'Abrir asistente IA'}
+          aria-label={open ? 'Cerrar Involucrado' : 'Abrir Involucrado — asistente IA'}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.6, type: 'spring', stiffness: 250, damping: 18 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className={`relative flex items-center gap-2.5 rounded-full font-bold text-sm
-                      shadow-[0_12px_36px_rgba(30,34,96,0.45)] transition-colors
+          transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 20 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.93 }}
+          className={`relative w-16 h-16 rounded-full flex items-center justify-center
+                      shadow-[0_12px_40px_rgba(30,34,96,0.5)] transition-colors
                       ${open
-                        ? 'bg-white text-azul-dark border border-black/10 pl-4 pr-5 py-3.5'
-                        : 'bg-gradient-to-br from-azul-deep via-azul-dark to-azul text-white border border-dorado/50 pl-4 pr-5 py-3.5 hover:from-azul-dark hover:to-azul-deep'
+                        ? 'bg-white border border-black/10'
+                        : 'bg-gradient-to-br from-azul-deep to-azul border border-dorado/40 hover:from-azul-dark hover:to-azul-deep'
                       }`}
         >
           {/* halo dorado pulsante cuando cerrado */}
           {!open && (
             <span
               aria-hidden
-              className="absolute inset-0 rounded-full opacity-60 animate-ping-slow pointer-events-none"
-              style={{ boxShadow: '0 0 0 0 rgba(200, 169, 106, 0.45)' }}
+              className="absolute inset-0 rounded-full opacity-50 animate-ping-slow pointer-events-none"
+              style={{ boxShadow: '0 0 0 0 rgba(200, 169, 106, 0.5)' }}
             />
           )}
 
-          <span className="relative flex items-center justify-center w-7 h-7 rounded-full bg-dorado/20 ring-1 ring-dorado/50">
-            {open ? (
-              <X size={15} strokeWidth={2.4} className="text-azul-dark" />
-            ) : (
-              <Sparkles size={15} strokeWidth={2.2} className="text-dorado" />
-            )}
-            {!open && (
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-dorado rounded-full ring-2 ring-azul-deep animate-pulse" />
-            )}
-          </span>
+          {open ? (
+            <X size={22} strokeWidth={2.2} className="text-azul-dark" />
+          ) : (
+            <Sparkles size={24} strokeWidth={2} className="text-dorado" />
+          )}
 
-          <span className="relative">
-            {open ? 'Cerrar' : 'Preguntá a la IA'}
-          </span>
+          {!open && (
+            <span className="absolute top-1 right-1 w-3 h-3 bg-emerald-400 rounded-full ring-2 ring-white" />
+          )}
         </motion.button>
       </div>
 
@@ -164,7 +146,7 @@ export default function ChatAssistant() {
                        bg-white rounded-2xl shadow-[0_24px_60px_rgba(15,17,55,0.32)]
                        border border-black/10 flex flex-col overflow-hidden"
             role="dialog"
-            aria-label="Asistente IA del especialista"
+            aria-label="Involucrado — asistente IA"
           >
             {/* Header */}
             <div className="relative bg-azul-deep text-white px-5 py-4 flex items-center gap-3 border-b border-dorado/20 overflow-hidden">
@@ -179,9 +161,9 @@ export default function ChatAssistant() {
                 <Sparkles size={18} className="text-dorado" strokeWidth={2} />
               </div>
               <div className="relative flex-1 min-w-0">
-                <p className="font-title font-800 text-sm leading-tight">El Especialista</p>
+                <p className="font-title font-800 text-sm leading-tight">Involucrado</p>
                 <p className="text-[0.7rem] text-white/55 leading-tight mt-0.5">
-                  IA · Política y gestión pública · gratis
+                  IA · Estudios, política y gestión pública
                 </p>
               </div>
               <button

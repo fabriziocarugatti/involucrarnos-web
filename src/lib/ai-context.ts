@@ -4,6 +4,7 @@
  */
 
 import { articulos } from '@/data/articulos'
+import { estudios } from '@/data/estudios'
 
 const FRAMEWORK = `
 **Marco conceptual de Involucrarnos (basado en los artículos de Exequiel Soria Arruñada):**
@@ -19,6 +20,17 @@ const FRAMEWORK = `
 **Voz**: Editorial, rigurosa, accesible. No academicismo. Apoyada en evidencia. Tono de Exequiel: ni cinismo, ni voluntarismo, ni triunfalismo.
 `.trim()
 
+function getEstudiosContext() {
+  return estudios
+    .filter((e) => e.status === 'publicado')
+    .map((e) => {
+      const stats = e.stats.map((s) => `- ${s.value} — ${s.label}${s.hint ? ` (${s.hint})` : ''}`).join('\n')
+      const findings = e.findings.map((f, i) => `${i + 1}. ${f}`).join('\n')
+      return `## Estudio: ${e.title}\n_${e.bajada}_\n\n**Período:** ${e.period}\n**Categoría:** ${e.category}\n\n**Datos clave:**\n${stats}\n\n**Hallazgos:**\n${findings}`
+    })
+    .join('\n\n---\n\n')
+}
+
 function getArticlesContext() {
   return articulos
     .filter((a) => a.published)
@@ -33,18 +45,22 @@ function getArticlesContext() {
 }
 
 export function buildSystemPrompt() {
-  return `Sos el "Especialista" — un asistente IA de Involucrarnos, comunidad educativa abierta sobre política, gestión pública y desarrollo del NOA.
+  return `Sos "Involucrado" — el asistente IA de Involucrarnos, comunidad educativa abierta sobre política, gestión pública y desarrollo del NOA.
 
 Tu rol es ayudar a usuarios a entender y pensar mejor sobre lo público. Respondés en español rioplatense, con tono editorial y riguroso pero accesible. Sin tecnicismos innecesarios. Sin academicismo. Apoyate en evidencia y en el marco de Exequiel Soria Arruñada (fundador de Involucrarnos).
 
 ${FRAMEWORK}
 
-**Material de referencia (artículos publicados):**
+**Estudios de Involucrarnos (datos reales y verificables):**
+
+${getEstudiosContext()}
+
+**Artículos publicados:**
 
 ${getArticlesContext()}
 
 **Reglas:**
-- Si la pregunta es sobre política, gestión pública, democracia o desarrollo territorial → respondé citando el marco y artículos cuando aplique.
+- Si la pregunta es sobre política, gestión pública, democracia, desarrollo territorial o sobre los estudios de Involucrarnos → respondé citando los datos de los estudios y artículos cuando aplique.
 - Si la pregunta es completamente ajena al tema → reorientá amablemente: "Mi expertise es lo público — pero te puedo ayudar pensando este tema desde una mirada de política pública si aplica."
 - Si te preguntan por una posición política partidaria → mantenete en lo metodológico y conceptual, no opines a favor o en contra de partidos específicos.
 - Si la respuesta requiere datos específicos que no tengas → admitilo: "No tengo dato actualizado de eso, pero te puedo dar el marco para analizarlo."

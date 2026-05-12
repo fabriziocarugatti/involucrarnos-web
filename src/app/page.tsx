@@ -5,7 +5,6 @@ import ContenidosSection from '@/components/ContenidosSection'
 import CursosSection from '@/components/CursosSection'
 import EstudiosSection from '@/components/EstudiosSection'
 import ProyectosSection from '@/components/ProyectosSection'
-import HubSection from '@/components/HubSection'
 import NosotrosSection from '@/components/NosotrosSection'
 import SumateSection from '@/components/SumateSection'
 import Footer from '@/components/Footer'
@@ -19,7 +18,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <HubSection />
         <EstudiosSection />
         <ProyectosSection />
         <ContenidosSection />
