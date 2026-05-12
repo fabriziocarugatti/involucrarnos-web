@@ -223,7 +223,7 @@ export default function SmartSearch() {
               </div>
 
               <div className="border-t border-black/8 px-4 py-2 text-[0.65rem] text-texto/40 flex items-center justify-between">
-                <span>IA · DeepSeek V3 · gratis</span>
+                <span>IA · gratis</span>
                 <span className="font-mono">ESC para cerrar</span>
               </div>
             </motion.div>
