@@ -13,11 +13,11 @@ export default function AnnouncementBanner() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -40, opacity: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-[60] bg-azul-deep border-b border-dorado/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-[60] bg-azul-deep border-b border-dorado/20 overflow-hidden"
       >
         <div
           className="absolute inset-0 pointer-events-none"

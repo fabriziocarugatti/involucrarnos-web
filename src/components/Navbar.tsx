@@ -28,11 +28,9 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: ease.outExpo }}
-        className={`sticky top-0 inset-x-0 z-50 transition-all duration-300 bg-white border-b ${
+      <nav
+        className={`sticky top-0 inset-x-0 z-50 bg-white border-b will-change-[box-shadow,border-color]
+                    [transition:box-shadow_300ms_ease,border-color_300ms_ease] ${
           scrolled
             ? 'shadow-[0_4px_24px_rgba(30,34,96,0.08)] border-black/8'
             : 'border-black/5'
@@ -107,7 +105,7 @@ export default function Navbar() {
             </AnimatePresence>
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
       <AnimatePresence>
         {open && (
