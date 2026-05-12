@@ -4,39 +4,40 @@ export const site = {
   location: 'Tucumán · NOA',
 
   meta: {
-    title: 'Involucrarnos — Comunidad educativa',
+    title: 'Involucrarnos — Hub de políticas públicas del NOA',
     description:
-      'Comunidad educativa abierta. Estudios, artículos y cursos gratuitos para pensar lo público con herramientas reales.',
+      'Hub educativo abierto sobre políticas públicas, gestión estatal y desarrollo del norte argentino. Estudios con datos, artículos, cursos gratuitos y herramientas para pensar lo público en serio.',
     ogTitle: 'Involucrarnos',
-    ogDescription: 'Pensar lo público, aprender en comunidad.',
+    ogDescription: 'El hub de pensamiento público del NOA. Abierto, riguroso, gratis.',
   },
 
   nav: {
     links: [
+      { href: '/#estudios',   label: 'Estudios'  },
+      { href: '/#proyectos',  label: 'Proyectos' },
       { href: '/#contenidos', label: 'Artículos' },
       { href: '/#cursos',     label: 'Cursos'    },
-      { href: '/#estudios',   label: 'Estudios'  },
       { href: '/#nosotros',   label: 'Nosotros'  },
     ],
     cta: { href: '/#sumate', label: 'Sumate' },
   },
 
   hero: {
-    eyebrow: 'Comunidad educativa abierta',
-    titleStart: 'Pensar lo público,',
-    titleAccent: 'aprender en comunidad.',
+    eyebrow: 'Hub educativo · Políticas públicas · NOA',
+    titleStart: 'El hub donde se',
+    titleAccent: 'piensa, mide y construye lo público.',
     subtitle:
-      'Estudios, artículos y cursos gratuitos sobre política, gestión pública y desarrollo del NOA. Para quienes quieren entender — y participar — mejor.',
-    ctaPrimary:   { href: '/#contenidos', label: 'Explorar contenidos' },
-    ctaSecondary: { href: '/#sumate',     label: 'Sumarme gratis' },
-    pills: ['Artículos', 'Estudios', 'Cursos gratuitos'],
+      'Investigaciones con datos, herramientas abiertas, cursos gratuitos y artículos rigurosos sobre el norte argentino y la gestión estatal. Sin paywalls, sin academicismo, sin partidismo barato.',
+    ctaPrimary:   { href: '/#estudios', label: 'Ver estudios' },
+    ctaSecondary: { href: '/#sumate',   label: 'Sumarme gratis' },
+    pills: ['Estudios con datos', 'Proyectos abiertos', 'Cursos gratuitos', 'IA · El Especialista'],
   },
 
   contenidos: {
     eyebrow: 'Artículos',
     title: 'Análisis y reflexión',
     subtitle:
-      'Lecturas breves sobre política, gestión pública y desarrollo del NOA. Todo de acceso libre.',
+      'Lecturas breves sobre política, gestión pública y desarrollo del NOA. Acceso libre — sin paywall, sin letra chica.',
     upcomingLabel: 'En preparación',
   },
 
@@ -44,18 +45,69 @@ export const site = {
     eyebrow: 'Cursos · Talleres',
     title: 'Formación práctica, gratuita',
     subtitle:
-      'Talleres breves para fortalecer herramientas concretas que sirven en la vida pública y profesional. Acceso abierto.',
+      'Talleres breves para fortalecer herramientas concretas que sirven en la vida pública y profesional.',
     proxLabel: 'Próximos cursos',
     emptyMsg: 'Más talleres en preparación.',
   },
 
   estudios: {
     eyebrow: 'Estudios',
-    title: 'Investigación aplicada',
+    title: 'Investigación con datos sobre el NOA',
     subtitle:
-      'Análisis con datos, casos comparados y diagnósticos territoriales del NOA. Próximamente.',
-    upcomingMsg:
-      'Estamos preparando los primeros estudios. Sumate a la comunidad para recibirlos cuando salgan.',
+      'Diagnósticos territoriales, indicadores comparados y análisis aplicado. Metodología abierta, datos verificables.',
+    methodLabel: 'Metodología',
+    findingsLabel: 'Hallazgos clave',
+    statsLabel: 'Datos destacados',
+  },
+
+  proyectos: {
+    eyebrow: 'Proyectos abiertos',
+    title: 'Herramientas, dashboards y programas',
+    subtitle:
+      'Iniciativas que construimos en abierto. Desde una IA experta hasta un observatorio de datos del NOA. Sumate, usalas, mejoralas.',
+    statusLabels: {
+      activo:        'Activo',
+      construccion:  'En construcción',
+      planificacion: 'En planificación',
+      proximamente:  'Próximamente',
+    },
+  },
+
+  hub: {
+    eyebrow: 'Por qué Involucrarnos',
+    title: 'El hueco que llenamos',
+    items: [
+      {
+        icon: 'open',
+        titulo: '100% open access',
+        detalle: 'Sin paywalls, sin suscripciones, sin extractos teaser. Todo lo que publicamos es de descarga libre.',
+      },
+      {
+        icon: 'rigor',
+        titulo: 'Rigor sin academicismo',
+        detalle: 'Metodología verificable. Lenguaje claro. Sin jerga innecesaria. Pensado para servir, no para mostrar credenciales.',
+      },
+      {
+        icon: 'noa',
+        titulo: 'Foco NOA, sin traducción',
+        detalle: 'Pensado desde Tucumán, Salta, Jujuy y Catamarca. No es contenido nacional adaptado: es investigación nuestra.',
+      },
+      {
+        icon: 'tools',
+        titulo: 'Herramientas, no solo lectura',
+        detalle: 'IA especializada, generadores de diagnóstico, dashboards. Te llevás contenido y también instrumentos para trabajar.',
+      },
+      {
+        icon: 'neutral',
+        titulo: 'Sin partidismo barato',
+        detalle: 'Defendemos la democracia y la calidad institucional. Discutimos métodos, no listas. Sin cinismo ni voluntarismo.',
+      },
+      {
+        icon: 'practical',
+        titulo: 'Para dirigentes, funcionarios y ciudadanos',
+        detalle: 'Hecho para quienes deciden, asesoran o quieren entender mejor cómo se gobierna.',
+      },
+    ],
   },
 
   tipos: {

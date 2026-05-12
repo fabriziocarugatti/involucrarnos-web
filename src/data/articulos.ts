@@ -127,7 +127,7 @@ export const articulos: Article[] = [
   },
   {
     slug: 'gobernar-con-datos-para-reconstruir-la-confianza',
-    tipo: 'estudio',
+    tipo: 'articulo',
     title: 'Gobernar con datos para reconstruir la confianza democrática',
     bajada:
       'En tiempos de incertidumbre, la democracia no solo debe garantizar libertades: también debe demostrar capacidad para diagnosticar, planificar, ejecutar y evaluar políticas públicas que mejoren la vida de la ciudadanía.',
