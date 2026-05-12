@@ -86,21 +86,22 @@ export default function NosotrosSection() {
       <Particles count={12} />
 
       <div className="relative z-[3] max-w-6xl mx-auto px-5 md:px-6">
-        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-          variants={stagger(0.05, 0.1)} className="max-w-2xl mb-14 md:mb-16"
+        <motion.span
+          initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
+          variants={fadeUp} className="eyebrow mb-5 block"
         >
-          <motion.span variants={fadeUp} className="eyebrow mb-5">{n.eyebrow}</motion.span>
-          <motion.h2 variants={fadeUp}
-            className="font-title font-black text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight">
-            {n.titleStart}{' '}<em className="not-italic text-dorado">{n.titleAccent}</em>
-          </motion.h2>
-        </motion.div>
+          {n.eyebrow}
+        </motion.span>
 
         <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-start">
-          {/* Left: mission */}
+          {/* Left: title + mission */}
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
             variants={stagger(0.08, 0.08)} className="space-y-5"
           >
+            <motion.h2 variants={fadeUp}
+              className="font-title font-black text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight">
+              {n.titleStart}{' '}<em className="not-italic text-dorado">{n.titleAccent}</em>
+            </motion.h2>
             {n.paragraphs.map((p, i) => (
               <motion.p key={i} variants={fadeUp} className="text-white/75 text-base md:text-lg leading-relaxed">{p}</motion.p>
             ))}
@@ -114,7 +115,7 @@ export default function NosotrosSection() {
             </motion.ul>
           </motion.div>
 
-          {/* Right: team stack */}
+          {/* Right: team stack — arranca a la altura del título */}
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
             variants={stagger(0.08, 0.1)} className="space-y-3"
           >

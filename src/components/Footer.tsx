@@ -7,7 +7,7 @@ export default function Footer() {
   const allLinks = [...site.nav.links, site.nav.cta]
 
   return (
-    <footer className="bg-azul-dark border-t border-white/8 py-12 md:py-14">
+    <footer className="bg-crema border-t border-black/8 py-12 md:py-14">
       <div className="max-w-6xl mx-auto px-5 md:px-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-sm">
@@ -17,10 +17,10 @@ export default function Footer() {
                 alt={site.name}
                 width={120}
                 height={30}
-                className="h-7 w-auto object-contain mb-4 opacity-80 hover:opacity-100 transition-opacity"
+                className="h-7 w-auto object-contain mb-4 opacity-70 hover:opacity-100 transition-opacity"
               />
             </Link>
-            <p className="text-white/35 text-xs leading-relaxed">
+            <p className="text-texto/45 text-xs leading-relaxed">
               {site.footer.tagline}
             </p>
           </div>
@@ -31,7 +31,7 @@ export default function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-white/45 hover:text-white/85 text-sm transition-colors"
+                    className="text-texto/50 hover:text-azul-dark text-sm transition-colors font-medium"
                   >
                     {label}
                   </Link>
@@ -41,11 +41,11 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/8 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-white/25 text-xs">
+        <div className="mt-10 pt-6 border-t border-black/8 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-texto/35 text-xs">
             © {year} {site.name}. {site.footer.rights}
           </p>
-          <p className="text-white/20 text-xs">{site.location}</p>
+          <p className="text-texto/30 text-xs">{site.location}</p>
         </div>
       </div>
     </footer>
