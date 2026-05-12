@@ -14,7 +14,6 @@ export const site = {
   nav: {
     links: [
       { href: '/#estudios',   label: 'Estudios'  },
-      { href: '/#proyectos',  label: 'Proyectos' },
       { href: '/#contenidos', label: 'Artículos' },
       { href: '/#cursos',     label: 'Cursos'    },
       { href: '/#nosotros',   label: 'Nosotros'  },
@@ -30,7 +29,7 @@ export const site = {
       'Investigaciones con datos, herramientas abiertas, cursos gratuitos y artículos rigurosos sobre el norte argentino y la gestión estatal. Sin paywalls, sin academicismo, sin partidismo barato.',
     ctaPrimary:   { href: '/#estudios', label: 'Ver estudios' },
     ctaSecondary: { href: '/#sumate',   label: 'Sumarme gratis' },
-    pills: ['Estudios con datos', 'Proyectos abiertos', 'Cursos gratuitos', 'IA · El Especialista'],
+    pills: ['Estudios con datos', 'Cursos gratuitos', 'IA · Involucrado', 'Artículos libres'],
   },
 
   contenidos: {

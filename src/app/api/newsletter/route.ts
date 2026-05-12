@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const BREVO_API_URL = 'https://api.brevo.com/v3/contacts'
-const LIST_ID = 2 // ajustar al id de lista real en Brevo
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.BREVO_API_KEY
-  if (!apiKey) {
-    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 })
-  }
-
   let body: { email?: string; name?: string }
   try {
     body = await req.json()
@@ -17,34 +10,23 @@ export async function POST(req: NextRequest) {
   }
 
   const { email, name } = body
-  if (!email || typeof email !== 'string' || !email.includes('@')) {
+  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Email inválido' }, { status: 422 })
   }
 
-  const payload: Record<string, unknown> = {
-    email: email.trim().toLowerCase(),
-    listIds: [LIST_ID],
-    updateEnabled: true,
-  }
-  if (name && typeof name === 'string' && name.trim()) {
-    payload.attributes = { FIRSTNAME: name.trim() }
-  }
-
-  const res = await fetch(BREVO_API_URL, {
-    method: 'POST',
-    headers: {
-      'api-key': apiKey,
-      'Content-Type': 'application/json',
+  const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!)
+  const { error } = await supabase.from('suscriptores').upsert(
+    {
+      email: email.trim().toLowerCase(),
+      nombre: name?.trim() || null,
     },
-    body: JSON.stringify(payload),
-  })
+    { onConflict: 'email' }
+  )
 
-  if (res.status === 204 || res.status === 201) {
-    return NextResponse.json({ ok: true })
+  if (error) {
+    console.error('Supabase error:', error)
+    return NextResponse.json({ error: 'Error al suscribirse. Intentá de nuevo.' }, { status: 500 })
   }
 
-  const data = await res.json().catch(() => ({}))
-  const message = (data as { message?: string }).message ?? 'Error al suscribir'
-
-  return NextResponse.json({ error: message }, { status: res.status })
+  return NextResponse.json({ ok: true })
 }
