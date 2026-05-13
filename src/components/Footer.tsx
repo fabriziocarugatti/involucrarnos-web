@@ -23,7 +23,7 @@ export default function Footer() {
                 alt={site.name}
                 width={120}
                 height={30}
-                className="h-7 w-auto object-contain mb-4 opacity-70 hover:opacity-100 transition-opacity"
+                className="h-7 w-auto object-contain mb-4"
               />
             </Link>
             <p className="text-texto/45 text-xs leading-relaxed">

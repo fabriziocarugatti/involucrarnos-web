@@ -1,8 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, Database, Compass, GraduationCap, Lightbulb, Network, ArrowRight, ExternalLink } from 'lucide-react'
-import Link from 'next/link'
+import { Sparkles, Database, Compass, GraduationCap, Lightbulb, Network, ArrowRight } from 'lucide-react'
 import { proyectos, type Proyecto, type ProjectStatus } from '@/data/proyectos'
 import { fadeUp, stagger } from '@/lib/motion'
 
@@ -19,7 +18,17 @@ const STATUS_STYLES: Record<ProjectStatus, { dot: string; text: string; label: s
   activo:        { dot: 'bg-emerald-400 animate-pulse', text: 'text-emerald-400', label: 'Activo' },
   construccion:  { dot: 'bg-dorado',                   text: 'text-dorado',       label: 'En construcción' },
   planificacion: { dot: 'bg-indigo-400',               text: 'text-indigo-300',   label: 'Planificación' },
-  proximamente:  { dot: 'bg-white/40',                  text: 'text-white/60',     label: 'Próximamente' },
+  proximamente:  { dot: 'bg-white/40',                 text: 'text-white/60',     label: 'Próximamente' },
+}
+
+function openInvolucrado(proyectoTitle: string) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('open-involucrado', {
+        detail: { message: `Quiero saber más sobre el proyecto "${proyectoTitle}"` },
+      })
+    )
+  }
 }
 
 function MiniCard({ p }: { p: Proyecto }) {
@@ -28,14 +37,12 @@ function MiniCard({ p }: { p: Proyecto }) {
   const isActive = p.status === 'activo'
 
   return (
-    <motion.article
+    <motion.div
       variants={fadeUp}
-      whileHover={{ y: -4 }}
-      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
       className={`group relative flex flex-col rounded-2xl p-6 overflow-hidden border transition-all duration-300
         ${isActive
-          ? 'bg-white/[0.07] border-dorado/40 hover:border-dorado/70'
-          : 'bg-white/[0.04] border-white/12 hover:border-white/25'
+          ? 'bg-white/[0.07] border-dorado/40 hover:bg-white/[0.11] hover:border-dorado/65 hover:shadow-[0_0_28px_rgba(200,169,106,0.12)] cursor-pointer'
+          : 'bg-white/[0.04] border-white/10 cursor-default'
         }`}
     >
       {isActive && (
@@ -62,13 +69,18 @@ function MiniCard({ p }: { p: Proyecto }) {
         <p className={`text-sm leading-relaxed flex-1 ${
           p.status === 'construccion' || p.status === 'planificacion' ? 'text-white/45' : 'text-white/60'
         }`}>{p.bajada}</p>
-        {p.status === 'activo' && (
-          <span className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-dorado">
-            Explorar <ArrowRight size={12} strokeWidth={2.4} />
-          </span>
+        {isActive && (
+          <button
+            onClick={() => openInvolucrado(p.title)}
+            className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-wider
+                       text-dorado hover:text-dorado-soft transition-colors group/btn"
+          >
+            Explorar
+            <ArrowRight size={12} strokeWidth={2.4} className="transition-transform group-hover/btn:translate-x-1" />
+          </button>
         )}
       </div>
-    </motion.article>
+    </motion.div>
   )
 }
 
@@ -87,28 +99,17 @@ export default function ProyectosPreview() {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           variants={stagger(0.05, 0.1)}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10"
+          className="mb-10"
         >
-          <div>
-            <motion.span variants={fadeUp} className="eyebrow mb-4">
-              Proyectos abiertos
-            </motion.span>
-            <motion.h2
-              variants={fadeUp}
-              className="font-title font-black text-white text-3xl md:text-4xl leading-[1.08] tracking-tight"
-            >
-              Lo que estamos construyendo
-            </motion.h2>
-          </div>
-          <motion.div variants={fadeUp}>
-            <Link
-              href="/proyectos"
-              className="inline-flex items-center gap-2 text-dorado hover:text-dorado-soft font-bold text-sm transition-colors"
-            >
-              Ver todos los proyectos
-              <ExternalLink size={13} strokeWidth={2.4} />
-            </Link>
-          </motion.div>
+          <motion.span variants={fadeUp} className="eyebrow mb-4">
+            Proyectos abiertos
+          </motion.span>
+          <motion.h2
+            variants={fadeUp}
+            className="font-title font-black text-white text-3xl md:text-4xl leading-[1.08] tracking-tight"
+          >
+            Lo que estamos construyendo
+          </motion.h2>
         </motion.div>
 
         <motion.div

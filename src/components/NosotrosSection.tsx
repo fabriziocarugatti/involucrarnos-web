@@ -42,18 +42,14 @@ function MemberCard({ member }: { member: TeamMember }) {
   return (
     <motion.div
       variants={fadeUp}
-      className="group flex items-start gap-5 bg-white/[0.05] border border-white/10 rounded-2xl p-4 backdrop-blur-sm"
+      className="group flex items-center gap-5 bg-white/[0.05] border border-white/10 rounded-2xl p-4 backdrop-blur-sm"
     >
       {/* Avatar */}
       <div className="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden">
         {member.photo ? (
           <div className="relative w-full h-full">
             <Image src={member.photo} alt={member.name} width={64} height={64}
-              className="w-full h-full object-cover object-top
-                         [filter:grayscale(100%)_contrast(1.05)_brightness(0.95)]
-                         group-hover:[filter:none] transition-[filter] duration-500" priority />
-            <div className="absolute inset-0 mix-blend-color"
-                 style={{ background: 'linear-gradient(135deg, #2a2f76 0%, #C8A96A 100%)', opacity: 0.45 }} />
+              className="w-full h-full object-cover object-top" priority />
           </div>
         ) : (
           <div className="w-full h-full bg-dorado/20 border border-dorado/30 flex items-center justify-center">
