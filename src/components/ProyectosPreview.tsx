@@ -21,6 +21,8 @@ const STATUS_STYLES: Record<ProjectStatus, { dot: string; text: string; label: s
   proximamente:  { dot: 'bg-white/40',                 text: 'text-white/60',     label: 'Próximamente' },
 }
 
+const BETA_SLUGS = new Set(['involucrado-ia'])
+
 function openInvolucrado(proyectoTitle: string) {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(
@@ -35,8 +37,9 @@ function MiniCard({ p }: { p: Proyecto }) {
   const Icon = ICON_MAP[p.icon]
   const s = STATUS_STYLES[p.status]
   const isActive = p.status === 'activo'
+  const isBeta = BETA_SLUGS.has(p.slug)
 
-  return (
+  const card = (
     <motion.div
       variants={fadeUp}
       className={`group relative flex flex-col rounded-2xl p-6 overflow-hidden border transition-all duration-300
@@ -44,6 +47,7 @@ function MiniCard({ p }: { p: Proyecto }) {
           ? 'bg-white/[0.07] border-dorado/40 hover:bg-white/[0.11] hover:border-dorado/65 hover:shadow-[0_0_28px_rgba(224,114,34,0.12)] cursor-pointer'
           : 'bg-white/[0.04] border-white/10 cursor-default'
         }`}
+      onClick={isActive ? () => openInvolucrado(p.title) : undefined}
     >
       {isActive && (
         <div
@@ -56,7 +60,14 @@ function MiniCard({ p }: { p: Proyecto }) {
           {isActive && <span className="absolute inset-0 rounded-xl ring-2 ring-dorado/50 animate-ping-slow" />}
           <Icon size={18} strokeWidth={1.8} className={isActive ? 'text-dorado' : 'text-white/80'} />
         </span>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
+          {isBeta && (
+            <span className="text-[0.58rem] font-black tracking-widest uppercase
+                             bg-dorado/15 text-dorado border border-dorado/30
+                             rounded-full px-2 py-0.5">
+              Beta
+            </span>
+          )}
           <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
           <span className={`text-[0.6rem] font-bold tracking-widest uppercase ${s.text}`}>{s.label}</span>
         </div>
@@ -70,18 +81,17 @@ function MiniCard({ p }: { p: Proyecto }) {
           p.status === 'construccion' || p.status === 'planificacion' ? 'text-white/45' : 'text-white/60'
         }`}>{p.bajada}</p>
         {isActive && (
-          <button
-            onClick={() => openInvolucrado(p.title)}
-            className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-wider
-                       text-dorado hover:text-dorado-soft transition-colors group/btn"
-          >
+          <span className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-wider
+                     text-dorado group-hover:text-dorado-soft transition-colors">
             Explorar
-            <ArrowRight size={12} strokeWidth={2.4} className="transition-transform group-hover/btn:translate-x-1" />
-          </button>
+            <ArrowRight size={12} strokeWidth={2.4} className="transition-transform group-hover:translate-x-1" />
+          </span>
         )}
       </div>
     </motion.div>
   )
+
+  return card
 }
 
 const FEATURED = proyectos.slice(0, 3)

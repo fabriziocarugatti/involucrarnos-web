@@ -24,8 +24,8 @@ export interface Proyecto {
 
 export const proyectos: Proyecto[] = [
   {
-    slug: 'el-especialista-ia',
-    title: 'El Especialista — IA en políticas públicas',
+    slug: 'involucrado-ia',
+    title: 'Involucrado — Asistente IA',
     bajada:
       'Asistente conversacional entrenado con el marco de Involucrarnos y los artículos publicados. Respondé dudas sobre capacidad estatal, ciclo de política pública, evidencia y más.',
     icon: 'sparkles',

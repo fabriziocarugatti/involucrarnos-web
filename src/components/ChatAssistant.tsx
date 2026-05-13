@@ -174,7 +174,14 @@ export default function ChatAssistant() {
                 <Sparkles size={18} className="text-dorado" strokeWidth={2} />
               </div>
               <div className="relative flex-1 min-w-0">
-                <p className="font-title font-800 text-sm leading-tight">Involucrado</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-title font-800 text-sm leading-tight">Involucrado</p>
+                  <span className="text-[0.58rem] font-black tracking-widest uppercase
+                                   bg-dorado/20 text-dorado border border-dorado/35
+                                   rounded-full px-1.5 py-0.5 leading-none">
+                    Beta
+                  </span>
+                </div>
                 <p className="text-[0.7rem] text-white/55 leading-tight mt-0.5">
                   IA · Estudios, política y gestión pública
                 </p>
