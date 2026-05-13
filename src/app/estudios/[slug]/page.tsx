@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ExternalLink, Download, Quote } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ChatAssistant from '@/components/ChatAssistant'
@@ -9,6 +9,7 @@ import Chart from '@/components/charts/Chart'
 import StatCard from '@/components/charts/StatCard'
 import HeadlineStat from '@/components/charts/HeadlineStat'
 import StudySummary from '@/components/StudySummary'
+import CopyBibtex from '@/components/CopyBibtex'
 import { estudios, getStudy } from '@/data/estudios'
 import { site } from '@/data/site'
 
@@ -47,12 +48,21 @@ export default function EstudioPage({ params }: Props) {
         ? 'bg-amber-50 text-amber-700 border-amber-200'
         : 'bg-azul/8 text-azul-dark border-azul/15'
 
+  // Related studies: same category, exclude self, up to 3
+  const related = estudios
+    .filter((st) => st.slug !== s.slug && st.category === s.category)
+    .slice(0, 3)
+  const fallbackRelated = related.length < 2
+    ? estudios.filter((st) => st.slug !== s.slug && st.category !== s.category).slice(0, 3 - related.length)
+    : []
+  const allRelated = [...related, ...fallbackRelated].slice(0, 3)
+
   return (
     <>
       <Navbar />
       <main>
         {/* Header */}
-        <header className="relative bg-azul-deep py-16 md:py-20 lg:py-24 overflow-hidden grain">
+        <header className="relative bg-azul-deep py-12 md:py-16 overflow-hidden grain">
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -175,15 +185,43 @@ export default function EstudioPage({ params }: Props) {
               <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/45 mb-3">
                 {e.methodLabel}
               </p>
-              <p className="text-[0.95rem] text-texto/80 leading-relaxed">{s.methodology}</p>
+              {s.methodologyItems && s.methodologyItems.length > 0 ? (
+                <dl className="space-y-3">
+                  {s.methodologyItems.map((item) => (
+                    <div key={item.key} className="grid sm:grid-cols-[10rem_1fr] gap-1 sm:gap-4 text-[0.93rem]">
+                      <dt className="font-bold text-azul-dark">{item.key}</dt>
+                      <dd className="text-texto/75 leading-relaxed">{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="text-[0.95rem] text-texto/80 leading-relaxed">{s.methodology}</p>
+              )}
             </section>
 
-            {/* Sources */}
+            {/* Sources + Download/Cite */}
             {s.sources && s.sources.length > 0 && (
               <section>
-                <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/45 mb-4">
-                  Fuentes
-                </p>
+                <div className="flex items-center gap-4 mb-4">
+                  <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/45">
+                    Fuentes
+                  </p>
+                  <div className="flex-1" />
+                  {s.datasetUrl && (
+                    <a
+                      href={s.datasetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[0.72rem] font-bold text-azul-dark
+                                 border border-azul/20 rounded-lg px-3 py-1.5 hover:border-dorado/50
+                                 hover:bg-dorado/5 transition-colors"
+                    >
+                      <Download size={12} strokeWidth={2.2} />
+                      Descargar dataset
+                    </a>
+                  )}
+                  <CopyBibtex study={s} />
+                </div>
                 <ul className="space-y-2 bg-white border border-black/8 rounded-2xl p-6 md:p-7">
                   {s.sources.map((src, i) => (
                     <li key={i} className="text-sm">
@@ -232,6 +270,42 @@ export default function EstudioPage({ params }: Props) {
             </section>
           </div>
         </article>
+
+        {/* Otros estudios */}
+        {allRelated.length > 0 && (
+          <section className="bg-white py-14 md:py-16">
+            <div className="max-w-4xl mx-auto px-5 md:px-6">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/40">
+                  Otros estudios
+                </span>
+                <span className="flex-1 h-px bg-black/8" />
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {allRelated.map((rel) => (
+                  <Link
+                    key={rel.slug}
+                    href={`/estudios/${rel.slug}`}
+                    className="group flex flex-col gap-2 bg-crema border border-black/8 rounded-xl p-5
+                               hover:border-dorado/40 hover:shadow-[0_8px_24px_rgba(42,47,118,0.10)]
+                               transition-all duration-300"
+                  >
+                    <span className="text-[0.6rem] font-bold tracking-widest uppercase text-dorado-deep/70">
+                      {rel.category}
+                    </span>
+                    <p className="font-title font-800 text-azul-dark text-sm leading-snug line-clamp-3 group-hover:text-azul transition-colors">
+                      {rel.title}
+                    </p>
+                    <span className="mt-auto text-[0.72rem] font-bold text-azul/60 group-hover:text-dorado-deep transition-colors flex items-center gap-1">
+                      Ver estudio
+                      <ArrowRight size={11} strokeWidth={2.4} className="transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
       <ChatAssistant />

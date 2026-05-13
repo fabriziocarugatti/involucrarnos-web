@@ -94,6 +94,32 @@ export default function HeadlineStat({ stat, context }: Props) {
           </motion.span>
         )}
       </div>
+
+      {/* Comparison footer */}
+      {stat.referenceValue !== undefined && stat.referenceLabel && (
+        <div className="relative mt-6 pt-5 border-t border-white/10 flex items-center gap-3">
+          <div className="flex items-end gap-2">
+            <span className="font-title font-black text-white/50 text-2xl tabular-nums leading-none">
+              {stat.referenceValue}
+            </span>
+            <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase text-white/35 pb-0.5">
+              {stat.referenceLabel}
+            </span>
+          </div>
+          <div className="flex-1 h-px bg-white/10" />
+          {stat.referenceValue !== undefined && (() => {
+            const numVal = parseFloat(stat.value.replace(/[^0-9,.]/g, '').replace(',', '.'))
+            if (isNaN(numVal)) return null
+            const diff = Math.round(((numVal - stat.referenceValue) / stat.referenceValue) * 100)
+            const isAbove = diff > 0
+            return (
+              <span className={`text-[0.7rem] font-bold tabular-nums ${isAbove ? 'text-rose-300' : 'text-emerald-300'}`}>
+                {isAbove ? '+' : ''}{diff}% vs referencia
+              </span>
+            )
+          })()}
+        </div>
+      )}
     </motion.div>
   )
 }

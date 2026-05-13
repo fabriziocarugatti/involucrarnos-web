@@ -41,53 +41,51 @@ export default function ArticleSummary({ slug }: Props) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative max-w-3xl mx-auto px-5 md:px-6 -mt-8 md:-mt-10 mb-10 md:mb-12"
+      className="relative max-w-3xl mx-auto px-5 md:px-6 -mt-12 md:-mt-16 mb-10 md:mb-14 z-10"
     >
-      <div className="bg-gradient-to-br from-azul-deep via-azul-dark to-azul rounded-2xl p-6 md:p-7 shadow-[0_12px_40px_rgba(15,17,55,0.25)] grain overflow-hidden relative">
-        <div
-          className="absolute inset-0 pointer-events-none opacity-70"
-          style={{
-            background:
-              'radial-gradient(ellipse 60% 100% at 100% 0%, rgba(200,169,106,0.22) 0%, transparent 60%)',
-          }}
-        />
-        <div className="relative">
-          <div className="flex items-center gap-2.5 mb-4">
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-dorado/20 ring-1 ring-dorado/40">
-              <Sparkles size={13} strokeWidth={2.2} className="text-dorado" />
-            </span>
-            <span className="text-[0.65rem] font-bold tracking-[0.22em] uppercase text-dorado">
-              Lo importante en 3 puntos
-            </span>
-            <span className="ml-auto text-[0.6rem] text-white/35">IA</span>
-          </div>
-
-          {loading && (
-            <div className="flex items-center gap-2 text-white/55 text-sm py-3">
-              <Loader2 size={14} className="animate-spin" />
-              <span>Generando resumen…</span>
-            </div>
-          )}
-
-          {!loading && bullets && (
-            <ul className="space-y-3">
-              {bullets.map((b, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.12, duration: 0.5 }}
-                  className="flex gap-3 text-white/90 text-[0.95rem] leading-relaxed"
-                >
-                  <span className="flex-shrink-0 mt-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-dorado/15 text-dorado text-[0.7rem] font-bold tabular-nums">
-                    {i + 1}
-                  </span>
-                  <span>{b}</span>
-                </motion.li>
-              ))}
-            </ul>
-          )}
+      <div className="bg-white border border-azul/10 rounded-2xl p-6 md:p-7 shadow-[0_8px_28px_rgba(42,47,118,0.06)]">
+        <div className="flex items-center gap-2.5 mb-4">
+          <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-dorado/20 ring-1 ring-dorado/40">
+            <Sparkles size={13} strokeWidth={2.2} className="text-dorado" />
+          </span>
+          <span className="text-[0.65rem] font-bold tracking-[0.22em] uppercase text-dorado">
+            Lo importante en 3 puntos
+          </span>
+          <span className="ml-auto text-[0.6rem] text-texto/30">IA</span>
         </div>
+
+        {loading && (
+          <div className="space-y-3 py-1">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="flex-shrink-0 mt-1 w-5 h-5 rounded-full bg-black/8 animate-pulse" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="h-3 bg-black/8 rounded-full animate-pulse" style={{ width: `${90 - i * 10}%` }} />
+                  <div className="h-3 bg-black/[0.05] rounded-full animate-pulse" style={{ width: `${70 - i * 5}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!loading && bullets && (
+          <ul className="space-y-3">
+            {bullets.map((b, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.12, duration: 0.5 }}
+                className="flex gap-3 text-texto/80 text-[0.95rem] leading-relaxed"
+              >
+                <span className="flex-shrink-0 mt-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-dorado text-azul-dark text-[0.7rem] font-black tabular-nums">
+                  {i + 1}
+                </span>
+                <span>{b}</span>
+              </motion.li>
+            ))}
+          </ul>
+        )}
       </div>
     </motion.aside>
   )

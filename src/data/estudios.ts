@@ -10,12 +10,16 @@ export interface Stat {
   label: string
   trend?: 'up' | 'down' | 'neutral'
   hint?: string
+  referenceValue?: number
+  referenceLabel?: string
 }
 
 export interface BarChartData {
   type: 'bar'
   unit?: string
   bars: { label: string; value: number; highlight?: boolean }[]
+  referenceValue?: number
+  referenceLabel?: string
 }
 
 export interface LineChartData {
@@ -63,11 +67,13 @@ export interface Study {
   period: string
   status: StudyStatus
   methodology: string
+  methodologyItems?: { key: string; value: string }[]
   findings: string[]
   stats: Stat[]
   charts: ChartData[]
   authors: string[]
   sources: { name: string; url?: string }[]
+  datasetUrl?: string
 }
 
 export const estudios: Study[] = [
@@ -299,8 +305,9 @@ export const estudios: Study[] = [
           { label: 'Jujuy',      value: 86 },
           { label: 'Tucumán',    value: 73 },
           { label: 'Salta',      value: 70 },
-          { label: 'Promedio nacional', value: 55 },
         ],
+        referenceValue: 55,
+        referenceLabel: 'Promedio nacional',
       },
     ],
     authors: ['Equipo Involucrarnos'],
