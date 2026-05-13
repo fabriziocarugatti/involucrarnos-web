@@ -9,7 +9,11 @@ interface Props {
 }
 
 export default function BarChart({ data, className = '' }: Props) {
-  const max = Math.max(...data.bars.map((b) => b.value), 1)
+  const allValues = data.bars.map((b) => b.value)
+  if (data.referenceValue !== undefined) allValues.push(data.referenceValue)
+  const max = Math.max(...allValues, 1)
+
+  const refPct = data.referenceValue !== undefined ? (data.referenceValue / max) * 100 : null
 
   return (
     <div className={`w-full ${className}`}>
@@ -48,6 +52,15 @@ export default function BarChart({ data, className = '' }: Props) {
                     }}
                   />
                 </motion.div>
+                {/* Reference line */}
+                {refPct !== null && (
+                  <div
+                    className="absolute inset-y-0 pointer-events-none z-10"
+                    style={{ left: `${refPct}%` }}
+                  >
+                    <div className="w-0 h-full border-l-2 border-dashed border-dorado" />
+                  </div>
+                )}
               </div>
               <motion.span
                 initial={{ opacity: 0 }}
@@ -64,6 +77,19 @@ export default function BarChart({ data, className = '' }: Props) {
           )
         })}
       </div>
+
+      {/* Reference legend */}
+      {refPct !== null && data.referenceLabel && (
+        <div className="mt-4 flex items-center gap-2">
+          <div className="w-6 border-t-2 border-dashed border-dorado flex-shrink-0" />
+          <span className="text-[0.72rem] text-texto/55 font-medium">
+            {data.referenceLabel}
+            {data.referenceValue !== undefined && (
+              <span className="ml-1 text-dorado-deep font-bold">{data.referenceValue}</span>
+            )}
+          </span>
+        </div>
+      )}
     </div>
   )
 }
