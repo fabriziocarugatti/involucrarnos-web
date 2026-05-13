@@ -182,7 +182,16 @@ html {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+
+  /* framer-motion elements: force full opacity when motion is disabled */
+  [data-framer-component-type], .motion-safe {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
+
+/* fallback no-JS: si JS no carga, mostrar contenido full opacity */
+.no-js [style*="opacity: 0"] { opacity: 1 !important; }
 
 /* ───────── eyebrow label ───────── */
 .eyebrow {
