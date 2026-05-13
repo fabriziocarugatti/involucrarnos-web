@@ -1,13 +1,13 @@
 import { NextRequest } from 'next/server'
-import { buildSystemPrompt } from '@/lib/ai-context'
+import { buildSystemPrompt, SEED_MESSAGE } from '@/lib/ai-context'
 
 export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
-  'google/gemma-4-31b-it:free',
-  'google/gemma-4-26b-a4b-it:free',
-  'nvidia/nemotron-3-super-120b-a12b:free',
+  'qwen/qwen3-235b-a22b:free',
+  'qwen/qwen3-30b-a3b:free',
+  'mistralai/mistral-7b-instruct:free',
 ]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     .filter((m) => m.content)
 
   const payload = {
-    messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
+    messages: [{ role: 'system', content: buildSystemPrompt() }, SEED_MESSAGE, ...trimmed],
     stream: true,
     max_tokens: 320,
     temperature: 0.7,
