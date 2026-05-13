@@ -11,11 +11,9 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: '#161a4c',
     theme_color: '#161a4c',
     orientation: 'portrait',
-    categories: ['education', 'news', 'politics'],
-    lang: 'es-AR',
     icons: [
       { src: '/icon', sizes: '32x32', type: 'image/png' },
-      { src: '/apple-icon', sizes: '180x180', type: 'image/png', purpose: 'apple touch icon' },
+      { src: '/apple-icon', sizes: '180x180', type: 'image/png', purpose: 'any' },
     ],
   }
 }
