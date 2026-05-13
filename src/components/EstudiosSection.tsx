@@ -156,7 +156,7 @@ export default function EstudiosSection() {
             className="font-title font-black text-azul-dark text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-tight mb-4">
             {e.title}
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-texto/55 text-base md:text-lg leading-relaxed">
+          <motion.p variants={fadeUp} className="text-texto/70 text-base md:text-lg leading-relaxed">
             {e.subtitle}
           </motion.p>
         </motion.div>

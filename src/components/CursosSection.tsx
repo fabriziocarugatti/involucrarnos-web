@@ -31,7 +31,7 @@ export default function CursosSection() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
           variants={stagger(0.05, 0.1)}
           className="max-w-2xl mb-14 md:mb-20"
         >

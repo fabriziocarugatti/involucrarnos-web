@@ -12,18 +12,24 @@ export const ease = {
 }
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0.25, y: 28 },
+  hidden: { opacity: 0.35, y: 28 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.85, ease: ease.outExpo } },
 }
 
 export const fadeUpSpring: Variants = {
-  hidden: { opacity: 0.25, y: 32 },
+  hidden: { opacity: 0.35, y: 32 },
   show:   { opacity: 1, y: 0, transition: ease.springSoft },
 }
 
 export const fadeIn: Variants = {
-  hidden: { opacity: 0.25 },
+  hidden: { opacity: 0.35 },
   show:   { opacity: 1, transition: { duration: 0.9, ease: ease.outExpo } },
+}
+
+/** Para hero y elementos no-críticos donde el fade-desde-cero es intencional */
+export const fadeUpStrong: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.85, ease: ease.outExpo } },
 }
 
 export const stagger = (delayChildren = 0.12, staggerChildren = 0.08): Variants => ({

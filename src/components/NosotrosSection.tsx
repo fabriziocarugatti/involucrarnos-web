@@ -93,7 +93,7 @@ export default function NosotrosSection() {
 
       <div className="relative z-[3] max-w-6xl mx-auto px-5 md:px-6">
         <motion.span
-          initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
+          initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
           variants={fadeUp} className="eyebrow mb-5 block"
         >
           {n.eyebrow}
@@ -101,7 +101,7 @@ export default function NosotrosSection() {
 
         <div className="grid lg:grid-cols-2 gap-10 md:gap-12 lg:items-stretch">
           {/* Left: title + mission */}
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
             variants={stagger(0.08, 0.08)} className="space-y-5"
           >
             <motion.h2 variants={fadeUp}
@@ -122,7 +122,7 @@ export default function NosotrosSection() {
           </motion.div>
 
           {/* Right: team stack */}
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
             variants={stagger(0.08, 0.1)} className="space-y-3 lg:flex lg:flex-col lg:justify-between"
           >
             <div className="space-y-3">

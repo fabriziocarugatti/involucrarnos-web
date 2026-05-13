@@ -143,7 +143,7 @@ export default function ContenidosSection() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-dorado/40" />
 
       <div className="max-w-6xl mx-auto px-5 md:px-6">
-        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
           variants={stagger(0.05, 0.1)} className="mb-14 md:mb-20 max-w-2xl"
         >
           <motion.span variants={fadeUp} className="eyebrow mb-5">{c.eyebrow}</motion.span>
@@ -158,9 +158,9 @@ export default function ContenidosSection() {
           <>
             <motion.div
               key={page}
-              initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+              initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
               variants={stagger(0.05, 0.12)}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-6"
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-6 pt-1"
             >
               {visiblePublicados.map((a) => <CardPublicado key={a.slug} a={a} />)}
             </motion.div>
@@ -170,7 +170,7 @@ export default function ContenidosSection() {
         )}
 
         {proximos.length > 0 && (
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1, margin: '0px 0px -10% 0px' }}
             variants={stagger(0.05, 0.08)}>
             <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
               <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/35">{c.upcomingLabel}</span>
