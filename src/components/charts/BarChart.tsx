@@ -42,7 +42,7 @@ export default function BarChart({ data, className = '' }: Props) {
                   transition={{ duration: 1.1, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   className={`absolute inset-y-0 left-0 rounded-lg ${
                     b.highlight
-                      ? 'bg-gradient-to-r from-dorado-deep via-dorado to-dorado-soft shadow-[0_0_18px_rgba(200,169,106,0.45)]'
+                      ? 'bg-gradient-to-r from-dorado-deep via-dorado to-dorado-soft shadow-[0_0_18px_rgba(224,114,34,0.45)]'
                       : 'bg-gradient-to-r from-azul-dark via-azul to-azul/85'
                   }`}
                 >

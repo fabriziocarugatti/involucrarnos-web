@@ -130,7 +130,7 @@ export default function ChatAssistant() {
             <span
               aria-hidden
               className="absolute inset-0 rounded-full opacity-50 animate-ping-slow pointer-events-none"
-              style={{ boxShadow: '0 0 0 0 rgba(200, 169, 106, 0.5)' }}
+              style={{ boxShadow: '0 0 0 0 rgba(224, 114, 34, 0.5)' }}
             />
           )}
 
@@ -167,7 +167,7 @@ export default function ChatAssistant() {
                 className="absolute inset-0 pointer-events-none opacity-50"
                 style={{
                   background:
-                    'radial-gradient(ellipse 80% 100% at 100% 0%, rgba(200,169,106,0.25) 0%, transparent 60%)',
+                    'radial-gradient(ellipse 80% 100% at 100% 0%, rgba(224,114,34,0.25) 0%, transparent 60%)',
                 }}
               />
               <div className="relative w-10 h-10 rounded-full bg-dorado/20 border border-dorado/40 flex items-center justify-center">

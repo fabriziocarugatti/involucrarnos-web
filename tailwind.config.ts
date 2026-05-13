@@ -6,7 +6,7 @@ const config: Config = {
     extend: {
       colors: {
         azul:    { DEFAULT: '#2a2f76', dark: '#1e2260', deep: '#161a4c' },
-        dorado:  { DEFAULT: '#C8A96A', soft: '#d4ba87', deep: '#a88845' },
+        dorado:  { DEFAULT: '#E07222', soft: '#E8884A', deep: '#B85510' },
         crema:   { DEFAULT: '#f7f4ef', warm: '#efeae0' },
         texto:   '#1a1a2e',
         gris:    '#6b7280',
@@ -27,9 +27,9 @@ const config: Config = {
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
         pingSlow: {
-          '0%':   { boxShadow: '0 0 0 0 rgba(200,169,106,0.55)' },
-          '70%':  { boxShadow: '0 0 0 18px rgba(200,169,106,0)' },
-          '100%': { boxShadow: '0 0 0 0 rgba(200,169,106,0)' },
+          '0%':   { boxShadow: '0 0 0 0 rgba(224,114,34,0.55)' },
+          '70%':  { boxShadow: '0 0 0 18px rgba(224,114,34,0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(224,114,34,0)' },
         },
       },
     },

@@ -90,7 +90,7 @@ export default function ArgentinaMap({ data, className = '' }: Props) {
                   <path
                     d={prov.d}
                     fill={isSelected ? '#1e2260' : fill}
-                    stroke={isSelected ? '#c8a96a' : isMax ? '#a88845' : '#94a3b8'}
+                    stroke={isSelected ? '#e07222' : isMax ? '#B85510' : '#94a3b8'}
                     strokeWidth={isSelected ? 2 : isMax ? 1.5 : 0.8}
                     style={{ transition: 'fill 200ms, stroke 200ms' }}
                   />
@@ -115,7 +115,7 @@ export default function ArgentinaMap({ data, className = '' }: Props) {
                         textAnchor="middle"
                         fontSize={9}
                         fontWeight="800"
-                        fill={isSelected ? '#c8a96a' : '#1e2260'}
+                        fill={isSelected ? '#e07222' : '#1e2260'}
                         fontFamily="ui-sans-serif, system-ui"
                         style={{ pointerEvents: 'none', userSelect: 'none' }}
                       >

@@ -46,7 +46,7 @@ function StudyCard({ study }: { study: Study }) {
             : 'bg-gradient-to-br from-azul-deep via-azul-dark to-azul'
         }`}>
           <div className="absolute inset-0 pointer-events-none opacity-60"
-            style={{ background: 'radial-gradient(ellipse 80% 100% at 100% 0%, rgba(200,169,106,0.22) 0%, transparent 60%)' }}
+            style={{ background: 'radial-gradient(ellipse 80% 100% at 100% 0%, rgba(224,114,34,0.22) 0%, transparent 60%)' }}
           />
           <div className="relative flex items-center justify-between">
             <StatusBadge status={study.status} />
@@ -143,7 +143,7 @@ export default function EstudiosSection() {
   return (
     <section id="estudios" className="bg-crema py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,169,106,0.10) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(224,114,34,0.10) 0%, transparent 60%)' }}
       />
 
       <div className="relative max-w-6xl mx-auto px-5 md:px-6">

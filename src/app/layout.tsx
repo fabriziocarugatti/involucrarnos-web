@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     locale: 'es_AR',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: site.meta.ogTitle,
+    description: site.meta.ogDescription,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

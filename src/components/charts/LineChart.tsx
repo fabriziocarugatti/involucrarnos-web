@@ -9,7 +9,7 @@ interface Props {
   height?: number
 }
 
-const COLORS = ['#2a2f76', '#C8A96A', '#a88845', '#1e2260']
+const COLORS = ['#2a2f76', '#E07222', '#B85510', '#1e2260']
 
 export default function LineChart({ data, className = '', height = 220 }: Props) {
   if (!data.series.length) return null

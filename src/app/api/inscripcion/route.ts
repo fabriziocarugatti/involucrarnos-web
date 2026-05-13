@@ -15,7 +15,7 @@ function emailBase(content: string) {
     <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
       <!-- Header -->
       <tr><td style="background:#161a4c;border-radius:16px 16px 0 0;padding:32px 32px 28px;">
-        <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#c8a96a;">Involucrarnos</p>
+        <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#e07222;">Involucrarnos</p>
         <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.45);">Formación gratuita en políticas públicas</p>
       </td></tr>
       <!-- Body -->
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
       <p style="font-size:15px;color:#444;line-height:1.65;margin:0 0 24px;">
         Hola ${nombreDisplay}, ¡gracias por sumarte! Estás anotado/a en:
       </p>
-      <div style="background:#fff;border:1px solid #e0dbd0;border-left:4px solid #c8a96a;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
+      <div style="background:#fff;border:1px solid #e0dbd0;border-left:4px solid #e07222;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
         <p style="font-size:13px;color:#888;margin:0 0 4px;">Curso</p>
         <p style="font-size:17px;font-weight:800;color:#161a4c;margin:0;">${curso}</p>
       </div>

@@ -58,11 +58,11 @@ function CardProximo({ a }: { a: Article }) {
       <motion.a variants={fadeUp} href={a.enrollUrl} target="_blank" rel="noopener noreferrer"
         whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 22 }}
         className="group relative flex flex-col gap-3 bg-azul-deep rounded-xl p-5 md:p-6 overflow-hidden
-                   border border-dorado/30 hover:border-dorado/60 hover:shadow-[0_14px_40px_rgba(200,169,106,0.25)]
+                   border border-dorado/30 hover:border-dorado/60 hover:shadow-[0_14px_40px_rgba(224,114,34,0.25)]
                    transition-shadow duration-300"
       >
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,106,0.15) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(224,114,34,0.15) 0%, transparent 70%)' }} />
         <div className="relative flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-dorado bg-dorado/15 rounded-full px-2.5 py-1">
             <GraduationCap size={12} strokeWidth={2.4} />{tipoLabel(a.tipo)}

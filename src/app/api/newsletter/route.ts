@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   <tr><td align="center">
     <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
       <tr><td style="background:#161a4c;border-radius:16px 16px 0 0;padding:32px 32px 28px;">
-        <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#c8a96a;">Involucrarnos</p>
+        <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#e07222;">Involucrarnos</p>
         <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.45);">Políticas públicas · Ciudadanía activa</p>
       </td></tr>
       <tr><td style="background:#faf9f6;border-radius:0 0 16px 16px;padding:32px;border:1px solid #e8e4db;border-top:none;">
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         <p style="font-size:15px;color:#444;line-height:1.65;margin:0 0 24px;">
           Hola ${nombreDisplay}, ya estás suscripto/a al newsletter de Involucrarnos.
         </p>
-        <div style="background:#fff;border:1px solid #e0dbd0;border-left:4px solid #c8a96a;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
+        <div style="background:#fff;border:1px solid #e0dbd0;border-left:4px solid #e07222;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
           <p style="font-size:13px;color:#888;margin:0 0 8px;">¿Qué vas a recibir?</p>
           <ul style="margin:0;padding-left:18px;font-size:14px;color:#444;line-height:2;">
             <li>Artículos y análisis sobre políticas públicas argentinas</li>

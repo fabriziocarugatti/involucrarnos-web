@@ -44,7 +44,7 @@ export default function SumateSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 50% 60% at 50% 0%, rgba(200,169,106,0.12) 0%, transparent 60%)',
+            'radial-gradient(ellipse 50% 60% at 50% 0%, rgba(224,114,34,0.12) 0%, transparent 60%)',
         }}
       />
 

@@ -8,7 +8,7 @@ interface Props {
   className?: string
 }
 
-const PALETTE = ['#2a2f76', '#C8A96A', '#a88845', '#1e2260', '#d4ba87']
+const PALETTE = ['#2a2f76', '#E07222', '#B85510', '#1e2260', '#E8884A']
 
 export default function DonutChart({ data, className = '' }: Props) {
   const total = data.segments.reduce((s, x) => s + x.value, 0) || 1

@@ -44,7 +44,7 @@ export default function Hero() {
         className="absolute bottom-0 left-0 w-full h-px z-[2]"
         style={{
           background:
-            'linear-gradient(90deg, rgba(200,169,106,0.55) 0%, rgba(200,169,106,0) 70%)',
+            'linear-gradient(90deg, rgba(224,114,34,0.55) 0%, rgba(224,114,34,0) 70%)',
         }}
       />
 
@@ -90,8 +90,8 @@ export default function Hero() {
                 className="group inline-flex items-center gap-2 bg-dorado text-azul-dark font-bold
                            px-6 md:px-7 py-3 md:py-3.5 rounded-xl
                            hover:bg-dorado-soft
-                           shadow-[0_8px_28px_rgba(200,169,106,0.35)]
-                           hover:shadow-[0_12px_36px_rgba(200,169,106,0.5)]
+                           shadow-[0_8px_28px_rgba(224,114,34,0.35)]
+                           hover:shadow-[0_12px_36px_rgba(224,114,34,0.5)]
                            transition-shadow duration-300 text-sm md:text-base"
               >
                 {h.ctaPrimary.label}
