@@ -5,9 +5,9 @@ export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
-  'qwen/qwen3-235b-a22b:free',
-  'qwen/qwen3-30b-a3b:free',
-  'mistralai/mistral-7b-instruct:free',
+  'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.1-8b-instruct:free',
+  'qwen/qwen-2-7b-instruct:free',
 ]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
