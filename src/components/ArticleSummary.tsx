@@ -41,7 +41,7 @@ export default function ArticleSummary({ slug }: Props) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative max-w-3xl mx-auto px-5 md:px-6 -mt-12 md:-mt-16 mb-10 md:mb-14 z-10"
+      className="relative max-w-3xl mx-auto px-5 md:px-6 mt-0 mb-10 md:mb-14"
     >
       <div className="bg-white border border-azul/10 rounded-2xl p-6 md:p-7 shadow-[0_8px_28px_rgba(42,47,118,0.06)]">
         <div className="flex items-center gap-2.5 mb-4">

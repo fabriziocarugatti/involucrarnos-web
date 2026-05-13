@@ -105,7 +105,7 @@ export default async function ArticuloPage({ params }: Props) {
                 alt={art.author}
                 width={48}
                 height={48}
-                className="w-12 h-12 rounded-full object-cover ring-1 ring-dorado/40"
+                className="w-12 h-12 rounded-full object-cover object-top ring-1 ring-dorado/40"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-white font-medium text-sm">{art.author}</p>

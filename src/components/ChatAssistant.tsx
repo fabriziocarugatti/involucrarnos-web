@@ -35,6 +35,20 @@ export default function ChatAssistant() {
     if (open) setTimeout(() => inputRef.current?.focus(), 250)
   }, [open])
 
+  // open from ProyectosPreview "Explorar" button
+  useEffect(() => {
+    function handleOpenInvolucrado(e: Event) {
+      const msg = (e as CustomEvent<{ message: string }>).detail?.message
+      setOpen(true)
+      if (msg) {
+        setTimeout(() => send(msg), 350)
+      }
+    }
+    window.addEventListener('open-involucrado', handleOpenInvolucrado)
+    return () => window.removeEventListener('open-involucrado', handleOpenInvolucrado)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   async function send(content: string) {
     const userMsg: Msg = { role: 'user', content }
     const next: Msg[] = [...messages, userMsg]
