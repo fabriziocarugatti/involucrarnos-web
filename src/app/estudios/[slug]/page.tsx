@@ -10,6 +10,7 @@ import StatCard from '@/components/charts/StatCard'
 import HeadlineStat from '@/components/charts/HeadlineStat'
 import StudySummary from '@/components/StudySummary'
 import CopyBibtex from '@/components/CopyBibtex'
+import ShareButtons from '@/components/ShareButtons'
 import { estudios, getStudy } from '@/data/estudios'
 import { site } from '@/data/site'
 
@@ -57,8 +58,42 @@ export default function EstudioPage({ params }: Props) {
     : []
   const allRelated = [...related, ...fallbackRelated].slice(0, 3)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ScholarlyArticle',
+        '@id': `https://involucrarnos.com.ar/estudios/${s.slug}`,
+        headline: s.title,
+        description: s.bajada,
+        datePublished: s.date,
+        author: s.authors.map((a) => ({ '@type': 'Person', name: a })),
+        publisher: {
+          '@type': 'Organization',
+          name: 'Involucrarnos',
+          url: 'https://involucrarnos.com.ar',
+          logo: { '@type': 'ImageObject', url: 'https://involucrarnos.com.ar/assets/logo-involucrarnos.png' },
+        },
+        url: `https://involucrarnos.com.ar/estudios/${s.slug}`,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `https://involucrarnos.com.ar/estudios/${s.slug}` },
+        about: s.category,
+        temporalCoverage: s.period,
+        inLanguage: 'es-AR',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://involucrarnos.com.ar' },
+          { '@type': 'ListItem', position: 2, name: 'Estudios', item: 'https://involucrarnos.com.ar/#estudios' },
+          { '@type': 'ListItem', position: 3, name: s.title, item: `https://involucrarnos.com.ar/estudios/${s.slug}` },
+        ],
+      },
+    ],
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main>
         {/* Header */}
@@ -123,6 +158,13 @@ export default function EstudioPage({ params }: Props) {
         </header>
 
         <StudySummary slug={s.slug} />
+
+        <div className="max-w-4xl mx-auto px-5 md:px-6 pt-4 pb-2">
+          <ShareButtons
+            url={`https://involucrarnos.com.ar/estudios/${s.slug}`}
+            title={s.title}
+          />
+        </div>
 
         {/* Body */}
         <article className="bg-crema/40 py-14 md:py-20">

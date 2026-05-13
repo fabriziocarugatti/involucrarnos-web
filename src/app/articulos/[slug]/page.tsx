@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ChatAssistant from '@/components/ChatAssistant'
 import ArticleSummary from '@/components/ArticleSummary'
+import ShareButtons from '@/components/ShareButtons'
 import { getAllArticulos, getArticuloBySlug } from '@/sanity/queries'
 import { articulos } from '@/data/articulos'
 import { site } from '@/data/site'
@@ -57,8 +58,42 @@ export default async function ArticuloPage({ params }: Props) {
     : []
   const allRelated = [...related, ...fallbackRelated].slice(0, 3)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `https://involucrarnos.com.ar/articulos/${art.slug}`,
+        headline: art.title,
+        description: art.bajada,
+        datePublished: art.date,
+        dateModified: art.date,
+        author: { '@type': 'Person', name: art.author },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Involucrarnos',
+          url: 'https://involucrarnos.com.ar',
+          logo: { '@type': 'ImageObject', url: 'https://involucrarnos.com.ar/assets/logo-involucrarnos.png' },
+        },
+        url: `https://involucrarnos.com.ar/articulos/${art.slug}`,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `https://involucrarnos.com.ar/articulos/${art.slug}` },
+        articleSection: art.category,
+        inLanguage: 'es-AR',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://involucrarnos.com.ar' },
+          { '@type': 'ListItem', position: 2, name: 'Artículos', item: 'https://involucrarnos.com.ar/#contenidos' },
+          { '@type': 'ListItem', position: 3, name: art.title, item: `https://involucrarnos.com.ar/articulos/${art.slug}` },
+        ],
+      },
+    ],
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main>
         <header className="bg-azul-dark relative grain py-12 md:py-16 overflow-hidden">
@@ -116,6 +151,13 @@ export default async function ArticuloPage({ params }: Props) {
         </header>
 
         <ArticleSummary slug={art.slug} />
+
+        <div className="max-w-3xl mx-auto px-5 md:px-6 pt-4 pb-2">
+          <ShareButtons
+            url={`https://involucrarnos.com.ar/articulos/${art.slug}`}
+            title={art.title}
+          />
+        </div>
 
         <article className="max-w-3xl mx-auto px-5 md:px-6 pt-2 pb-14 md:pb-20 prose-article font-article text-texto text-[1.05rem] leading-[1.75]">
           {art.content.map((block, i) => {

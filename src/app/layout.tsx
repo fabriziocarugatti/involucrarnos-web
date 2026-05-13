@@ -40,6 +40,11 @@ export const metadata: Metadata = {
     title: site.meta.ogTitle,
     description: site.meta.ogDescription,
   },
+  alternates: {
+    types: {
+      'application/rss+xml': 'https://involucrarnos.com.ar/feed.xml',
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
