@@ -57,7 +57,7 @@ function ProjectCard({ p, index }: { p: Proyecto; index: number }) {
           className="absolute inset-0 pointer-events-none opacity-70"
           style={{
             background:
-              'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(224,114,34,0.18) 0%, transparent 65%)',
+              'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(200,169,106,0.18) 0%, transparent 65%)',
           }}
         />
       )}
@@ -158,7 +158,7 @@ export default function ProyectosSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 80% 20%, rgba(42,47,118,0.6) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 0% 80%, rgba(224,114,34,0.08) 0%, transparent 60%)',
+            'radial-gradient(ellipse 80% 60% at 80% 20%, rgba(42,47,118,0.6) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 0% 80%, rgba(200,169,106,0.08) 0%, transparent 60%)',
         }}
       />
       <Particles count={14} />

@@ -10,24 +10,17 @@ export default function AppleIcon() {
         width: 180,
         height: 180,
         background: 'linear-gradient(145deg, #2a2f76 0%, #161a4c 100%)',
+        borderRadius: 38,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 36,
       }}
     >
-      <span
-        style={{
-          color: '#E07222',
-          fontSize: 110,
-          fontWeight: 900,
-          lineHeight: 1,
-          fontFamily: 'serif',
-          letterSpacing: '-0.03em',
-        }}
-      >
-        I
-      </span>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ width: 90, height: 14, background: '#C8A96A', borderRadius: 7 }} />
+        <div style={{ width: 28, height: 72, background: '#C8A96A', borderRadius: 6, marginTop: 5, marginBottom: 5 }} />
+        <div style={{ width: 90, height: 14, background: '#C8A96A', borderRadius: 7 }} />
+      </div>
     </div>,
     { ...size }
   )

@@ -14,7 +14,7 @@ interface Beam {
 }
 
 const HUE_MAP: Record<Beam['hue'], string> = {
-  dorado: 'rgba(224,114,34,0.18)',
+  dorado: 'rgba(200,169,106,0.18)',
   azul:   'rgba(120,140,255,0.16)',
   soft:   'rgba(255,255,255,0.08)',
 }

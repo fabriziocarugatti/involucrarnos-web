@@ -8,11 +8,11 @@ export const contentType = 'image/png'
 
 const AZUL_DEEP  = '#161a4c'
 const AZUL       = '#2a2f76'
-const NARANJA    = '#E07222'
+const NARANJA    = '#C8A96A'
 const WHITE      = '#ffffff'
 const WHITE_55   = 'rgba(255,255,255,0.55)'
 const WHITE_12   = 'rgba(255,255,255,0.12)'
-const NARANJA_15 = 'rgba(224,114,34,0.15)'
+const NARANJA_15 = 'rgba(200,169,106,0.15)'
 
 export default async function OgImage({ params }: { params: { slug: string } }) {
   let art: Awaited<ReturnType<typeof getAllArticulos>>[number] | undefined
@@ -49,7 +49,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
           position: 'absolute',
           top: 0, left: 0, right: 0,
           height: 4,
-          background: `linear-gradient(90deg, ${NARANJA} 0%, rgba(224,114,34,0) 70%)`,
+          background: `linear-gradient(90deg, ${NARANJA} 0%, rgba(200,169,106,0) 70%)`,
         }}
       />
 
@@ -142,7 +142,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
             width: 36, height: 36,
             borderRadius: '50%',
             background: NARANJA_15,
-            border: `1px solid rgba(224,114,34,0.3)`,
+            border: `1px solid rgba(200,169,106,0.3)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -155,7 +155,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
           <span style={{ color: WHITE_55, fontSize: 15, fontWeight: 500 }}>{author}</span>
         </div>
         <span style={{ color: NARANJA, fontSize: 14, fontWeight: 700, letterSpacing: '0.04em' }}>
-          involucrarnos.ar
+          involucrarnos.com.ar
         </span>
       </div>
     </div>,

@@ -45,7 +45,7 @@ export default function NOAMap({ data, className = '' }: Props) {
           const p = PROVINCES[v.provincia]
           if (!p) return null
           const fill = colorFor(v.value, vMin, vMax)
-          const stroke = v.value === vMax ? '#B85510' : '#cbd5e1'
+          const stroke = v.value === vMax ? '#a88845' : '#cbd5e1'
           const strokeWidth = v.value === vMax ? 2 : 1
           return (
             <motion.g
@@ -73,7 +73,7 @@ export default function NOAMap({ data, className = '' }: Props) {
                 textAnchor="middle"
                 fontSize="13"
                 fontWeight="800"
-                fill="#B85510"
+                fill="#a88845"
                 fontFamily="ui-sans-serif, system-ui"
               >
                 {v.value}

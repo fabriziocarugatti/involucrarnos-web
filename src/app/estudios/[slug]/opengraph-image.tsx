@@ -8,13 +8,13 @@ export const contentType = 'image/png'
 
 const AZUL_DEEP  = '#161a4c'
 const AZUL       = '#2a2f76'
-const NARANJA    = '#E07222'
+const NARANJA    = '#C8A96A'
 const WHITE      = '#ffffff'
 const WHITE_50   = 'rgba(255,255,255,0.5)'
 const WHITE_65   = 'rgba(255,255,255,0.65)'
 const WHITE_12   = 'rgba(255,255,255,0.12)'
-const NARANJA_20 = 'rgba(224,114,34,0.20)'
-const NARANJA_10 = 'rgba(224,114,34,0.10)'
+const NARANJA_20 = 'rgba(200,169,106,0.20)'
+const NARANJA_10 = 'rgba(200,169,106,0.10)'
 
 export default function OgImage({ params }: { params: { slug: string } }) {
   const s = estudios.find((e) => e.slug === params.slug)
@@ -99,8 +99,8 @@ export default function OgImage({ params }: { params: { slug: string } }) {
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            background: 'rgba(224,114,34,0.15)',
-            border: `1px solid rgba(224,114,34,0.35)`,
+            background: 'rgba(200,169,106,0.15)',
+            border: `1px solid rgba(200,169,106,0.35)`,
             borderRadius: 20,
             padding: '5px 14px',
             marginBottom: 20,
@@ -194,7 +194,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
           )}
         </div>
         <span style={{ color: NARANJA, fontSize: 14, fontWeight: 700, letterSpacing: '0.04em' }}>
-          involucrarnos.ar
+          involucrarnos.com.ar
         </span>
       </div>
     </div>,

@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     title: site.meta.ogTitle,
     description: site.meta.ogDescription,
   },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: '/apple-icon',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

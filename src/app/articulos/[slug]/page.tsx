@@ -66,7 +66,7 @@ export default async function ArticuloPage({ params }: Props) {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                'radial-gradient(ellipse 60% 80% at 75% 40%, rgba(224,114,34,0.10) 0%, transparent 60%)',
+                'radial-gradient(ellipse 60% 80% at 75% 40%, rgba(200,169,106,0.10) 0%, transparent 60%)',
             }}
           />
           <div className="relative max-w-3xl mx-auto px-5 md:px-6">
@@ -151,7 +151,7 @@ export default async function ArticuloPage({ params }: Props) {
               href="/#sumate"
               className="inline-flex items-center gap-2 bg-dorado text-azul-dark font-bold
                          px-6 py-3 rounded-xl hover:bg-dorado-soft transition-colors text-sm
-                         whitespace-nowrap shadow-[0_4px_16px_rgba(224,114,34,0.3)]"
+                         whitespace-nowrap shadow-[0_4px_16px_rgba(200,169,106,0.3)]"
             >
               {cta.label}
               <ArrowRight size={13} strokeWidth={2.2} />

@@ -67,7 +67,7 @@ export default function EstudioPage({ params }: Props) {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                'radial-gradient(ellipse 80% 70% at 75% 30%, rgba(224,114,34,0.14) 0%, transparent 60%)',
+                'radial-gradient(ellipse 80% 70% at 75% 30%, rgba(200,169,106,0.14) 0%, transparent 60%)',
             }}
           />
           <div className="relative max-w-4xl mx-auto px-5 md:px-6">
@@ -250,7 +250,7 @@ export default function EstudioPage({ params }: Props) {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(224,114,34,0.2) 0%, transparent 60%)',
+                    'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(200,169,106,0.2) 0%, transparent 60%)',
                 }}
               />
               <div className="relative">

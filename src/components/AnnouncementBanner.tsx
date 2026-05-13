@@ -23,7 +23,7 @@ export default function AnnouncementBanner() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 50% 80% at 50% 50%, rgba(224,114,34,0.18) 0%, transparent 70%)',
+              'radial-gradient(ellipse 50% 80% at 50% 50%, rgba(200,169,106,0.18) 0%, transparent 70%)',
           }}
         />
         <div className="relative max-w-6xl mx-auto px-5 md:px-6 py-2.5 flex items-center justify-between gap-3">

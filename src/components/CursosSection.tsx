@@ -23,7 +23,7 @@ export default function CursosSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(224,114,34,0.07) 0%, transparent 70%)',
+            'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,169,106,0.07) 0%, transparent 70%)',
         }}
       />
 
@@ -73,7 +73,7 @@ export default function CursosSection() {
                 className="absolute inset-0 pointer-events-none opacity-70"
                 style={{
                   background:
-                    'radial-gradient(ellipse 60% 100% at 100% 0%, rgba(224,114,34,0.20) 0%, transparent 60%)',
+                    'radial-gradient(ellipse 60% 100% at 100% 0%, rgba(200,169,106,0.20) 0%, transparent 60%)',
                 }}
               />
 
@@ -108,7 +108,7 @@ export default function CursosSection() {
                     className="absolute inset-0 rounded-full"
                     style={{
                       background:
-                        'conic-gradient(from 0deg, rgba(224,114,34,0.5) 0%, transparent 30%, rgba(224,114,34,0.3) 60%, transparent 90%)',
+                        'conic-gradient(from 0deg, rgba(200,169,106,0.5) 0%, transparent 30%, rgba(200,169,106,0.3) 60%, transparent 90%)',
                       filter: 'blur(20px)',
                     }}
                   />

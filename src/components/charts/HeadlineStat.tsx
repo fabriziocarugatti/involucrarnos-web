@@ -37,7 +37,7 @@ export default function HeadlineStat({ stat, context }: Props) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 100% 100% at 0% 0%, rgba(224,114,34,0.22) 0%, transparent 60%)',
+            'radial-gradient(ellipse 100% 100% at 0% 0%, rgba(200,169,106,0.22) 0%, transparent 60%)',
         }}
       />
 

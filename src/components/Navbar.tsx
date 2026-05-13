@@ -69,7 +69,7 @@ export default function Navbar() {
               <Link
                 href={cta.href}
                 className="ml-2 bg-dorado text-azul-dark font-bold text-sm px-5 py-2.5 rounded-lg
-                           hover:bg-dorado-soft shadow-[0_4px_16px_rgba(224,114,34,0.3)] transition-colors block"
+                           hover:bg-dorado-soft shadow-[0_4px_16px_rgba(200,169,106,0.3)] transition-colors block"
               >
                 {cta.label}
               </Link>

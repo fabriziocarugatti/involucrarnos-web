@@ -17,7 +17,7 @@ function buildBibtex(s: Study): string {
   title     = {{${s.title}}},
   year      = {${year}},
   note      = {${s.category}. Período: ${s.period}.},
-  howpublished = {\\url{https://involucrarnos.ar/estudios/${s.slug}}},
+  howpublished = {\\url{https://involucrarnos.com.ar/estudios/${s.slug}}},
 }`
 }
 

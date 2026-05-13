@@ -44,7 +44,7 @@ function MiniCard({ p }: { p: Proyecto }) {
       variants={fadeUp}
       className={`group relative flex flex-col rounded-2xl p-6 overflow-hidden border transition-all duration-300
         ${isActive
-          ? 'bg-white/[0.07] border-dorado/40 hover:bg-white/[0.11] hover:border-dorado/65 hover:shadow-[0_0_28px_rgba(224,114,34,0.12)] cursor-pointer'
+          ? 'bg-white/[0.07] border-dorado/40 hover:bg-white/[0.11] hover:border-dorado/65 hover:shadow-[0_0_28px_rgba(200,169,106,0.12)] cursor-pointer'
           : 'bg-white/[0.04] border-white/10 cursor-default'
         }`}
       onClick={isActive ? () => openInvolucrado(p.title) : undefined}
@@ -52,7 +52,7 @@ function MiniCard({ p }: { p: Proyecto }) {
       {isActive && (
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
-          style={{ background: 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(224,114,34,0.18) 0%, transparent 65%)' }}
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(200,169,106,0.18) 0%, transparent 65%)' }}
         />
       )}
       <div className="relative flex items-start justify-between mb-4">

@@ -3,6 +3,7 @@ import { ImageResponse } from 'next/og'
 export const size = { width: 32, height: 32 }
 export const contentType = 'image/png'
 
+// "I" construida con rectángulos — sin depender del font rendering
 export default function Icon() {
   return new ImageResponse(
     <div
@@ -10,24 +11,21 @@ export default function Icon() {
         width: 32,
         height: 32,
         background: '#161a4c',
+        borderRadius: 7,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 7,
       }}
     >
-      <span
-        style={{
-          color: '#E07222',
-          fontSize: 21,
-          fontWeight: 900,
-          lineHeight: 1,
-          fontFamily: 'serif',
-          letterSpacing: '-0.02em',
-        }}
-      >
-        I
-      </span>
+      {/* I shape: barra-top + fuste + barra-bottom */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* barra superior */}
+        <div style={{ width: 16, height: 3, background: '#C8A96A', borderRadius: 1.5 }} />
+        {/* fuste */}
+        <div style={{ width: 5, height: 12, background: '#C8A96A', borderRadius: 1, marginTop: 1, marginBottom: 1 }} />
+        {/* barra inferior */}
+        <div style={{ width: 16, height: 3, background: '#C8A96A', borderRadius: 1.5 }} />
+      </div>
     </div>,
     { ...size }
   )

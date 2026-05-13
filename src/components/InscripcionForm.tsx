@@ -80,7 +80,7 @@ export default function InscripcionForm({ cursoNombre, cursoSlug, inline = false
         className={`inline-flex items-center gap-2 bg-dorado text-azul-dark
                    font-bold text-sm px-6 py-3 rounded-xl
                    hover:bg-dorado-soft transition-colors
-                   shadow-[0_8px_24px_rgba(224,114,34,0.4)] ${className}`}
+                   shadow-[0_8px_24px_rgba(200,169,106,0.4)] ${className}`}
       >
         Inscribirme gratis
         <ArrowRight size={14} strokeWidth={2.4} />
