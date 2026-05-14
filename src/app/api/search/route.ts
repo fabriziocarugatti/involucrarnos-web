@@ -8,9 +8,9 @@ export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
-  'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
   'google/gemma-4-31b-it:free',
-  'meta-llama/llama-3.3-8b-instruct:free',
+  'deepseek/deepseek-v4-flash:free',
 ]
 
 const SearchResult = z.object({
@@ -26,7 +26,7 @@ const SearchResult = z.object({
     .max(5),
 })
 
-type CatalogItem = { slug: string; kind: 'articulo' | 'estudio' | 'proyecto' | 'curso'; title: string; bajada: string; category: string }
+type CatalogItem = { slug: string; kind: 'articulo' | 'estudio' | 'proyecto' | 'curso'; title: string; bajada: string; category: string; author?: string }
 type Result = z.infer<typeof SearchResult>['results'][number]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
@@ -50,7 +50,7 @@ function keywordFallback(query: string, catalog: CatalogItem[]): Result[] {
   if (!words.length) return []
   return catalog
     .map((c) => {
-      const text = `${c.title} ${c.bajada} ${c.category}`.toLowerCase()
+      const text = `${c.title} ${c.bajada} ${c.category} ${c.author ?? ''}`.toLowerCase()
       const hits = words.filter((w) => text.includes(w)).length
       return { ...c, hits }
     })
@@ -91,8 +91,8 @@ export async function POST(req: NextRequest) {
   const catalog: CatalogItem[] = [
     ...articulos
       .filter((a) => a.published)
-      .map((a) => ({ slug: a.slug, kind: a.tipo as 'articulo' | 'curso', title: a.title, bajada: a.bajada, category: a.category })),
-    ...estudios.map((s) => ({ slug: s.slug, kind: 'estudio' as const, title: s.title, bajada: s.bajada, category: s.category })),
+      .map((a) => ({ slug: a.slug, kind: a.tipo as 'articulo' | 'curso', title: a.title, bajada: a.bajada, category: a.category, author: a.author })),
+    ...estudios.map((s) => ({ slug: s.slug, kind: 'estudio' as const, title: s.title, bajada: s.bajada, category: s.category, author: s.authors.join(' ') })),
     ...proyectos.map((p) => ({ slug: p.slug, kind: 'proyecto' as const, title: p.title, bajada: p.bajada, category: p.category })),
   ]
 

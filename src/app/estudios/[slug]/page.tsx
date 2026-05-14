@@ -169,6 +169,25 @@ export default function EstudioPage({ params }: Props) {
         {/* Body */}
         <article className="bg-crema/40 py-14 md:py-20">
           <div className="max-w-4xl mx-auto px-5 md:px-6 space-y-12">
+            {/* Findings — primero para que no se pierdan */}
+            {s.findings.length > 0 && (
+              <section>
+                <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/45 mb-4">
+                  {e.findingsLabel}
+                </p>
+                <ul className="space-y-3 bg-white border border-black/8 rounded-2xl p-6 md:p-7">
+                  {s.findings.map((f, i) => (
+                    <li key={i} className="flex gap-3 text-[0.97rem] text-texto/85 leading-relaxed">
+                      <span className="flex-shrink-0 mt-1 inline-flex items-center justify-center w-6 h-6 rounded-full bg-dorado/15 text-dorado-deep text-[0.7rem] font-bold tabular-nums">
+                        {i + 1}
+                      </span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
             {/* Headline stat */}
             {s.stats[0] && <HeadlineStat stat={s.stats[0]} />}
 
@@ -185,23 +204,6 @@ export default function EstudioPage({ params }: Props) {
                 </div>
               </section>
             )}
-
-            {/* Findings */}
-            <section>
-              <p className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-texto/45 mb-4">
-                {e.findingsLabel}
-              </p>
-              <ul className="space-y-3 bg-white border border-black/8 rounded-2xl p-6 md:p-7">
-                {s.findings.map((f, i) => (
-                  <li key={i} className="flex gap-3 text-[0.97rem] text-texto/85 leading-relaxed">
-                    <span className="flex-shrink-0 mt-1 inline-flex items-center justify-center w-6 h-6 rounded-full bg-dorado/15 text-dorado-deep text-[0.7rem] font-bold tabular-nums">
-                      {i + 1}
-                    </span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
 
             {/* Charts */}
             {s.charts.length > 0 && (
