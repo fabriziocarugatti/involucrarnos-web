@@ -8,8 +8,8 @@ const MODELS = [
   'google/gemini-flash-1.5',
   'google/gemini-2.0-flash-lite',
   'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
   'meta-llama/llama-3.1-8b-instruct:free',
-  'qwen/qwen-2-7b-instruct:free',
 ]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
