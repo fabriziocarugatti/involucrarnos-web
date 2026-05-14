@@ -5,11 +5,11 @@ export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
-  'google/gemini-flash-1.5',
-  'google/gemini-2.0-flash-lite',
-  'google/gemma-3-27b-it:free',
+  'google/gemini-2.5-flash-lite',
+  'google/gemini-2.5-flash',
+  'google/gemma-4-31b-it:free',
   'meta-llama/llama-3.3-70b-instruct:free',
-  'meta-llama/llama-3.1-8b-instruct:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
 ]
 
 const buckets = new Map<string, { count: number; resetAt: number }>()
