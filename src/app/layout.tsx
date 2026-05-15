@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { Nunito, Inter, Lora } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { site } from '@/data/site'
+
+const GA_ID = 'G-C0457NXWB3'
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -59,6 +62,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" className={`${nunito.variable} ${inter.variable} ${lora.variable}`}>
       <body className="font-body text-texto bg-white antialiased">
         {children}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="ga-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');
+        `}</Script>
+        <Script id="clarity-init" strategy="afterInteractive">{`
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "wrlor825l0");
+        `}</Script>
       </body>
     </html>
   )
