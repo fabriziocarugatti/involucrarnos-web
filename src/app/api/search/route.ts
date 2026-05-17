@@ -8,9 +8,10 @@ export const runtime = 'edge'
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const MODELS = [
+  'google/gemini-2.5-flash-lite',
+  'google/gemini-2.5-flash',
   'meta-llama/llama-3.3-70b-instruct:free',
-  'google/gemma-4-31b-it:free',
-  'deepseek/deepseek-v4-flash:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
 ]
 
 const SearchResult = z.object({
