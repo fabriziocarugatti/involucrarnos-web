@@ -6,3 +6,6 @@ node_modules/
 tsconfig.tsbuildinfo
 .vercel
 INTERNAL.md
+CONTEXT.md
+PENDIENTES.md
+.claude/worktrees/
