@@ -228,7 +228,7 @@ export default function AdminPage() {
 
   useEffect(() => { fetchData() }, [fetchData])
 
-  const provincias = [...new Set(inscripciones.map((r) => r.provincia).filter(Boolean))].sort()
+  const provincias = Array.from(new Set(inscripciones.map((r) => r.provincia).filter(Boolean))).sort()
 
   const filteredInscripciones = inscripciones.filter((r) => {
     const matchSearch = matchesSearch(r, searchQuery)
