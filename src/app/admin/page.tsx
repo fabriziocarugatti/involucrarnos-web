@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Users, GraduationCap, Mail, Calendar, Trash2, Loader2, LogOut,
-  Download, TrendingUp, Pencil, X, Check, StickyNote,
+  Download, TrendingUp, Pencil, X, Check, StickyNote, Search, SlidersHorizontal,
 } from 'lucide-react'
 
 type Row = Record<string, string>
@@ -195,12 +195,26 @@ function recentCount(rows: Row[], days = 7) {
   return rows.filter((r) => r.created_at && new Date(r.created_at).getTime() > cutoff).length
 }
 
+function matchesSearch(row: Row, query: string) {
+  if (!query) return true
+  const q = query.toLowerCase()
+  return (
+    row.nombre?.toLowerCase().includes(q) ||
+    row.email?.toLowerCase().includes(q) ||
+    false
+  )
+}
+
 export default function AdminPage() {
   const router = useRouter()
   const [inscripciones, setInscripciones] = useState<Row[]>([])
   const [suscriptores, setSuscriptores] = useState<Row[]>([])
   const [loading, setLoading] = useState(true)
   const [editRow, setEditRow] = useState<Row | null>(null)
+
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterStatus, setFilterStatus] = useState<Status | 'todos'>('todos')
+  const [filterProvincia, setFilterProvincia] = useState('todas')
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -214,8 +228,21 @@ export default function AdminPage() {
 
   useEffect(() => { fetchData() }, [fetchData])
 
+  const provincias = [...new Set(inscripciones.map((r) => r.provincia).filter(Boolean))].sort()
+
+  const filteredInscripciones = inscripciones.filter((r) => {
+    const matchSearch = matchesSearch(r, searchQuery)
+    const matchStatus = filterStatus === 'todos' || r.status === filterStatus
+    const matchProvincia = filterProvincia === 'todas' || r.provincia === filterProvincia
+    return matchSearch && matchStatus && matchProvincia
+  })
+
+  const filteredSuscriptores = suscriptores.filter((r) => matchesSearch(r, searchQuery))
+
   const confirmados = inscripciones.filter((r) => r.status === 'confirmado').length
   const pendientes  = inscripciones.filter((r) => r.status === 'pendiente').length
+
+  const hasFilters = searchQuery || filterStatus !== 'todos' || filterProvincia !== 'todas'
 
   return (
     <>
@@ -270,29 +297,84 @@ export default function AdminPage() {
             </div>
           </div>
 
+          {/* Barra de búsqueda y filtros */}
+          {!loading && (
+            <div className="flex flex-wrap gap-3 mb-6">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                <input
+                  type="text"
+                  placeholder="Buscar por nombre o email…"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-sm
+                             text-white/80 placeholder:text-white/25 focus:outline-none focus:border-dorado/40 transition-colors"
+                />
+              </div>
+
+              <div className="relative">
+                <SlidersHorizontal size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value as Status | 'todos')}
+                  className="bg-white/5 border border-white/10 rounded-xl pl-8 pr-8 py-2.5 text-sm text-white/70
+                             focus:outline-none focus:border-dorado/40 appearance-none cursor-pointer transition-colors"
+                >
+                  <option value="todos">Todos los estados</option>
+                  {(Object.entries(STATUS_CONFIG) as [Status, typeof STATUS_CONFIG[Status]][]).map(([key, cfg]) => (
+                    <option key={key} value={key}>{cfg.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {provincias.length > 0 && (
+                <select
+                  value={filterProvincia}
+                  onChange={(e) => setFilterProvincia(e.target.value)}
+                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white/70
+                             focus:outline-none focus:border-dorado/40 appearance-none cursor-pointer transition-colors"
+                >
+                  <option value="todas">Todas las provincias</option>
+                  {provincias.map((p) => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </select>
+              )}
+
+              {hasFilters && (
+                <button
+                  onClick={() => { setSearchQuery(''); setFilterStatus('todos'); setFilterProvincia('todas') }}
+                  className="inline-flex items-center gap-1.5 text-xs text-white/35 hover:text-white/60 border border-white/10 rounded-xl px-3 py-2.5 transition-colors"
+                >
+                  <X size={12} /> Limpiar
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Export */}
           {!loading && (inscripciones.length > 0 || suscriptores.length > 0) && (
             <div className="flex gap-3 mb-10">
               {inscripciones.length > 0 && (
                 <button
                   onClick={() => downloadCSV(
-                    toCSV(inscripciones, ['nombre', 'email', 'curso', 'status', 'notas', 'fecha_nacimiento', 'celular', 'ciudad', 'provincia', 'created_at']),
+                    toCSV(filteredInscripciones, ['nombre', 'email', 'curso', 'status', 'notas', 'fecha_nacimiento', 'celular', 'ciudad', 'provincia', 'created_at']),
                     'inscripciones.csv'
                   )}
                   className="inline-flex items-center gap-2 text-xs text-dorado/80 hover:text-dorado border border-dorado/20 hover:border-dorado/50 rounded-lg px-3 py-2 transition-colors"
                 >
-                  <Download size={12} /> Exportar inscriptos CSV
+                  <Download size={12} /> Exportar inscriptos CSV{hasFilters ? ' (filtrado)' : ''}
                 </button>
               )}
               {suscriptores.length > 0 && (
                 <button
                   onClick={() => downloadCSV(
-                    toCSV(suscriptores, ['nombre', 'email', 'created_at']),
+                    toCSV(filteredSuscriptores, ['nombre', 'email', 'created_at']),
                     'suscriptores.csv'
                   )}
                   className="inline-flex items-center gap-2 text-xs text-dorado/80 hover:text-dorado border border-dorado/20 hover:border-dorado/50 rounded-lg px-3 py-2 transition-colors"
                 >
-                  <Download size={12} /> Exportar suscriptores CSV
+                  <Download size={12} /> Exportar suscriptores CSV{hasFilters ? ' (filtrado)' : ''}
                 </button>
               )}
             </div>
@@ -309,14 +391,22 @@ export default function AdminPage() {
               {/* Inscripciones */}
               <section className="mb-12">
                 <h2 className="font-title font-black text-xl text-white mb-6 flex items-center gap-2">
-                  <GraduationCap size={18} className="text-dorado" /> Inscriptos a cursos
+                  <GraduationCap size={18} className="text-dorado" />
+                  Inscriptos a cursos
+                  {hasFilters && (
+                    <span className="text-sm font-normal text-white/40">
+                      — {filteredInscripciones.length} de {inscripciones.length}
+                    </span>
+                  )}
                 </h2>
-                {inscripciones.length === 0 ? (
-                  <p className="text-white/35 text-sm italic">Sin inscripciones todavía.</p>
+                {filteredInscripciones.length === 0 ? (
+                  <p className="text-white/35 text-sm italic">
+                    {hasFilters ? 'Ningún resultado con estos filtros.' : 'Sin inscripciones todavía.'}
+                  </p>
                 ) : (
                   <div className="space-y-8">
                     {Object.entries(
-                      inscripciones.reduce<Record<string, Row[]>>((acc, row) => {
+                      filteredInscripciones.reduce<Record<string, Row[]>>((acc, row) => {
                         const key = row.curso || 'Sin curso'
                         acc[key] = [...(acc[key] ?? []), row]
                         return acc
@@ -393,10 +483,18 @@ export default function AdminPage() {
               {/* Suscriptores */}
               <section>
                 <h2 className="font-title font-black text-xl text-white mb-4 flex items-center gap-2">
-                  <Mail size={18} className="text-dorado" /> Suscriptores newsletter
+                  <Mail size={18} className="text-dorado" />
+                  Suscriptores newsletter
+                  {hasFilters && (
+                    <span className="text-sm font-normal text-white/40">
+                      — {filteredSuscriptores.length} de {suscriptores.length}
+                    </span>
+                  )}
                 </h2>
-                {suscriptores.length === 0 ? (
-                  <p className="text-white/35 text-sm italic">Sin suscriptores todavía.</p>
+                {filteredSuscriptores.length === 0 ? (
+                  <p className="text-white/35 text-sm italic">
+                    {hasFilters ? 'Ningún resultado con estos filtros.' : 'Sin suscriptores todavía.'}
+                  </p>
                 ) : (
                   <div className="overflow-x-auto rounded-2xl border border-white/10">
                     <table className="w-full text-sm">
@@ -409,7 +507,7 @@ export default function AdminPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {suscriptores.map((row) => (
+                        {filteredSuscriptores.map((row) => (
                           <tr key={row.id} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
                             <td className="px-4 py-3 text-white/80">{row.nombre || <span className="text-white/25">—</span>}</td>
                             <td className="px-4 py-3">
