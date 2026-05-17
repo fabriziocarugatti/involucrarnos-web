@@ -6,6 +6,7 @@ import {
   Users, GraduationCap, Mail, Calendar, Trash2, Loader2, LogOut,
   Download, TrendingUp, Pencil, X, Check, StickyNote, Search, SlidersHorizontal,
 } from 'lucide-react'
+import UnifiedPeopleTable, { buildUnified } from '@/components/admin/UnifiedPeopleTable'
 
 type Row = Record<string, string>
 
@@ -244,6 +245,14 @@ export default function AdminPage() {
 
   const hasFilters = searchQuery || filterStatus !== 'todos' || filterProvincia !== 'todas'
 
+  const allPeople = buildUnified(inscripciones, suscriptores)
+  const filteredPeople = allPeople.filter((p) =>
+    !searchQuery ||
+    p.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.email.includes(searchQuery.toLowerCase())
+  )
+  const enAmbos = allPeople.filter((p) => p.isInscripto && p.isSuscriptor).length
+
   return (
     <>
       {editRow && (
@@ -275,7 +284,7 @@ export default function AdminPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
             <StatCard
               label="Total inscriptos"
               value={loading ? '—' : inscripciones.length}
@@ -285,8 +294,14 @@ export default function AdminPage() {
             <StatCard
               label="Suscriptores"
               value={loading ? '—' : suscriptores.length}
-              icon={Users}
+              icon={Mail}
               sub={loading ? undefined : `+${recentCount(suscriptores)} esta semana`}
+            />
+            <StatCard
+              label="Personas únicas"
+              value={loading ? '—' : allPeople.length}
+              icon={Users}
+              sub={loading ? undefined : `${enAmbos} en ambas listas`}
             />
             <div className="col-span-2 bg-white/5 border border-white/10 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
@@ -388,6 +403,19 @@ export default function AdminPage() {
 
           {!loading && (
             <>
+              {/* Vista unificada de personas */}
+              <section className="mb-12">
+                <h2 className="font-title font-black text-xl text-white mb-6 flex items-center gap-2">
+                  <Users size={18} className="text-dorado" />
+                  Vista unificada
+                  <span className="text-sm font-normal text-white/40">
+                    — {filteredPeople.length} {filteredPeople.length === 1 ? 'persona' : 'personas'}
+                    {enAmbos > 0 && <> · {enAmbos} en ambas listas</>}
+                  </span>
+                </h2>
+                <UnifiedPeopleTable people={filteredPeople} />
+              </section>
+
               {/* Inscripciones */}
               <section className="mb-12">
                 <h2 className="font-title font-black text-xl text-white mb-6 flex items-center gap-2">
