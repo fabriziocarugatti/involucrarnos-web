@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, type FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageSquare, X, Send, Sparkles, Loader2 } from 'lucide-react'
 import { ease } from '@/lib/motion'
+import { trackEvent } from '@/lib/analytics'
 
 type Msg = { role: 'user' | 'assistant'; content: string }
 
@@ -30,9 +31,12 @@ export default function ChatAssistant() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, streaming])
 
-  // focus input when opens
+  // focus input + track GA event when opens
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 250)
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 250)
+      trackEvent('involucrado_opened')
+    }
   }, [open])
 
   // open from ProyectosPreview "Explorar" button

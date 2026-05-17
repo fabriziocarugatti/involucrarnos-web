@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, CheckCircle2, Loader2, X } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics'
 
 const PROVINCIAS = [
   'Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut',
@@ -63,6 +64,10 @@ export default function InscripcionForm({ cursoNombre, cursoSlug, inline = false
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Error al inscribirse')
+      trackEvent('curso_inscripto', {
+        curso: cursoNombre,
+        curso_slug: cursoSlug,
+      })
       setStatus('success')
     } catch (err) {
       setStatus('error')

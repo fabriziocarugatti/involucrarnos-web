@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import ChatAssistant from '@/components/ChatAssistant'
 import ArticleSummary from '@/components/ArticleSummary'
 import ShareButtons from '@/components/ShareButtons'
+import ArticleReadTracker from '@/components/ArticleReadTracker'
 import { getAllArticulos, getArticuloBySlug } from '@/sanity/queries'
 import { articulos } from '@/data/articulos'
 import { site } from '@/data/site'
@@ -94,6 +95,7 @@ export default async function ArticuloPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ArticleReadTracker slug={art.slug} />
       <Navbar />
       <main>
         <header className="bg-azul-dark relative grain py-12 md:py-16 overflow-hidden">

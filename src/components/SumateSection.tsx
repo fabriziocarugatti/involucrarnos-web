@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Check, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
 import { site } from '@/data/site'
 import { fadeUp, stagger } from '@/lib/motion'
+import { trackEvent } from '@/lib/analytics'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -29,6 +30,7 @@ export default function SumateSection() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Error al suscribirse')
+      trackEvent('newsletter_subscribed')
       setStatus('success')
       setEmail('')
       setName('')
