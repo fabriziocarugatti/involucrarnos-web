@@ -48,6 +48,8 @@
 5. **Brevo:** sin `BREVO_API_KEY` los emails se ignoran silenciosamente (guard `if (process.env.BREVO_API_KEY)`).
 6. **Vercel preview tarda 2-3 min** después del push.
 7. **GSC tarda 1-2 semanas** en indexar un sitio nuevo aunque el sitemap esté enviado.
+8. **`tsc --noEmit` NO equivale a `npm run build`.** SWC valida reglas Next-specific (ej: `next/dynamic` opts deben ser **object literal inline**, no variable extraída). Siempre correr `npm run build` localmente antes de pushear cambios no triviales.
+9. **`tsconfig.json` sin `target` explícito** → cualquier spread sobre `Set`/`Map` rompe el build con `--downlevelIteration`. Usar `Array.from(new Set(...))` o agregar `target: es2017+`.
 
 ---
 
@@ -398,20 +400,20 @@ git push origin main
 14. CursosSection: fondo blanco con card oscuro
 15. Hero: texto en tercio superior
 16. HubSection y ProyectosSection legacy → no usar
+17. **2026-05-17 — Branch `dev`** como sandbox, no flujo obligatorio. Hotfixes/cambios obvios pueden ir directo a `main`; features grandes pasan por `dev` o `feat/xxx` para preview de Vercel.
+18. **2026-05-17 — Nuevo local oficial** en `~/dev/involucrarnos` (NO `~/Documents/dev/web_involucrarnos`, que es la copia vieja con archivos `* 2.ts` de iCloud rota).
+19. **2026-05-17 — `CONTEXT.md` y `PENDIENTES.md` gitignoreados** (docs internos locales). Solo `CLAUDE.md` se trackea.
 
 ---
 
 ## 14. Pendientes priorizados
 
 ### 🟡 Alta prioridad
-- **Eventos de conversión GA4** — agregar en ChatAssistant, SumateSection, InscripcionForm, artículos (tiempo > 60s)
+- **Lighthouse audit + optimizaciones CWV** — esperando deploy estable para medir contra preview de `dev`
 
 ### 🟢 Mejoras
-- **Admin:** vista unificada suscriptores + inscriptos
-- **Sanity:** cargar más artículos reales, configurar autores, fechas de cursos
+- **Sanity:** configurar autores, fechas de cursos (los artículos cargados ya son reales)
 - **Meta Pixel** si se hacen ads en Meta
-- **Lazy loading** de charts en estudios
-- **Lighthouse audit** + optimizaciones CWV
 - **Tests E2E con Playwright** (Hero, formularios, chat)
 
 ### ✅ Completado reciente
@@ -420,6 +422,11 @@ git push origin main
 - Google Search Console verificado, home indexada
 - Admin con búsqueda + filtros + CSV filtrado
 - Involucrado upgradeado a Gemini Flash
+- **2026-05-17 — Eventos de conversión GA4** (4 eventos: `involucrado_opened`, `newsletter_subscribed`, `curso_inscripto`, `articulo_leido` 60s) — helper `src/lib/analytics.ts` + `src/components/ArticleReadTracker.tsx`
+- **2026-05-17 — Admin vista unificada** (`src/components/admin/UnifiedPeopleTable.tsx`) + StatCard "Personas únicas" con dedupe por email
+- **2026-05-17 — Lazy load charts** en `src/components/charts/Chart.tsx` con `next/dynamic` + skeleton (reduce JS shipped en `/estudios/[slug]`)
+- **2026-05-17 — Fix slugs OpenRouter** en `/api/search` y `/api/summary` (estaban apuntando a `google/gemma-4-*` inexistente; alineados con cadena de `/api/chat`)
+- **2026-05-17 — Branch `dev` creada** como sandbox de experimentos largos, tracking a `origin/dev`
 
 ---
 
@@ -504,6 +511,12 @@ supabase link --project-ref <ref>
 ### Tamaños
 - Funciones: <50 líneas
 - Archivos: <800 líneas (objetivo 200-400)
+
+---
+
+## Estado actual
+
+**Última sesión: 2026-05-17.** Producción `involucrarnos.com.ar` corriendo `c21fe0b` con: fix slugs OpenRouter en search/summary, GA4 conversion events (4 eventos), admin con búsqueda/filtros/CSV y vista unificada de personas, lazy load de charts. Working tree limpio en ambas branches (`main` y `dev` alineadas en `c21fe0b`). Próximo paso inmediato: correr Lighthouse audit contra `involucrarnos.com.ar` para medir el impacto del lazy-load de charts y armar plan de CWV.
 
 ---
 
