@@ -12,13 +12,11 @@ function ChartSkeleton() {
   )
 }
 
-const dynamicOpts = { loading: ChartSkeleton, ssr: false }
-
-const BarChart = dynamic(() => import('./BarChart'), dynamicOpts)
-const LineChart = dynamic(() => import('./LineChart'), dynamicOpts)
-const DonutChart = dynamic(() => import('./DonutChart'), dynamicOpts)
-const NOAMap = dynamic(() => import('./NOAMap'), dynamicOpts)
-const ArgentinaMap = dynamic(() => import('./ArgentinaMap'), dynamicOpts)
+const BarChart = dynamic(() => import('./BarChart'), { loading: ChartSkeleton, ssr: false })
+const LineChart = dynamic(() => import('./LineChart'), { loading: ChartSkeleton, ssr: false })
+const DonutChart = dynamic(() => import('./DonutChart'), { loading: ChartSkeleton, ssr: false })
+const NOAMap = dynamic(() => import('./NOAMap'), { loading: ChartSkeleton, ssr: false })
+const ArgentinaMap = dynamic(() => import('./ArgentinaMap'), { loading: ChartSkeleton, ssr: false })
 
 export default function Chart({ data }: { data: ChartData }) {
   if (data.type === 'bar') return <BarChart data={data} />
