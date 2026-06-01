@@ -427,6 +427,7 @@ git push origin main
 - **2026-05-17 — Lazy load charts** en `src/components/charts/Chart.tsx` con `next/dynamic` + skeleton (reduce JS shipped en `/estudios/[slug]`)
 - **2026-05-17 — Fix slugs OpenRouter** en `/api/search` y `/api/summary` (estaban apuntando a `google/gemma-4-*` inexistente; alineados con cadena de `/api/chat`)
 - **2026-05-17 — Branch `dev` creada** como sandbox de experimentos largos, tracking a `origin/dev`
+- **2026-06-01 — Columna "Reconstruir el sistema educativo"** (Exequiel, crisis educativa Tucumán) agregada a `src/data/articulos.ts`, `featured: true`, pusheada a main + dev sincronizadas. Recordatorio: artículos nuevos en el array local funcionan en prod (Sanity vacío → fallback local); `getArticuloBySlug` resuelve por slug aunque no esté en `generateStaticParams`.
 
 ---
 
@@ -516,7 +517,9 @@ supabase link --project-ref <ref>
 
 ## Estado actual
 
-**Última sesión: 2026-05-17.** Producción `involucrarnos.com.ar` corriendo `c21fe0b` con: fix slugs OpenRouter en search/summary, GA4 conversion events (4 eventos), admin con búsqueda/filtros/CSV y vista unificada de personas, lazy load de charts. Working tree limpio en ambas branches (`main` y `dev` alineadas en `c21fe0b`). Próximo paso inmediato: correr Lighthouse audit contra `involucrarnos.com.ar` para medir el impacto del lazy-load de charts y armar plan de CWV.
+**Última sesión: 2026-06-01.** Publicada columna nueva de Exequiel **"No alcanza con arreglar escuelas: hay que reconstruir el sistema educativo"** (crisis educativa Tucumán, slug `reconstruir-sistema-educativo-tucuman`, marcada `featured`, reemplaza a "Gobernar mejor" en el destacado de la home). Agregada al array local `src/data/articulos.ts`. Build verde, pusheada a `main` (`4f4ac86`), `dev` y `main` sincronizadas en `83d6fb0`. Verificada en producción (HTTP 200) y en preview local con captura (página + home featura). Próximo paso pendiente de antes: Lighthouse audit + CWV.
+
+> Aprendizaje 2026-06-01: el 404 inicial al abrir la URL fue **timing de deploy de Vercel** (2-3 min), no un bug. Regla nueva: verificar siempre en preview con captura ANTES de dar OK (anotado en memoria global).
 
 ---
 
