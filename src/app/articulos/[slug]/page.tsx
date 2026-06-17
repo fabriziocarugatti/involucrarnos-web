@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: art.title,
       description: art.bajada,
-      images: art.coverImage ? [art.coverImage] : ['/assets/logo-involucrarnos.png'],
+      // Si hay coverImage custom, se usa; si no, Next usa la OG generada (opengraph-image.tsx, tarjeta branded con el título).
+      ...(art.coverImage ? { images: [art.coverImage] } : {}),
       locale: 'es_AR',
       type: 'article',
     },

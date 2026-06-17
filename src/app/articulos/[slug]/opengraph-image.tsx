@@ -119,13 +119,14 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
       {/* Bajada */}
       {bajada && (
         <div style={{
+          display: 'flex',
           color: WHITE_55,
           fontSize: 20,
           lineHeight: 1.5,
           maxWidth: 760,
           marginBottom: 28,
         }}>
-          {bajada.slice(0, 120)}{bajada.length > 120 ? '…' : ''}
+          {bajada.length > 120 ? `${bajada.slice(0, 120)}…` : bajada}
         </div>
       )}
 
