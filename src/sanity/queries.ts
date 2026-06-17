@@ -6,6 +6,11 @@
 import { sanityClient } from './client'
 import { articulos as localArticulos, type Article } from '@/data/articulos'
 
+/** Fallback local ordenado cronológicamente (más nuevo primero). Sin `publishedAt` van al final. */
+const localArticulosOrdenados: Article[] = [...localArticulos].sort((a, b) =>
+  (b.publishedAt ?? '').localeCompare(a.publishedAt ?? '')
+)
+
 const ARTICLE_PROJECTION = `
   "slug": slug.current,
   tipo,
@@ -25,17 +30,17 @@ const ARTICLE_PROJECTION = `
 `
 
 export async function getAllArticulos(): Promise<Article[]> {
-  if (!sanityClient) return localArticulos
+  if (!sanityClient) return localArticulosOrdenados
   try {
     const res = await sanityClient.fetch<Article[]>(
       `*[_type == "articulo"] | order(coalesce(orderRank, _createdAt) desc) { ${ARTICLE_PROJECTION} }`,
       {},
       { next: { revalidate: 60, tags: ['articulos'] } }
     )
-    return res?.length ? res : localArticulos
+    return res?.length ? res : localArticulosOrdenados
   } catch (e) {
-    console.error('[sanity] getAllArticulos fallback to local', e)
-    return localArticulos
+    console.error("[sanity] getAllArticulos fallback to local", e)
+    return localArticulosOrdenados
   }
 }
 

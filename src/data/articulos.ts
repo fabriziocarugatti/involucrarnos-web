@@ -23,6 +23,8 @@ export interface Article {
   authorPhoto?: string
   /** Imagen de portada del artículo (1200x630 recomendado) */
   coverImage?: string
+  /** Fecha real de publicación en ISO (YYYY-MM-DD) — usada para ordenar cronológicamente. El campo `date` es el texto que se muestra. */
+  publishedAt?: string
 }
 
 /** Foto por defecto del autor (sobreescribible por articulo) */
@@ -32,9 +34,10 @@ const AUTHOR = 'Exequiel Soria Arruñada'
 const AUTHOR_ROLE =
   'Magíster en Políticas Públicas. Estudiante del Máster en Gobernanza y Derechos Humanos, UAM.'
 
-export const articulos: Article[] = [
+const articulosRaw: Article[] = [
   {
     slug: 'reconstruir-sistema-educativo-tucuman',
+    publishedAt: '2026-06-01',
     tipo: 'articulo',
     title: 'No alcanza con arreglar escuelas: hay que reconstruir el sistema educativo',
     bajada:
@@ -91,6 +94,7 @@ export const articulos: Article[] = [
   },
   {
     slug: 'gobernar-con-datos-ciudades-inteligentes',
+    publishedAt: '2026-06-12',
     tipo: 'articulo',
     title: 'Gobernar con datos: ciudades inteligentes para un Estado más cercano',
     bajada:
@@ -124,6 +128,7 @@ export const articulos: Article[] = [
   },
   {
     slug: 'gobernar-mejor-es-honrar-la-democracia',
+    publishedAt: '2026-05-01',
     tipo: 'articulo',
     title: 'Gobernar mejor es también honrar la democracia',
     bajada:
@@ -153,12 +158,13 @@ export const articulos: Article[] = [
   },
   {
     slug: 'saber-parar-la-ley-olvidada-de-la-politica',
+    publishedAt: '2026-05-06',
     tipo: 'articulo',
     title: 'Saber parar: la ley olvidada de la política que quiere gobernar',
     bajada:
       'En política se habla mucho de ganar y poco de saber perder. Y casi nunca de saber parar. Sin embargo, en la gestión pública, esa tercera capacidad suele ser la diferencia entre un liderazgo que administra poder y otro que se consume en su propio vértigo.',
     category: 'Liderazgo · Gestión',
-    date: 'Marzo 2026',
+    date: 'Mayo 2026',
     author: AUTHOR,
     authorRole: AUTHOR_ROLE,
     featured: false,
@@ -186,12 +192,13 @@ export const articulos: Article[] = [
   },
   {
     slug: 'guerra-cultural-guerra-cognitiva-y-democracia',
+    publishedAt: '2026-04-28',
     tipo: 'articulo',
     title: 'Guerra cultural, guerra cognitiva y democracia',
     bajada:
       'Las democracias contemporáneas no atraviesan únicamente una etapa de polarización ideológica. Enfrentan una transformación de las condiciones bajo las cuales se disputa el sentido de lo público y se forma la opinión ciudadana.',
     category: 'Democracia · Comunicación',
-    date: 'Febrero 2026',
+    date: 'Abril 2026',
     author: AUTHOR,
     authorRole: AUTHOR_ROLE,
     featured: false,
@@ -216,6 +223,7 @@ export const articulos: Article[] = [
   },
   {
     slug: 'gobernar-con-datos-para-reconstruir-la-confianza',
+    publishedAt: '2026-04-01',
     tipo: 'articulo',
     title: 'Gobernar con datos para reconstruir la confianza democrática',
     bajada:
@@ -261,6 +269,11 @@ export const articulos: Article[] = [
     content: [],
   },
 ]
+
+/** Artículos ordenados cronológicamente (más nuevo primero). Los que no tienen `publishedAt` van al final. */
+export const articulos: Article[] = [...articulosRaw].sort((a, b) =>
+  (b.publishedAt ?? '').localeCompare(a.publishedAt ?? '')
+)
 
 export function getArticulo(slug: string): Article | undefined {
   return articulos.find((a) => a.slug === slug)
