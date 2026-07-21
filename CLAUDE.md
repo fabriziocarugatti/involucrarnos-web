@@ -517,9 +517,33 @@ supabase link --project-ref <ref>
 
 ## Estado actual
 
-**Última sesión: 2026-06-01.** Publicada columna nueva de Exequiel **"No alcanza con arreglar escuelas: hay que reconstruir el sistema educativo"** (crisis educativa Tucumán, slug `reconstruir-sistema-educativo-tucuman`, marcada `featured`, reemplaza a "Gobernar mejor" en el destacado de la home). Agregada al array local `src/data/articulos.ts`. Build verde, pusheada a `main` (`4f4ac86`), `dev` y `main` sincronizadas en `83d6fb0`. Verificada en producción (HTTP 200) y en preview local con captura (página + home featura). Próximo paso pendiente de antes: Lighthouse audit + CWV.
+**Última sesión: 2026-07-21.** Construido el **minisitio scrollytelling `/indicadores-trata`** en rama `feat/indicadores-trata` (sin commit aún): versión interactiva del Informe Piloto de Indicadores sobre Trata y Explotación de **Diaconía España** (2026 como espina + comparativa 2024). Arquitectura: `src/app/indicadores-trata/` autocontenido — `page.tsx` (metadata), `InformeInteractivo.tsx`, `mapa-es.ts` (paths SVG generados desde es-atlas TopoJSON con Mercator, NO dibujados a mano), `components/` (scrolly.tsx con IntersectionObserver estilo Scrollama, UnitGrid 292 puntos = 292 personas, MapaEspana con burbujas semaforizadas, ProgressNav rail+píldora, ui.tsx counters/barras, 3 archivos de capítulos). Datos en `src/data/indicadores-trata.ts`. Verificado con capturas mobile+desktop (Chrome DevTools MCP; el Browser pane devolvía frames blancos tras resize). Build verde: 25,7 kB propios / 186 kB First Load, ruta estática. **Pendiente inmediato: commit de la rama, decidir si el PDF 2024 en `public/docs/` puede ser público, OK de Diaconía para logo, y link de entrada desde la home/estudios.**
 
 > Aprendizaje 2026-06-01: el 404 inicial al abrir la URL fue **timing de deploy de Vercel** (2-3 min), no un bug. Regla nueva: verificar siempre en preview con captura ANTES de dar OK (anotado en memoria global).
+
+## Pendiente
+
+- Commit + push de `feat/indicadores-trata` (repo PÚBLICO: confirmar antes que el PDF `public/docs/informe-piloto-diaconia-2024.pdf` y los logos de Diaconía tienen OK para publicarse)
+- Falta el PDF/documento oficial 2026 para el botón de descarga (hoy apunta al 2024)
+- Link de entrada al minisitio desde home y/o `/estudios` (hoy solo por URL directa)
+- OG image propia para `/indicadores-trata` (hoy usa el default del sitio)
+- Probar el scrollytelling en un móvil real (verificado solo en viewport emulado)
+- Lighthouse audit + CWV (pendiente de antes, ahora incluye el minisitio)
+
+## Hecho
+
+- 2026-07-21 — Minisitio interactivo `/indicadores-trata` (Diaconía España): 6 capítulos + hero + marco ético + cierre, scrollytelling sticky-graphic, unit viz 292 puntos, mapa España semaforizado 2024→2026, tablero interactivo, build verde verificado con capturas
+- 2026-07-21 — Generador `gen_mapa.py` (scratchpad) → `mapa-es.ts`: contorno real de España (es-atlas CCAA TopoJSON, proyección Mercator, Canarias inset) + coordenadas proyectadas de los 8 territorios
+- 2026-07-21 — Data file `src/data/indicadores-trata.ts` con TODOS los indicadores de ambos informes (2024/2026) tipados y con advertencias metodológicas
+
+## Decisiones
+
+- 2026-07-21 — **Minisitio como ruta top-level `/indicadores-trata` con layout inmersivo propio** (sin Navbar global) y no como `/estudios/[slug]` — Fab pidió "involucrarnos/nombre-informe"; la plantilla de estudios no soporta scrollytelling. Co-branding Diaconía prominente (logo header + footer), firma Involucrarnos en el cierre.
+- 2026-07-21 — **Dataset: 2026 como columna vertebral + 2024 como capa comparativa** (evolución 4→8 territorios, 242→292 registros), elegido por Fab en AskUserQuestion.
+- 2026-07-21 — **Registro: castellano peninsular sobrio** (audiencia: autoridades/financiadores UE), "coste" no "costo", sin voseo — el sitio es el marco, no la voz.
+- 2026-07-21 — **Ética visual (estándar UNHCR/WaPo/CTDC del research):** sin fotos de víctimas, unit visualization anonimizada (cada punto = un registro), fuente y advertencia metodológica visibles junto a cada gráfico ("mide atención institucional, no prevalencia"), capítulo "Qué mide / qué no mide" antes de la primera cifra.
+- 2026-07-21 — **Scrollytelling sin dependencias nuevas**: IntersectionObserver propio (patrón Scrollama) + CSS transitions compositor-friendly; NADA de backdrop-filter sobre gráficos animados (mataba el frame rate en mobile — se sacó tras timeouts de scroll).
+- 2026-07-21 — Fuentes: **Lora display + Inter data** (ya cargadas por el layout global — cero peso extra); Nunito excluida del minisitio para diferenciarlo del resto del sitio.
 
 ---
 
