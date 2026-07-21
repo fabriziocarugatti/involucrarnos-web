@@ -1,0 +1,84 @@
+/* Estilos propios del minisitio Indicadores sobre trata — Diaconía España. */
+
+.scrolly-text,
+.scrolly-text-dark {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: rgba(26, 26, 46, 0.88);
+}
+
+.scrolly-text strong,
+.scrolly-text-dark strong {
+  font-weight: 650;
+  color: #161a4c;
+}
+
+.scrolly-text-dark {
+  color: rgba(247, 244, 239, 0.82);
+}
+
+.scrolly-text-dark strong {
+  color: #f7f4ef;
+}
+
+/* Cards de paso: con fondo en mobile (pasan sobre el gráfico sticky).
+   Sin backdrop-filter: el blur sobre SVG + unit viz animada mata el frame rate. */
+.step-card {
+  background: rgba(247, 244, 239, 0.97);
+  border: 1px solid rgba(42, 47, 118, 0.1);
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 32px rgba(22, 26, 76, 0.09);
+}
+
+[data-dark] .step-card {
+  background: rgba(16, 19, 46, 0.92);
+  border-color: rgba(200, 169, 106, 0.22);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 768px) {
+  .scrolly-text,
+  .scrolly-text-dark {
+    font-size: 17px;
+  }
+  .step-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  [data-dark] .step-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+/* Indicador de scroll del hero */
+@keyframes scrollhint {
+  0% {
+    transform: translateY(-14px);
+  }
+  60%,
+  100% {
+    transform: translateY(38px);
+  }
+}
+
+.animate-scrollhint {
+  animation: scrollhint 1.7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Respeto por reduced motion: sin counters saltarines ni hints */
+@media (prefers-reduced-motion: reduce) {
+  .animate-scrollhint {
+    animation: none;
+  }
+  .step-card,
+  .scrolly-text {
+    transition: none !important;
+  }
+}
