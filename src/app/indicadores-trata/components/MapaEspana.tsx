@@ -41,8 +41,8 @@ export default function MapaEspana({ paso }: { paso: number }) {
         <path
           d={PATH_PENINSULA}
           fill="rgba(42,47,118,0.055)"
-          stroke="rgba(42,47,118,0.30)"
-          strokeWidth="1"
+          stroke="rgba(42,47,118,0.20)"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
         {/* Inset Canarias */}
